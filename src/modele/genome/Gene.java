@@ -10,7 +10,9 @@ public class Gene {
 	private String name = "";
 	private static ArrayList<String> wntdSnps = null;
 	private ArrayList<SNP> snips = null;
-
+	
+	
+	
 	public static void main(String[] args) {
 		File f = new File("C:/Users/1534088/Desktop/ADN/rs_ch11.fas");
 		wntdSnps = new ArrayList<String>();
