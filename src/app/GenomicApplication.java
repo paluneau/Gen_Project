@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class Application extends Application {
+public class GenomicApplication extends Application {
 
 	private Controller ctrl = null;
 	
