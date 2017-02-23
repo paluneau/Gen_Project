@@ -15,7 +15,10 @@ import javafx.util.Duration;
 public class GenomicApplication extends Application {
 
 	private Controller ctrl = null;
-	
+
+	URL resource;
+	Media media;
+	MediaPlayer mediaPlayer;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -28,18 +31,18 @@ public class GenomicApplication extends Application {
 		BorderPane root = (BorderPane) loader.load();
 		ctrl = loader.getController();
 
-		
-		//Code pour la Musique
-		final URL resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
-		final Media media = new Media(resource.toString());
-		final MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setOnEndOfMedia(new Runnable(){
+		// Code pour la Musique
+		resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
+		media = new Media(resource.toString());
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				mediaPlayer.seek(Duration.ZERO);
 			}
 		});
-		//mediaPlayer.play();  --- POUR JOUER LA TOUNE
-		
+
+		mediaPlayer.play(); // --- POUR JOUER LA TOUNE
+
 		Scene scene = new Scene(root);
 
 		stage.setTitle("Genomic Physionomy Viewer");
