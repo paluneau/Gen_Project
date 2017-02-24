@@ -15,7 +15,6 @@ import javafx.util.Duration;
 public class GenomicApplication extends Application {
 
 	private Controller ctrl = null;
-	
 
 	public static void main(String[] args) {
 		launch(args);
@@ -28,18 +27,19 @@ public class GenomicApplication extends Application {
 		BorderPane root = (BorderPane) loader.load();
 		ctrl = loader.getController();
 
-		
-		//Code pour la Musique
+		// TODO METTRE LE PLAYER DANS UNE CLASSE A PART ET L'INCLURE COMME
+		// ATTRIBUT DU CONTROLEUR
+		// Code pour la Musique
 		final URL resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
 		final Media media = new Media(resource.toString());
 		final MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setOnEndOfMedia(new Runnable(){
+		mediaPlayer.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				mediaPlayer.seek(Duration.ZERO);
 			}
 		});
-		mediaPlayer.play();  //--- POUR JOUER LA TOUNE
-		
+		mediaPlayer.play();
+
 		Scene scene = new Scene(root);
 
 		stage.setTitle("Genomic Physionomy Viewer");

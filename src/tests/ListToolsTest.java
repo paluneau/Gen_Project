@@ -37,13 +37,13 @@ public class ListToolsTest {
 	@Test
 	public void formatListTest() {
 
-		assertTrue(ListTools.formatList(l2).toString().equals("[]"));
+		assertEquals(ListTools.formatList(l2).toString(), "[]");
 
-		assertTrue(ListTools.formatList(l1).toString().equals("[42]"));
+		assertEquals(ListTools.formatList(l1).toString(), "[42]");
 
-		assertTrue(ListTools.formatList(l3).toString().equals("[267, 33, 29]"));
+		assertEquals(ListTools.formatList(l3).toString(), "[267, 33, 29]");
 
-		assertTrue(ListTools.formatList(l4).toString().equals("[3897, 3896, 3895]"));
+		assertEquals(ListTools.formatList(l4).toString(), "[3897, 3896, 3895]");
 	}
 
 }
