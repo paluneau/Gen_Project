@@ -38,7 +38,7 @@ public class GenomicApplication extends Application {
 				mediaPlayer.seek(Duration.ZERO);
 			}
 		});
-		//mediaPlayer.play();  --- POUR JOUER LA TOUNE
+		mediaPlayer.play();  //--- POUR JOUER LA TOUNE
 		
 		Scene scene = new Scene(root);
 
