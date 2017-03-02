@@ -31,7 +31,7 @@ public class FastaSequenceReaderTest {
 		wntdSnps.add("3897");
 		FastaSequenceReader fs = null;
 		try {
-			fs = new FastaSequenceReader(f.toString(), wntdSnps);
+			fs = new FastaSequenceReader(f, wntdSnps);
 		} catch (IOException e) {
 			fail();
 		}
@@ -46,7 +46,7 @@ public class FastaSequenceReaderTest {
 
 		FastaSequenceReader fs = null;
 		try {
-			fs = new FastaSequenceReader(f.toString(), wntdSnps);
+			fs = new FastaSequenceReader(f, wntdSnps);
 		} catch (IOException e) {
 			fail();
 		}
@@ -66,7 +66,7 @@ public class FastaSequenceReaderTest {
 
 		FastaSequenceReader fs = null;
 		try {
-			fs = new FastaSequenceReader(f.toString(), wntdSnps);
+			fs = new FastaSequenceReader(f, wntdSnps);
 			fail();
 		} catch (IOException e) {
 			assertNull(fs);
@@ -86,13 +86,14 @@ public class FastaSequenceReaderTest {
 
 		FastaSequenceReader fs = null;
 		try {
-			fs = new FastaSequenceReader(f.toString(), wntdSnps);
+			fs = new FastaSequenceReader(f, wntdSnps);
 			fail();
 		} catch (IOException e) {
 			assertNull(fs);
 		}
 
 	}
+	
 
 
 	@Test
@@ -100,7 +101,7 @@ public class FastaSequenceReaderTest {
 		wntdSnps.add("3896");
 		FastaSequenceReader fs = null;
 		try {
-			fs = new FastaSequenceReader(f.toString(), wntdSnps);
+			fs = new FastaSequenceReader(f, wntdSnps);
 		} catch (IOException e) {
 			fail();
 		}
