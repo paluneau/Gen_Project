@@ -97,7 +97,7 @@ import java.util.Vector;
  * @see LinkedList
  * @see Vector
  *
- * TODO replace with ObservableIntegerArray
+
  */
 public class IntegerArrayList extends AbstractList<Integer>
         implements List<Integer>, RandomAccess, Cloneable, java.io.Serializable {

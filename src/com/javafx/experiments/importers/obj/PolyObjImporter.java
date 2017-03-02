@@ -125,7 +125,7 @@ public class PolyObjImporter {
         polygonMeshView.setId(key);
         polygonMeshView.setMaterial(materials.get(key));
         polygonMeshView.setMesh(meshes.get(key));
-//        polygonMeshView.setCullFace(CullFace.NONE); TODO
+
         return polygonMeshView;
     }
     

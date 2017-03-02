@@ -96,7 +96,7 @@ import java.util.RandomAccess;
  * @see LinkedList
  * @see Vector
  *
- * TODO replace with ObservableFloatArray
+ * 
  */
 public class FloatArrayList extends AbstractList<Float>
         implements List<Float>, RandomAccess, Cloneable, java.io.Serializable {

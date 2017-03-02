@@ -1,4 +1,4 @@
-package ddd;
+package utils;
 
 import javafx.scene.Group;
 import javafx.scene.transform.Rotate;
@@ -9,7 +9,7 @@ import javafx.scene.transform.Translate;
 /**
  * Propriétés pour bouger notre caméra ou tout autre objet dans l'espace
  */
-public class Xform extends Group {
+public class DDDTransforms extends Group {
 	public enum RotateOrder {
 		XYZ, XZY, YXZ, YZX, ZXY, ZYX
 	}
@@ -31,12 +31,12 @@ public class Xform extends Group {
 	}
 	public Scale s = new Scale();
 
-	public Xform() {
+	public DDDTransforms() {
 		super();
 		getTransforms().addAll(t, rz, ry, rx, s);
 	}
 
-	public Xform(RotateOrder rotateOrder) {
+	public DDDTransforms(RotateOrder rotateOrder) {
 		super();
 		// choose the order of rotations based on the rotateOrder
 		switch (rotateOrder) {
