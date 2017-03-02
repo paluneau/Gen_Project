@@ -17,33 +17,34 @@ public final class FastaSequenceReader {
 	private ArrayList<String> targets = null;
 	private HashMap<String, String> sequences = null;
 
-	// TODO LUI PASSER DIRECTEMENT UN FILE AU LIEU DUNE STRING
-	public FastaSequenceReader(String filename, ArrayList<String> target) throws IOException {
+	public FastaSequenceReader(File file, ArrayList<String> target) throws IOException {
 		this.targets = (ArrayList<String>) ListTools.formatList(target);
-		readSequenceFromFile(filename);
+		readSequenceFromFile(file);
 		sequences = createMap();
 	}
 
-	// TODO TESTS UNITAIRES AVEC FICHIERS "MAISON"
-	// TODO GÉRER LES CAS D'ERREUR: INTROUVABLE, ETC.
-	void readSequenceFromFile(String file) throws IOException {
+	/**
+	 * Permet de lire les séquences ciblées dans un fischier au format FASTA standard
+	 * @param file Le fichier à lire.
+	 * @throws IOException si le fichier est non-conforme
+	 */
+	void readSequenceFromFile(File file) throws IOException {
 		List<String> desc = new ArrayList<String>();
 		List<String> seq = new ArrayList<String>();
 		boolean read = false;
 		int trgInitSize = targets.size();
 		int index = targets.size() - 1;
-
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		StringBuffer buffer = new StringBuffer();
 		String line = in.readLine();
 
 		// HEADER
 		if (line == null) {
-			throw new IOException(file + " is an empty file");
+			throw new IOException(file.getName() + " is an empty file");
 		}
 
 		if (line.charAt(0) != '>') {
-			throw new IOException("First line of " + file + " should start with '>'");
+			throw new IOException("First line of " + file.getName() + " should start with '>'");
 		} else if (line.contains(targets.get(index))) {
 			desc.add(line);
 			read = true;
@@ -78,6 +79,14 @@ public final class FastaSequenceReader {
 
 	}
 
+	/**
+	 * Met les données dans une structure de donnée
+	 * 
+	 * @param seq
+	 *            une liste de séquences
+	 * @param desc
+	 *            une liste de description de séquences
+	 */
 	private void storeData(List<String> seq, List<String> desc) {
 		description = new String[desc.size()];
 		sequence = new String[seq.size()];
@@ -88,6 +97,10 @@ public final class FastaSequenceReader {
 		}
 	}
 
+	/**
+	 * Crée la map qui contient les séquences d'ADN et leur description
+	 * @return la map
+	 */
 	private HashMap<String, String> createMap() {
 		HashMap<String, String> map = new HashMap<String, String>();
 
