@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -92,6 +93,7 @@ public class FastaSequenceReaderTest {
 		}
 
 	}
+
 
 	@Test
 	public void testGetSequences() {

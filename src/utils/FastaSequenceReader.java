@@ -17,6 +17,7 @@ public final class FastaSequenceReader {
 	private ArrayList<String> targets = null;
 	private HashMap<String, String> sequences = null;
 
+	// TODO LUI PASSER DIRECTEMENT UN FILE AU LIEU DUNE STRING
 	public FastaSequenceReader(String filename, ArrayList<String> target) throws IOException {
 		this.targets = (ArrayList<String>) ListTools.formatList(target);
 		readSequenceFromFile(filename);
