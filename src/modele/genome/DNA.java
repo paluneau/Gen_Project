@@ -8,6 +8,7 @@ public class DNA {
 	private List<Chromosome> genome1 = null;
 	private List<Chromosome> genome2 = null;
 	
+	public DNA(List<Chromosome> listChr){
 		
 	}
 	
