@@ -18,6 +18,9 @@ import utils.DDDtools;
 public class GenomicApplication extends Application {
 
 	private Controller ctrl = null;
+	URL resource;
+	Media media;
+	MediaPlayer mediaPlayer;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -33,9 +36,9 @@ public class GenomicApplication extends Application {
 		// TODO METTRE LE PLAYER DANS UNE CLASSE A PART ET L'INCLURE COMME
 		// ATTRIBUT DU CONTROLEUR
 		// Code pour la Musique
-		final URL resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
-		final Media media = new Media(resource.toString());
-		final MediaPlayer mediaPlayer = new MediaPlayer(media);
+		resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
+		media = new Media(resource.toString());
+		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
 			public void run() {
 				mediaPlayer.seek(Duration.ZERO);
@@ -44,6 +47,8 @@ public class GenomicApplication extends Application {
 		mediaPlayer.play();
 		
 		Scene scene = new Scene(root);
+		// ctrl.ajouterEcouteurs();
+		ctrl.bindingModif();
 
 		stage.setTitle("Genomic Physionomy Viewer");
 		stage.setScene(scene);
@@ -51,4 +56,5 @@ public class GenomicApplication extends Application {
 		stage.show();
 
 	}
+
 }
