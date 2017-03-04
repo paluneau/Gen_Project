@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,12 +17,13 @@ import utils.FastaSequenceReader;
 public class FastaSequenceReaderTest {
 
 	File f;
-	ArrayList<String> wntdSnps;
+	LinkedList<String> wntdSnps;
 
 	@Before
 	public void setUp() throws Exception {
 		f = new File(getClass().getResource("/tests/rs_tst.fas").toURI());
-		wntdSnps = new ArrayList<String>();
+		//TODO CHANGER POUR UNE LISTE DE TargetSNPs
+		wntdSnps = new LinkedList<String>();
 
 	}
 
@@ -108,7 +110,7 @@ public class FastaSequenceReaderTest {
 
 		assertEquals(
 				fs.getSequences()
-						.get(">gnl|dbSNP|rs3896 rs=3896|pos=73|len=322|taxid=9606|mol=\"genomic\"|class=1|alleles=\"C/T\"|build=147|suspect=?"),
+						.get("rs3896"),
 				"gggtttatac tgacctgcca atgttaaaag ggacctaaat tcactttggg gaagtggcca gaaaggaaga agYagaaggagaa gagtgcaaga aacctccagt tgtgggggtt gagcctccag gataagaaag aaagaaatct ccagtaggggggattgagcc taacacaaac ctttggtaat agacaaggca agacatttcc aataggggag attgagtgtc acctcaaaactattaagatg ggaaataccc caggtaagat agagggtaaa aaaggataaa gctagcagca ataacattcc ccctgaaagttcCCAATAA");
 
 	}

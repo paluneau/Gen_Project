@@ -15,11 +15,12 @@ public final class FastaSequenceReader {
 
 	private String[] description;
 	private String[] sequence;
-	private ArrayList<String> targets = null;
-	private HashMap<String, String> sequences = null;
+	//TODO CHANGER POUR UNE LISTE DE TargetSNPs
+	private List<String> targets = null;
+	private Map<String, String> sequences = null;
 
-	public FastaSequenceReader(File file, ArrayList<String> target) throws IOException {
-		this.targets = (ArrayList<String>) ListTools.formatList(target);
+	public FastaSequenceReader(File file, List<String> target) throws IOException {
+		this.targets = ListTools.formatList(target);
 		readSequenceFromFile(file);
 		sequences = createMap();
 	}
@@ -33,7 +34,8 @@ public final class FastaSequenceReader {
 		List<String> desc = new ArrayList<String>();
 		List<String> seq = new ArrayList<String>();
 		boolean read = false;
-		int trgInitSize = targets.size();
+		//TODO VÉRIFIER SI ON PEUT LENLEVER
+		//int trgInitSize = targets.size();
 		int index = targets.size() - 1;
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		StringBuffer buffer = new StringBuffer();
@@ -43,7 +45,6 @@ public final class FastaSequenceReader {
 		if (line == null) {
 			throw new IOException(file.getName() + " is an empty file");
 		}
-
 		if (line.charAt(0) != '>') {
 			throw new IOException("First line of " + file.getName() + " should start with '>'");
 		} else if (line.contains(targets.get(index))) {
@@ -57,11 +58,9 @@ public final class FastaSequenceReader {
 				&& (!targets.isEmpty() || seq.size() != desc.size()); line = in.readLine()) {
 			// LIGNE DE DESCRIPTION
 			if (line.length() > 0 && line.charAt(0) == '>' && line.contains(targets.get(index))) {
-
-				desc.add(line);
+				desc.add("rs"+targets.get(index));
 				read = true;
 				targets.remove(index);
-
 				// LIGNE DE SEQUENCE
 			} else if (read) {
 				buffer.append(line.trim());
@@ -112,7 +111,7 @@ public final class FastaSequenceReader {
 		return map;
 	}
 
-	public HashMap<String, String> getSequences() {
+	public Map<String, String> getSequences() {
 		return this.sequences;
 	}
 }
