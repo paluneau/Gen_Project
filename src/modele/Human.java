@@ -1,7 +1,10 @@
 package modele;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import exception.ConstructionException;
 import javafx.scene.paint.Color;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
@@ -14,8 +17,8 @@ public class Human {
 	private DNA dna = null;
 	private Face face = null;
 	
-	public Human(){
-		this.dna = loadDNA();
+	public Human() throws ConstructionException, IOException, URISyntaxException{
+		this.dna = new DNA();
 	}
 
 	public DNA getDna() {
@@ -34,9 +37,4 @@ public class Human {
 		this.face = face;
 	}
 	
-	public DNA loadDNA(){
-		
-		return null;
-	}
-
 }

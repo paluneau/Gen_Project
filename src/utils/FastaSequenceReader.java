@@ -34,13 +34,11 @@ public final class FastaSequenceReader {
 		List<String> desc = new ArrayList<String>();
 		List<String> seq = new ArrayList<String>();
 		boolean read = false;
-		//TODO VÉRIFIER SI ON PEUT LENLEVER
-		//int trgInitSize = targets.size();
 		int index = targets.size() - 1;
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		StringBuffer buffer = new StringBuffer();
 		String line = in.readLine();
-
+		
 		// HEADER
 		if (line == null) {
 			throw new IOException(file.getName() + " is an empty file");

@@ -22,8 +22,26 @@ public class FastaSequenceReaderTest {
 	@Before
 	public void setUp() throws Exception {
 		f = new File(getClass().getResource("/tests/rs_tst.fas").toURI());
-		//TODO CHANGER POUR UNE LISTE DE TargetSNPs
 		wntdSnps = new LinkedList<String>();
+
+	}
+
+	@Test
+	public void testReadSequenceTEST() {
+		wntdSnps.add("1545397");
+		try {
+			f = new File(getClass().getResource("/fasta/chr_15.fas").toURI());
+		} catch (URISyntaxException e1) {
+			System.out.println(e1.getMessage());
+		}
+
+		FastaSequenceReader fs = null;
+		try {
+			fs = new FastaSequenceReader(f, wntdSnps);
+		} catch (IOException e) {
+			fail();
+		}
+		System.out.println(fs.getSequences());
 
 	}
 
@@ -95,22 +113,19 @@ public class FastaSequenceReaderTest {
 		}
 
 	}
-	
-
 
 	@Test
 	public void testGetSequences() {
 		wntdSnps.add("3896");
+		wntdSnps.add("3897");
 		FastaSequenceReader fs = null;
 		try {
 			fs = new FastaSequenceReader(f, wntdSnps);
 		} catch (IOException e) {
 			fail();
 		}
-
-		assertEquals(
-				fs.getSequences()
-						.get("rs3896"),
+		assertTrue(fs.getSequences().size() == 2);
+		assertEquals(fs.getSequences().get("rs3896"),
 				"gggtttatac tgacctgcca atgttaaaag ggacctaaat tcactttggg gaagtggcca gaaaggaaga agYagaaggagaa gagtgcaaga aacctccagt tgtgggggtt gagcctccag gataagaaag aaagaaatct ccagtaggggggattgagcc taacacaaac ctttggtaat agacaaggca agacatttcc aataggggag attgagtgtc acctcaaaactattaagatg ggaaataccc caggtaagat agagggtaaa aaaggataaa gctagcagca ataacattcc ccctgaaagttcCCAATAA");
 
 	}

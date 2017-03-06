@@ -13,13 +13,13 @@ import utils.FastaSequenceReader;
 
 public class Chromosome {
 
-	private List<SNP> snips = null;
+	public List<SNP> snips = null;
 	private String dataSrcPath = null;
 	private String name = null;
-	//TODO CHANGER POUR UNE LISTE DE TargetSNPs
 	private List<String> wntdSNPs = null;
 
-	public Chromosome(String name, List<String> targetSNP) throws ConstructionException, IOException, URISyntaxException {
+	public Chromosome(String name, List<String> targetSNP)
+			throws ConstructionException, IOException, URISyntaxException {
 		if (name != null && targetSNP != null) {
 			this.name = name;
 			this.wntdSNPs = targetSNP;
@@ -45,15 +45,30 @@ public class Chromosome {
 		return this.name;
 	}
 
-	public void loadSNPs() throws IOException, URISyntaxException {
+	private void loadSNPs() throws IOException, URISyntaxException {
+		System.out.println("wntd:" + wntdSNPs);
+		System.out.println("srcPath:" + dataSrcPath);
 		FastaSequenceReader fsr = new FastaSequenceReader(new File(getClass().getResource(dataSrcPath).toURI()),
 				wntdSNPs);
 		Map<String, String> sequences = fsr.getSequences();
+		System.out.println("seq:" + fsr.getSequences());
 		Iterator<String> keyIterator = sequences.keySet().iterator();
+
 		while (keyIterator.hasNext()) {
 			String key = keyIterator.next();
 			snips.add(new SNP(key, sequences.get(key)));
 		}
 	}
 
+	public SNP getSNPByRS(String rs) {
+		SNP snpID = null;
+
+		for (SNP snip : snips) {
+			if (snip.getRS().equals(rs)) {
+				snpID = snip;
+			}
+		}
+
+		return snpID;
+	}
 }

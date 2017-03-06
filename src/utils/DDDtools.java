@@ -87,7 +87,7 @@ public class DDDtools {
 		final Map<String, MeshView> mapMeshes = new HashMap<>();
 
 		try {// cube.obj
-			final ObjImporter reader = new ObjImporter(getClass().getResource("/obj/oeil.obj").toExternalForm());
+			final ObjImporter reader = new ObjImporter(getClass().getResource("/obj/face.obj").toExternalForm());
 			meshes = reader.getMeshes(); // set with the names of 117 meshes
 
 			final Affine affineIni = new Affine();
