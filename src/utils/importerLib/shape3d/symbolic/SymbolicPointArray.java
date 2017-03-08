@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.javafx.experiments.shape3d.symbolic;
+package utils.importerLib.shape3d.symbolic;
 
 /**
  * A 3D geometric point array that has the x, y, z coordinates of every point

@@ -2,13 +2,16 @@ package controleur;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import modele.Human;
 import modele.phenotype.Eye;
-import utils.DDDtools;
+import utils.EnvironmentThreeD;
 
 public class Controller {
 
@@ -64,11 +67,12 @@ public class Controller {
 	private Pane pane3D;
 
 	private Human human = null;
+	
+	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	@FXML
 	public void initialize() {
-		DDDtools p = new DDDtools();
-		pane3D.getChildren().add(p.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
+		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
 
 	// Fait les Binding et rempli les ChoiceBox

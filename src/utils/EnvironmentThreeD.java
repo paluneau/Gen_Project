@@ -4,44 +4,36 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.javafx.experiments.importers.obj.ObjImporter;
-
+import utils.importerLib.importers.obj.ObjImporter;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 
-public class DDDtools {
+public class EnvironmentThreeD {
 
 	/*
-	 * 
+	 * TODO JAVADOC
 	 * http://jperedadnr.blogspot.ca/2014/04/rubikfx-solving-rubiks-cube-with-
 	 * javafx.html
 	 */
-	private final DDDTransforms axisGroup = new DDDTransforms();
-	private final DDDTransforms moleculeGroup = new DDDTransforms();
-	private final DDDTransforms world = new DDDTransforms();
+	private final ToolsThreeD moleculeGroup = new ToolsThreeD();
+	private final ToolsThreeD world = new ToolsThreeD();
 	private final PerspectiveCamera camera = new PerspectiveCamera(true);
-	private final DDDTransforms cameraXform = new DDDTransforms();
-	private final DDDTransforms cameraXform2 = new DDDTransforms();
-	private final DDDTransforms cameraXform3 = new DDDTransforms();
-	private static final double CAMERA_INITIAL_DISTANCE = -5;
+	private final ToolsThreeD cameraXform = new ToolsThreeD();
+	private final ToolsThreeD cameraXform2 = new ToolsThreeD();
+	private final ToolsThreeD cameraXform3 = new ToolsThreeD();
+	private static final double CAMERA_INITIAL_DISTANCE = -15;
 	private static final double CAMERA_INITIAL_X_ANGLE = 70.0;
 	private static final double CAMERA_INITIAL_Y_ANGLE = 320.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1;
 	private static final double CAMERA_FAR_CLIP = 10000.0;
-	private static final double AXIS_LENGTH = 250.0;
 	private static final double CONTROL_MULTIPLIER = 0.1;
 	private static final double SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1;
@@ -58,11 +50,9 @@ public class DDDtools {
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
 		scene.setFill(Color.GREY);
-		handleKeyboard(scene, root);
-		handleMouse(scene, root);
+		handleControls(scene);
 		scene.setCamera(camera);
 		buildCamera();
-		buildAxes();
 		buildObj();
 		return scene;
 	}
@@ -86,7 +76,7 @@ public class DDDtools {
 		Set<String> meshes;
 		final Map<String, MeshView> mapMeshes = new HashMap<>();
 
-		try {// cube.obj
+		try {
 			final ObjImporter reader = new ObjImporter(getClass().getResource("/obj/face.obj").toExternalForm());
 			meshes = reader.getMeshes(); // set with the names of 117 meshes
 
@@ -115,33 +105,7 @@ public class DDDtools {
 		world.getChildren().add(moleculeGroup);
 	}
 
-	private void buildAxes() {
-		final PhongMaterial redMaterial = new PhongMaterial();
-		redMaterial.setDiffuseColor(Color.DARKRED);
-		redMaterial.setSpecularColor(Color.RED);
-
-		final PhongMaterial greenMaterial = new PhongMaterial();
-		greenMaterial.setDiffuseColor(Color.DARKGREEN);
-		greenMaterial.setSpecularColor(Color.GREEN);
-
-		final PhongMaterial blueMaterial = new PhongMaterial();
-		blueMaterial.setDiffuseColor(Color.DARKBLUE);
-		blueMaterial.setSpecularColor(Color.BLUE);
-
-		final Box xAxis = new Box(AXIS_LENGTH, 1, 1);
-		final Box yAxis = new Box(1, AXIS_LENGTH, 1);
-		final Box zAxis = new Box(1, 1, AXIS_LENGTH);
-
-		xAxis.setMaterial(redMaterial);
-		yAxis.setMaterial(greenMaterial);
-		zAxis.setMaterial(blueMaterial);
-
-		axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
-		axisGroup.setVisible(false);
-		world.getChildren().addAll(axisGroup);
-	}
-
-	private void handleMouse(SubScene pane, final Node root) {
+	private void handleControls(SubScene pane) {
 
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
@@ -149,7 +113,6 @@ public class DDDtools {
 				mousePosY = me.getSceneY();
 				mouseOldX = me.getSceneX();
 				mouseOldY = me.getSceneY();
-				System.out.println("MousePressed");
 			}
 
 		});
@@ -180,35 +143,6 @@ public class DDDtools {
 				} else if (me.isMiddleButtonDown()) {
 					cameraXform2.t.setX(cameraXform2.t.getX() + mouseDeltaX * MOUSE_SPEED * modifier * TRACK_SPEED); // -
 					cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY * MOUSE_SPEED * modifier * TRACK_SPEED); // -
-				}
-			}
-		});
-	}
-
-	private void handleKeyboard(SubScene pane, final Node root) {
-
-		pane.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent event) {
-				System.out.println("key");
-				switch (event.getCode()) {
-				case Z:
-					cameraXform2.t.setX(0.0);
-					cameraXform2.t.setY(0.0);
-					cameraXform.ry.setAngle(CAMERA_INITIAL_Y_ANGLE);
-					cameraXform.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
-					System.out.println("Z");
-					break;
-				case X:
-					System.out.println("X");
-					axisGroup.setVisible(!axisGroup.isVisible());
-
-					break;
-				case V:
-					moleculeGroup.setVisible(!moleculeGroup.isVisible());
-					System.out.println("V");
-					break;
-				default:
-					break;
 				}
 			}
 		});

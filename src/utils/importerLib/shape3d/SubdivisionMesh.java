@@ -29,10 +29,10 @@
  * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */package com.javafx.experiments.shape3d;
+ */package utils.importerLib.shape3d;
 
-import com.javafx.experiments.shape3d.symbolic.SymbolicPolygonMesh;
-import com.javafx.experiments.shape3d.symbolic.SymbolicSubdivisionBuilder;
+import utils.importerLib.shape3d.symbolic.SymbolicPolygonMesh;
+import utils.importerLib.shape3d.symbolic.SymbolicSubdivisionBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.ArrayChangeListener;

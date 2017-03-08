@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.javafx.experiments.importers;
+package utils.importerLib.importers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,8 +40,8 @@ import javafx.scene.Node;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.util.Pair;
-import com.javafx.experiments.importers.obj.ObjImporter;
-import com.javafx.experiments.importers.obj.PolyObjImporter;
+import utils.importerLib.importers.obj.ObjImporter;
+import utils.importerLib.importers.obj.PolyObjImporter;
 
 /**
  * Base Importer for all supported 3D file formats

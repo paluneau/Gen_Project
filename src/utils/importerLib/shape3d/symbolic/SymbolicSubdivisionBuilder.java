@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.javafx.experiments.shape3d.symbolic;
+package utils.importerLib.shape3d.symbolic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javafx.geometry.Point2D;
-
-import static com.javafx.experiments.shape3d.SubdivisionMesh.*;
+import static utils.importerLib.shape3d.SubdivisionMesh.*;
 
 /**
  * 

@@ -29,7 +29,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.javafx.experiments.shape3d;
+package utils.importerLib.shape3d;
 
 import java.util.Arrays;
 import javafx.beans.property.ObjectProperty;
@@ -45,9 +45,8 @@ import javafx.scene.shape.CullFace;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
-
 import static javafx.scene.shape.TriangleMesh.*;
-import static com.javafx.experiments.shape3d.SubdivisionMesh.*;
+import static utils.importerLib.shape3d.SubdivisionMesh.*;
 
 /**
  * A MeshView node for Polygon Meshes

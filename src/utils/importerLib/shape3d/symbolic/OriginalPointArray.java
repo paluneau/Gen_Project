@@ -29,9 +29,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.javafx.experiments.shape3d.symbolic;
+package utils.importerLib.shape3d.symbolic;
 
-import com.javafx.experiments.shape3d.PolygonMesh;
+import utils.importerLib.shape3d.PolygonMesh;
 
 public class OriginalPointArray extends SymbolicPointArray {
     PolygonMesh mesh;

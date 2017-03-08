@@ -9,7 +9,7 @@ import javafx.scene.transform.Translate;
 /**
  * Propriétés pour bouger notre caméra ou tout autre objet dans l'espace
  */
-public class DDDTransforms extends Group {
+public class ToolsThreeD extends Group {
 	public enum RotateOrder {
 		XYZ, XZY, YXZ, YZX, ZXY, ZYX
 	}
@@ -31,12 +31,12 @@ public class DDDTransforms extends Group {
 	}
 	public Scale s = new Scale();
 
-	public DDDTransforms() {
+	public ToolsThreeD() {
 		super();
 		getTransforms().addAll(t, rz, ry, rx, s);
 	}
 
-	public DDDTransforms(RotateOrder rotateOrder) {
+	public ToolsThreeD(RotateOrder rotateOrder) {
 		super();
 		// choose the order of rotations based on the rotateOrder
 		switch (rotateOrder) {
