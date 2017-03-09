@@ -67,15 +67,13 @@ public class Human {
 	// site du NCBI pour l'europe
 	private void setBrownEyeGene() {
 		if (getFace().getEye().getCouleurYeux().equals(Color.BROWN)) {
-			// LES SNP SONT BIDONS!! CEST SEULEMENT POUR AVOIR UN MODELE POUR
-			// PLUS TARD
-			// Homozygote (itération)
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.C);
+
+			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
+				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 			}
 
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.G);
+			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
+				chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
 			}
 
 		}
@@ -89,6 +87,10 @@ public class Human {
 
 	}
 
+	/**
+	 * Utilise le pourentage des haplotypes dans la population européenne pour
+	 * déterminer l'allèle
+	 */
 	private void setNotBrownEyeGene() {
 
 	}
