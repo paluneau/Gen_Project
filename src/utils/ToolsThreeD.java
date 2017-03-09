@@ -7,7 +7,7 @@ import javafx.scene.transform.Translate;
 
 
 /**
- * Propriétés pour bouger notre caméra ou tout autre objet dans l'espace
+ * Group contenant des fonctions pouvant affecter un objet dans l'espace 3D
  */
 public class ToolsThreeD extends Group {
 	public enum RotateOrder {

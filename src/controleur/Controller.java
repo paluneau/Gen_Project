@@ -1,5 +1,7 @@
 package controleur;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -7,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import modele.Human;
@@ -67,7 +70,7 @@ public class Controller {
 	private Pane pane3D;
 
 	private Human human = null;
-	
+
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	@FXML
@@ -81,6 +84,17 @@ public class Controller {
 		choiceBoxYeux.setItems(FXCollections.observableArrayList("Bleu", "Vert", "Brun"));
 		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
+
+		// FIXME test 3D vectoriel
+		sliderHauteurVisage.setMin(-10);
+		sliderHauteurVisage.setMax(10);
+		envirnm.getCoordonnatesProperty().bind(sliderHauteurVisage.valueProperty());
+
+		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.buildObj();
+			}
+		});
 
 		// TODO - LES BINDING FONT DES NULLPOINTEREXCEPTION
 		/*
@@ -124,7 +138,7 @@ public class Controller {
 		 */
 	}
 
-	// Va contenir les multiples écouteurs
+	// Va contenir les multiples ï¿½couteurs
 	public void ajouterEcouteurs() {
 
 	}
