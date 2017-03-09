@@ -91,7 +91,7 @@ public class EnvironmentThreeD {
 
 		try {
 			// Importe le .obj et le mets dans les meshs
-			final ObjImporter reader = new ObjImporter(getClass().getResource("/tests/face.obj").toExternalForm());
+			final ObjImporter reader = new ObjImporter(getClass().getResource("/obj/face.obj").toExternalForm());
 			meshes = reader.getMeshes();
 
 			/*
