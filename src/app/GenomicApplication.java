@@ -1,7 +1,5 @@
 package app;
 
-import java.net.URL;
-
 import controleur.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +8,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+
 
 public class GenomicApplication extends Application {
 
 	private Controller ctrl = null;
-	URL resource;
+	
 	Media media;
 	MediaPlayer mediaPlayer;
 
@@ -30,19 +28,6 @@ public class GenomicApplication extends Application {
 		BorderPane root = (BorderPane) loader.load();
 		ctrl = loader.getController();
 
-		// TODO METTRE LE PLAYER DANS UNE CLASSE A PART ET L'INCLURE COMME
-		// ATTRIBUT DU CONTROLEUR
-		// Code pour la Musique
-		resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
-		media = new Media(resource.toString());
-		mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.setOnEndOfMedia(new Runnable() {
-			public void run() {
-				mediaPlayer.seek(Duration.ZERO);
-			}
-		});
-		mediaPlayer.play();
-		
 		Scene scene = new Scene(root);
 		// ctrl.ajouterEcouteurs();
 		ctrl.bindingModif();

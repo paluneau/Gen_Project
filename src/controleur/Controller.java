@@ -1,18 +1,26 @@
 package controleur;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import exception.ConstructionException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import modele.Human;
+import modele.MusicPlayer;
 import modele.phenotype.Eye;
 import utils.EnvironmentThreeD;
 
@@ -69,12 +77,27 @@ public class Controller {
 	@FXML
 	private Pane pane3D;
 
+	@FXML
+	private CheckMenuItem muteButton;
+
 	private Human human = null;
 
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
+	private MusicPlayer player = null;
+
 	@FXML
 	public void initialize() {
+		try {
+			this.human = new Human();
+			this.player = new MusicPlayer();
+		} catch (ConstructionException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (URISyntaxException e) {
+			System.out.println(e.getMessage());
+		}
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
 
@@ -93,6 +116,7 @@ public class Controller {
 		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.buildObj();
+
 			}
 		});
 
@@ -206,4 +230,14 @@ public class Controller {
 	public void setSliderHauteurBouche(Slider sliderHauteurBouche) {
 		this.sliderHauteurBouche = sliderHauteurBouche;
 	}
+
+	public MusicPlayer getPlayer() {
+		return this.player;
+	}
+
+	@FXML
+	void mutePlayer(ActionEvent event) {
+		player.changeMute();
+	}
+
 }

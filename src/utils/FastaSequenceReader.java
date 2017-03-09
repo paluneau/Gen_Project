@@ -8,14 +8,13 @@ import java.util.*;
  * This class will read first sequence from a Fasta format file
  * 
  * @author http://www.cs.utexas.edu/~mobios/cs329e/rosetta/src/FastaSequence.
- *         java MÀJ Les génies du génome
+ *         java Mï¿½J Les gï¿½nies du gï¿½nome
  */
 
 public final class FastaSequenceReader {
 
 	private String[] description;
 	private String[] sequence;
-	//TODO CHANGER POUR UNE LISTE DE TargetSNPs
 	private List<String> targets = null;
 	private Map<String, String> sequences = null;
 
@@ -26,8 +25,8 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Permet de lire les séquences ciblées dans un fischier au format FASTA standard
-	 * @param file Le fichier à lire.
+	 * Permet de lire les sï¿½quences ciblï¿½es dans un fischier au format FASTA standard
+	 * @param file Le fichier ï¿½ lire.
 	 * @throws IOException si le fichier est non-conforme
 	 */
 	void readSequenceFromFile(File file) throws IOException {
@@ -78,12 +77,12 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Met les données dans une structure de donnée
+	 * Met les donnï¿½es dans une structure de donnï¿½e
 	 * 
 	 * @param seq
-	 *            une liste de séquences
+	 *            une liste de sï¿½quences
 	 * @param desc
-	 *            une liste de description de séquences
+	 *            une liste de description de sï¿½quences
 	 */
 	private void storeData(List<String> seq, List<String> desc) {
 		description = new String[desc.size()];
@@ -96,7 +95,7 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Crée la map qui contient les séquences d'ADN et leur description
+	 * Crï¿½e la map qui contient les sï¿½quences d'ADN et leur description
 	 * @return la map
 	 */
 	private HashMap<String, String> createMap() {

@@ -91,7 +91,7 @@ public class EnvironmentThreeD {
 
 		try {
 			// Importe le .obj et le mets dans les meshs
-			final ObjImporter reader = new ObjImporter(getClass().getResource("/obj/face.obj").toExternalForm());
+			final ObjImporter reader = new ObjImporter(getClass().getResource("/tests/face.obj").toExternalForm());
 			meshes = reader.getMeshes();
 
 			/*
@@ -99,10 +99,9 @@ public class EnvironmentThreeD {
 			 * leur coordonnées 3D xyz ou autre chose encore) se font binder
 			 * leur position
 			 */
-			// for (int i = 0; i < reader.getMesh().getPoints().size() / 6; i++)
-			// {
-			reader.getMesh().getPoints().set(0, coordonnatesValue.floatValue());
-			// }
+			//for (int i = 0; i < reader.getMesh().getPoints().size() / 6; i++) {
+				reader.getMesh().getPoints().set(0, coordonnatesValue.floatValue());
+			//}
 
 			final Affine affineIni = new Affine();
 			affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));

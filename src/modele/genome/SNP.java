@@ -39,5 +39,10 @@ public class SNP {
 	public void setAllele(Allele a) {
 		this.allele = a;
 	}
+	
+	private void applyAlleleOnSeq(){
+		
+	}
+	
 
 }

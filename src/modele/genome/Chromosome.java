@@ -1,6 +1,7 @@
 package modele.genome;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ public class Chromosome {
 	}
 
 	/**
-	 * Crée le chemin d'accès pour atteindre le fichier lié au chromosome *
+	 * Crï¿½e le chemin d'accï¿½s pour atteindre le fichier liï¿½ au chromosome *
 	 * Format: chr_*.fas
 	 * 
-	 * @return le chemin d'accès
+	 * @return le chemin d'accï¿½s
 	 */
 	private String generatePath() {
 		return "/fasta/chr_" + getName().toUpperCase() + ".fas";
@@ -46,17 +47,18 @@ public class Chromosome {
 	}
 
 	private void loadSNPs() throws IOException, URISyntaxException {
-		System.out.println("wntd:" + wntdSNPs);
-		System.out.println("srcPath:" + dataSrcPath);
-		FastaSequenceReader fsr = new FastaSequenceReader(new File(getClass().getResource(dataSrcPath).toURI()),
-				wntdSNPs);
-		Map<String, String> sequences = fsr.getSequences();
-		System.out.println("seq:" + fsr.getSequences());
-		Iterator<String> keyIterator = sequences.keySet().iterator();
+		try {
+			FastaSequenceReader fsr = new FastaSequenceReader(new File(getClass().getResource(dataSrcPath).toURI()),
+					wntdSNPs);
+			Map<String, String> sequences = fsr.getSequences();
+			Iterator<String> keyIterator = sequences.keySet().iterator();
 
-		while (keyIterator.hasNext()) {
-			String key = keyIterator.next();
-			snips.add(new SNP(key, sequences.get(key)));
+			while (keyIterator.hasNext()) {
+				String key = keyIterator.next();
+				snips.add(new SNP(key, sequences.get(key)));
+			}
+		} catch (NullPointerException e) {
+			throw new FileNotFoundException("File: " + dataSrcPath + " not found");
 		}
 	}
 

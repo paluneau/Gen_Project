@@ -26,7 +26,7 @@ public class FastaSequenceReaderTest {
 
 	}
 
-	@Test
+	/*@Test
 	public void testReadSequenceTEST() {
 		wntdSnps.add("1545397");
 		try {
@@ -43,7 +43,7 @@ public class FastaSequenceReaderTest {
 		}
 		System.out.println(fs.getSequences());
 
-	}
+	}*/
 
 	@Test
 	public void testReadSequenceFromFileFWD() {

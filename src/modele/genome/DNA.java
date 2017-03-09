@@ -5,19 +5,25 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import exception.ConstructionException;
 
 public class DNA {
 
-	public static final String[] CHR_SYMBOLS = { "15" };
+	private Set<String> chrSymbols = null;
 	private List<Chromosome> pair1 = null;
 	private List<Chromosome> pair2 = null;
 
-	public DNA() throws ConstructionException, IOException, URISyntaxException {
-		pair1 = new ArrayList<>();
-		pair2 = new ArrayList<>();
-		createChr();
+	public DNA(Set<String> chrSymbols) throws ConstructionException, IOException, URISyntaxException {
+		if (!chrSymbols.isEmpty()) {
+			this.chrSymbols = chrSymbols;
+			pair1 = new ArrayList<>();
+			pair2 = new ArrayList<>();
+			createChr();
+		} else {
+			throw new ConstructionException("No SNPs to look for.");
+		}
 
 	}
 
@@ -43,14 +49,14 @@ public class DNA {
 	}
 
 	/**
-	 * Instancie les chromosomes selon la liste de caractères
+	 * Instancie les chromosomes selon la liste de symboles des chromosomes
 	 * 
 	 * @throws ConstructionException
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
 	private void createChr() throws ConstructionException, IOException, URISyntaxException {
-		for (String sym : CHR_SYMBOLS) {
+		for (String sym : chrSymbols) {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
 		}
@@ -58,21 +64,23 @@ public class DNA {
 	}
 
 	/**
-	 * Regroupe les chromosomes par paire (ex. les deux chromosomes no1
-	 * ensemble, les deux chromosomes no2 ensemble, etc)
+	 * Retourne un couple (tableau statique) de chromosome selon son symbole
 	 * 
 	 * @return la liste de chaque paire de chromosome
 	 */
-	public List<Chromosome[]> getChrPairs() {
-		List<Chromosome[]> listPair = new ArrayList<>();
+	public Chromosome[] getChrPair(String symbol) {
+		Chromosome[] pair = new Chromosome[2];
 		int size = pair1.size();
+		boolean find = false;
 
-		for (int i = 0; i < size; i++) {
-			Chromosome[] couple = { pair1.get(i), pair2.get(i) };
-			listPair.add(couple);
+		for (int i = 0; i < size && !find; i++) {
+			if (pair1.get(i).getName().equals(symbol)) {
+				Chromosome[] couple = { pair1.get(i), pair2.get(i) };
+				find = true;
+			}
 		}
 
-		return listPair;
+		return pair;
 	}
 
 }

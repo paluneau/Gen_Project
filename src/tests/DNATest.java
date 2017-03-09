@@ -2,6 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,16 +16,16 @@ public class DNATest {
 
 	@Before
 	public void setUp() throws Exception {
-		d1 = new DNA();
+		Set<String> symbols = new HashSet<>();
+		symbols.add("15");
+		d1 = new DNA(symbols);
 	}
 
 	@Test
 	public void testGetChrPairs() {
-		System.out.println("TEST:--------------------------");
-		System.out.println(d1.getChrPairs().size());
-		System.out.println(d1.getChrPairs().get(0)[0].getName());
-		System.out.println(d1.getChrPairs().get(0)[1].getName());
-		System.out.println(d1.getChrPairs().get(0)[0].getSNPByRS("rs1426654"));
+		assertTrue(d1.getChrPair("15").length == 2);
+		assertEquals(d1.getChrPair("15")[0].getName(), "15");
+		assertEquals(d1.getChrPair("15")[1].getName(), "15");
 	}
 
 }
