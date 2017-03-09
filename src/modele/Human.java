@@ -67,7 +67,6 @@ public class Human {
 	// site du NCBI pour l'europe
 	private void setBrownEyeGene() {
 		if (getFace().getEye().getCouleurYeux().equals(Color.BROWN)) {
-
 			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 			}
@@ -96,6 +95,7 @@ public class Human {
 	}
 
 	private void setNotBlueEyeGene() {
+		
 
 	}
 
