@@ -1,4 +1,4 @@
-package controleur;
+﻿package controleur;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -84,6 +84,8 @@ public class Controller {
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
+
+	private MessageAlert alertBox;
 
 	private FichierChooser directoryChooser;
 
@@ -255,7 +257,12 @@ public class Controller {
 
 	@FXML
 	void mutePlayer(ActionEvent event) {
-		player.changeMute();
+		getPlayer().changeMute();
+	}
+
+	@FXML
+	void ouvrirDirectoryChooser(ActionEvent event) {
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
 	@FXML

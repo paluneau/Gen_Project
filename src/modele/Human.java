@@ -1,4 +1,4 @@
-package modele;
+﻿package modele;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -126,12 +126,33 @@ public class Human {
 			}
 		}
 	}
-
+	
+	//TODO certains SNPs servent pour les yeux et pour la peau en même temps.
 	private void setNotBrownEyeGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
 		}
+		
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.G);
+		}
+		
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
+		}
 
+	}
+
+	private void setLightSkinGene(){
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
+		}
+	}
+
+	private void setNonLightSkinGene(){
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
+		}
 	}
 
 	/**
