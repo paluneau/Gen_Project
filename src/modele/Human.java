@@ -1,4 +1,4 @@
-package modele;
+﻿package modele;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -63,11 +63,9 @@ public class Human {
 		return chrSym;
 	}
 
-	// TODO algo des yeux, et quand il y a une probabilité, utiliser le % sur le
-	// site du NCBI pour l'europe
 	private void setBrownEyeGene() {
 		if (getFace().getEye().getCouleurYeux().equals(Color.BROWN)) {
-			
+
 			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 			}
@@ -76,24 +74,85 @@ public class Human {
 				chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
 			}
 
+			setNotBlueEyeGene();
+
 		}
 	}
 
 	private void setBlueEyeGene() {
 
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12203592.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS12203592.getId()).setAllele(Allele.T);
+		}
+
+		setNotBrownEyeGene();
+
 	}
 
 	private void setGreenEyeGene() {
+		double rnd = Math.random();
+
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12203592.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS12203592.getId()).setAllele(Allele.T);
+		}
+
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
+		}
+
+		if (rnd <= 0.6) {
+			setNotBrownEyeGene();
+		} else {
+			setNotBlueEyeGene();
+		}
 
 	}
 
-	private void setNotBrownEyeGene() {
-
-	}
-
+	/**
+	 * Utilise le pourentage des haplotypes dans la population européenne pour
+	 * déterminer l'allèle. src:
+	 * https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=12913832
+	 */
 	private void setNotBlueEyeGene() {
-		
+		double rnd = Math.random();
 
+		if (rnd <= 0.9) {
+			Chromosome[] chrPair = getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr());
+			chrPair[0].getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.A);
+			chrPair[1].getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
+		} else {
+			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
+				chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.A);
+			}
+		}
+	}
+	
+	//TODO certains SNPs servent pour les yeux et pour la peau en même temps.
+	private void setNotBrownEyeGene() {
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
+		}
+		
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.G);
+		}
+		
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
+		}
+
+	}
+
+	private void setLightSkinGene(){
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
+		}
+	}
+
+	private void setNonLightSkinGene(){
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
+		}
 	}
 
 	/**

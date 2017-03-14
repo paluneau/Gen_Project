@@ -1,4 +1,4 @@
-package controleur;
+﻿package controleur;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -237,7 +237,7 @@ public class Controller {
 
 	@FXML
 	void mutePlayer(ActionEvent event) {
-		player.changeMute();
+		getPlayer().changeMute();
 	}
 
 }
