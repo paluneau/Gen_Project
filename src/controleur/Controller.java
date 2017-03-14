@@ -85,6 +85,8 @@ public class Controller {
 
 	private MusicPlayer player = null;
 
+	private MessageAlert alertBox;
+
 	private FichierChooser directoryChooser;
 
 	@FXML
@@ -256,6 +258,11 @@ public class Controller {
 	@FXML
 	void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
+	}
+
+	@FXML
+	void ouvrirDirectoryChooser(ActionEvent event) {
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
 	@FXML
