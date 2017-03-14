@@ -85,7 +85,6 @@ public class Controller {
 
 	private MusicPlayer player = null;
 
-	private MessageAlert alertBox;
 	private FichierChooser directoryChooser;
 
 	@FXML
@@ -94,11 +93,11 @@ public class Controller {
 		try {
 			this.human = new Human();
 		} catch (ConstructionException e) {
-			alertBox = new MessageAlert(e.getMessage());
+			new MessageAlert(e.getMessage());
 		} catch (IOException e) {
-			alertBox = new MessageAlert(e.getMessage());
+			new MessageAlert(e.getMessage());
 		} catch (URISyntaxException e) {
-			alertBox = new MessageAlert(e.getMessage());
+			new MessageAlert(e.getMessage());
 		}
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
@@ -111,16 +110,33 @@ public class Controller {
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 
 		// FIXME test 3D vectoriel
-		sliderHauteurVisage.setMin(-10);
-		sliderHauteurVisage.setMax(10);
-		envirnm.getCoordonnatesProperty().bind(sliderHauteurVisage.valueProperty());
+		sliderHauteurVisage.setMin(-3);
+		sliderHauteurVisage.setMax(3);
+		/*sliderDistanceYeux.setMin(-5);
+		sliderDistanceYeux.setMax(5);
+		sliderDistanceSourcils.setMin(-5);
+		sliderDistanceSourcils.setMax(5);*/
+		envirnm.getCoordonnatesXProperty().bind(sliderHauteurVisage.valueProperty());
+		/*envirnm.getCoordonnatesYProperty().bind(sliderDistanceYeux.valueProperty());
+		envirnm.getCoordonnatesZProperty().bind(sliderDistanceSourcils.valueProperty());*/
 
 		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.buildObj();
-
+				envirnm.changementWorld();
 			}
 		});
+
+		/*sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderDistanceSourcils.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
+			}
+		});*/
 
 		// TODO - LES BINDING FONT DES NULLPOINTEREXCEPTION
 		/*
