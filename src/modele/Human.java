@@ -128,6 +128,7 @@ public class Human {
 	}
 	
 	//TODO certains SNPs servent pour les yeux et pour la peau en même temps.
+
 	private void setNotBrownEyeGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
