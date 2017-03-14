@@ -1,6 +1,5 @@
 ﻿package controleur;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -8,21 +7,18 @@ import exception.ConstructionException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import modele.Human;
 import modele.MusicPlayer;
-import modele.phenotype.Eye;
 import utils.EnvironmentThreeD;
+import vue.FichierChooser;
+import vue.MessageAlert;
 
 public class Controller {
 
@@ -78,6 +74,9 @@ public class Controller {
 	private Pane pane3D;
 
 	@FXML
+	private MenuItem exportButton;
+
+	@FXML
 	private CheckMenuItem muteButton;
 
 	private Human human = null;
@@ -86,17 +85,20 @@ public class Controller {
 
 	private MusicPlayer player = null;
 
+	private MessageAlert alertBox;
+	private FichierChooser directoryChooser;
+
 	@FXML
 	public void initialize() {
+		this.player = new MusicPlayer();
 		try {
 			this.human = new Human();
-			this.player = new MusicPlayer();
 		} catch (ConstructionException e) {
-			System.out.println(e.getMessage());
+			alertBox = new MessageAlert(e.getMessage());
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			alertBox = new MessageAlert(e.getMessage());
 		} catch (URISyntaxException e) {
-			System.out.println(e.getMessage());
+			alertBox = new MessageAlert(e.getMessage());
 		}
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
@@ -238,6 +240,11 @@ public class Controller {
 	@FXML
 	void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
+	}
+
+	@FXML
+	void ouvrirDirectoryChooser(ActionEvent event) {
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
 }
