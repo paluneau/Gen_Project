@@ -1,48 +1,75 @@
 package modele.genome;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.ArrayList;
-import utils.FastaSequenceReader;
+import java.util.List;
 
 public class SNP {
 	private String rs = null;
+	private String seqModel = null;
 	private String seq = null;
 	private Allele allele = null;
 
 	public SNP(String id, String seq) {
 		this.rs = id;
-		this.seq = seq;
-	}
-	
-	public String getRS(){
-		return this.rs;
+		this.seqModel = seq;
+		this.seq = "";
 	}
 
-	public void setSeq(String seq) {
-		this.seq = seq;
+	public String getRS() {
+		return this.rs;
 	}
 
 	public String getSeq() {
 		return this.seq;
 	}
 
-	public String setSeq() {
-		return seq;
-
+	public String getSeqModel() {
+		return seqModel;
 	}
 
 	public Allele getAllele() {
 		return allele;
 	}
 
+	/**
+	 * Trouve les caractères possible des allèles à partir de l'énum Allele
+	 * 
+	 * @return La liste des caractères possibles d'allèles
+	 */
+	private List<Character> getAlleleChars() {
+		List<Character> ls = new ArrayList<>();
+
+		for (Allele a : Allele.values()) {
+			ls.add(new Character(a.getPrimarySymbol()));
+			ls.add(new Character(a.getSecondarySymbol()));
+		}
+		ls.add(new Character(' '));
+		return ls;
+	}
+
 	public void setAllele(Allele a) {
 		this.allele = a;
+		applyAlleleOnSeq();
 	}
-	
-	private void applyAlleleOnSeq(){
-		
+
+	/**
+	 * Utilise la séquence modèle pour créer la "vraie" séquence en intégrant
+	 * l'allèle du SNP
+	 */
+	private void applyAlleleOnSeq() {
+		List<Character> chrAllele = getAlleleChars();
+		boolean replaced = false;
+		int size = seqModel.length();
+
+		for (int i = 0; i < size; i++) {
+			Character current = new Character(seqModel.charAt(i));
+			if (replaced || chrAllele.contains(current)) {
+				seq += current.toString();
+			} else {
+				seq += new Character(getAllele().getPrimarySymbol()).toString();
+				replaced = true;
+			}
+		}
 	}
-	
 
 }

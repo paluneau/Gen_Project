@@ -2,10 +2,7 @@
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import exception.ConstructionException;
@@ -13,8 +10,6 @@ import javafx.scene.paint.Color;
 import modele.genome.Allele;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
-import modele.genome.Gene;
-import modele.genome.SNP;
 import modele.genome.TargetSNPs;
 import modele.phenotype.Face;
 
@@ -63,6 +58,9 @@ public class Human {
 		return chrSym;
 	}
 
+	/**
+	 * Met le SNP des yeux bruns
+	 */
 	private void setBrownEyeGene() {
 		if (getFace().getEye().getCouleurYeux().equals(Color.BROWN)) {
 
@@ -79,6 +77,9 @@ public class Human {
 		}
 	}
 
+	/**
+	 * Met le SNP des yeux bleus
+	 */
 	private void setBlueEyeGene() {
 
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12203592.getChromosomeNbr())) {
@@ -89,6 +90,9 @@ public class Human {
 
 	}
 
+	/**
+	 * Met le SNP des yeux verts
+	 */
 	private void setGreenEyeGene() {
 		double rnd = Math.random();
 
@@ -109,8 +113,8 @@ public class Human {
 	}
 
 	/**
-	 * Utilise le pourentage des haplotypes dans la population européenne pour
-	 * déterminer l'allèle. src:
+	 * Met le SNP des yeus non-bleus Utilise le pourentage des haplotypes dans
+	 * la population européenne pour déterminer l'allèle. src:
 	 * https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=12913832
 	 */
 	private void setNotBlueEyeGene() {
@@ -126,30 +130,53 @@ public class Human {
 			}
 		}
 	}
-	
-	//TODO certains SNPs servent pour les yeux et pour la peau en même temps.
+
+	// TODO certains SNPs servent pour les yeux et pour la peau en même temps.
+	/**
+	 * Met le SNP des yeux non-bruns
+	 */
 	private void setNotBrownEyeGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
 		}
-		
+
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.G);
 		}
-		
+
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
 		}
 
 	}
 
-	private void setLightSkinGene(){
+	private void setEyeColorGene() {
+		switch (this.getFace().getEye().getCouleurYeux()) {
+		case BLUE:
+			setBlueEyeGene();
+			break;
+		case BROWN:
+			setBrownEyeGene();
+			break;
+		case GREEN:
+			setGreenEyeGene();
+			break;
+		}
+	}
+
+	/**
+	 * Met le SNP de la peau pâle
+	 */
+	private void setLightSkinGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
 		}
 	}
 
-	private void setNonLightSkinGene(){
+	/**
+	 * Met le SNP de la peau non-pâle
+	 */
+	private void setNonLightSkinGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
 		}
@@ -159,6 +186,7 @@ public class Human {
 	 * Met à jour l'ADN selon l'aspect actuel du visage
 	 */
 	public void updateDNA() {
+		setEyeColorGene();
 
 	}
 
