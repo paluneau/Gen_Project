@@ -84,8 +84,9 @@ public class Controller {
 	private CheckMenuItem muteButton;
 
 	private Human human = null;
-
-	private EnvironmentThreeD envirnm = null;
+	
+	//TODO Integrate with the Human class
+	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
 
@@ -97,7 +98,6 @@ public class Controller {
 
 		try {
 			this.human = new Human();
-			envirnm = this.human.getEnvirnm();
 		} catch (ConstructionException | IOException | URISyntaxException e) {
 			// TODO le programme quitte tout seul à cause qu'il trouve pas le
 			// fichier du chromosome 14 quand il part
