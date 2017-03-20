@@ -12,18 +12,15 @@ import modele.genome.Chromosome;
 import modele.genome.DNA;
 import modele.genome.TargetSNPs;
 import modele.phenotype.Face;
-import utils.EnvironmentThreeD;
 
 public class Human {
 
 	private DNA dna = null;
 	private Face face = null;
-	private EnvironmentThreeD envirnm = null;
 
 	public Human() throws ConstructionException, IOException, URISyntaxException {
 		this.dna = new DNA(chrSymByTargets());
 		this.face = new Face();
-		this.envirnm = new EnvironmentThreeD();
 	}
 
 	public DNA getDna() {
@@ -40,10 +37,6 @@ public class Human {
 
 	public void setFace(Face face) {
 		this.face = face;
-	}
-	
-	public EnvironmentThreeD getEnvirnm(){
-		return envirnm;
 	}
 
 	/**
