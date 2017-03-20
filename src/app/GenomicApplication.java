@@ -1,6 +1,5 @@
 package app;
 
-import controleur.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,8 +10,6 @@ import javafx.stage.Stage;
 
 
 public class GenomicApplication extends Application {
-
-	private Controller ctrl = null;
 	
 	Media media;
 	MediaPlayer mediaPlayer;
@@ -26,12 +23,7 @@ public class GenomicApplication extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/vue/interface_v.01.fxml"));
 
 		BorderPane root = (BorderPane) loader.load();
-		ctrl = loader.getController();
-
 		Scene scene = new Scene(root);
-		// ctrl.ajouterEcouteurs();
-		ctrl.bindingModif();
-
 		stage.setTitle("Genomic Physionomy Viewer");
 		stage.setScene(scene);
 		stage.setResizable(false);

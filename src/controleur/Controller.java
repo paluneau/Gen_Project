@@ -85,7 +85,7 @@ public class Controller {
 
 	private Human human = null;
 
-	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
+	private EnvironmentThreeD envirnm = null;
 
 	private MusicPlayer player = null;
 
@@ -97,53 +97,60 @@ public class Controller {
 
 		try {
 			this.human = new Human();
+			envirnm = this.human.getEnvirnm();
 		} catch (ConstructionException | IOException | URISyntaxException e) {
-			alertExit(e.getMessage());
+			// TODO le programme quitte tout seul à cause qu'il trouve pas le
+			// fichier du chromosome 14 quand il part
+			// alertExit(e.getMessage());
 		}
 
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 		buildEyeColorBox();
+		setSlidersValue();
+		bindingModif();
 		ajouterEcouteurs();
+	}
+	
+	private void setSlidersValue(){
+		sliderHauteurVisage.setMin(-3);
+		sliderHauteurVisage.setMax(3);
+		sliderHauteurVisage.setValue(2);
+		sliderLargeurVisage.setMin(-3);
+		sliderLargeurVisage.setMax(3);
+		sliderLargeurVisage.setValue(2);
+		sliderDistanceYeux.setMin(-3);
+		sliderDistanceYeux.setMax(3);
+		sliderDistanceYeux.setValue(-2);
 	}
 
 	// Fait les Binding et rempli les ChoiceBox
-	public void bindingModif() {
+	private void bindingModif() {
 
 		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 
 		// FIXME test 3D vectoriel
-		sliderHauteurVisage.setMin(-3);
-		sliderHauteurVisage.setMax(3);
-		/*
-		 * sliderDistanceYeux.setMin(-5); sliderDistanceYeux.setMax(5);
-		 * sliderDistanceSourcils.setMin(-5); sliderDistanceSourcils.setMax(5);
-		 */
 		envirnm.getCoordonnatesXProperty().bind(sliderHauteurVisage.valueProperty());
-		/*
-		 * envirnm.getCoordonnatesYProperty().bind(sliderDistanceYeux.
-		 * valueProperty());
-		 * envirnm.getCoordonnatesZProperty().bind(sliderDistanceSourcils.
-		 * valueProperty());
-		 */
+		envirnm.getCoordonnatesYProperty().bind(sliderLargeurVisage.valueProperty());
+		envirnm.getCoordonnatesZProperty().bind(sliderDistanceYeux.valueProperty());
 
 		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.changementWorld();
 			}
 		});
-
-		/*
-		 * sliderDistanceYeux.valueProperty().addListener(new
-		 * ChangeListener<Number>() { public void changed(ObservableValue<?
-		 * extends Number> ov, Number old_val, Number new_val) {
-		 * envirnm.changementWorld(); } });
-		 * 
-		 * sliderDistanceSourcils.valueProperty().addListener(new
-		 * ChangeListener<Number>() { public void changed(ObservableValue<?
-		 * extends Number> ov, Number old_val, Number new_val) {
-		 * envirnm.changementWorld(); } });
-		 */
+		
+		sliderLargeurVisage.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
+			}
+		});
 
 		// TODO - LES BINDING FONT DES NULLPOINTEREXCEPTION
 		/*

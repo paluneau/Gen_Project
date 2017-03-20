@@ -8,6 +8,7 @@ import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
@@ -83,9 +84,11 @@ public class EnvironmentThreeD {
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
 		coordonnatesX = new SimpleFloatProperty();
-		coordonnatesX.setValue(1);
 		coordonnatesY = new SimpleFloatProperty();
 		coordonnatesZ = new SimpleFloatProperty();
+		coordonnatesX.setValue(2);
+		coordonnatesY.setValue(2);
+		coordonnatesZ.setValue(-2);
 		objGroup = new ToolsThreeD();
 		scene.setFill(Color.GREY);
 		handleControls(scene);
@@ -153,16 +156,24 @@ public class EnvironmentThreeD {
 	 * world
 	 */
 	private void buildObj() {
-		Set<String> meshes;
-		final Map<String, MeshView> mapMeshes = new HashMap<>();
-		meshes = reader.getMeshes();
+		Set<String> meshes = reader.getMeshes();
+		Map<String, MeshView> mapMeshes = new HashMap<>();
+		ObservableFloatArray points = reader.getMesh().getPoints();
 
 		/*
 		 * Ce point là se fait binder sa position. index du set(X=2,Y=0,Z=1)
 		 */
-		for (int i = 0; i < reader.getMesh().getPoints().size() / 6; i++) {
-			reader.getMesh().getPoints().set(2 + (3 * i), coordonnatesX.floatValue());
+		for (int i = 0; i < points.size() / 6; i++) {
+			points.set(2 + (3 * i), coordonnatesX.floatValue());
 		}
+		for (int i = 2; i < 2 + (reader.getMesh().getPoints().size() / 6); i++) {
+			points.set(0 + (3 * i), coordonnatesY.floatValue());
+		}
+
+		points.set(1 + (3 * 1), coordonnatesZ.floatValue());
+		points.set(1 + (3 * 2), coordonnatesZ.floatValue());
+		points.set(1 + (3 * 5), coordonnatesZ.floatValue());
+		points.set(1 + (3 * 6), coordonnatesZ.floatValue());
 
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
