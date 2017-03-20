@@ -5,42 +5,32 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Ear {
 
-	public double hauteurOreille;
-	public DoubleProperty hauteurOreilleProp = new SimpleDoubleProperty();
+	public DoubleProperty heightProperty = new SimpleDoubleProperty();
 
-	public double grosseurOreille;
-	public DoubleProperty grosseurOreilleProp = new SimpleDoubleProperty();
+	public DoubleProperty sizeProperty = new SimpleDoubleProperty();
 
-	public double getHauteurOreille() {
-		return hauteurOreille;
+	public double getHeight() {
+		return this.heightProperty.get();
 	}
 
-	public void setHauteurOreille(double hauteurOreille) {
-		this.hauteurOreille = hauteurOreille;
+	public void setHauteurOreille(double height) {
+		this.heightProperty.set(height);
 	}
 
-	public DoubleProperty getHauteurOreilleProp() {
-		return hauteurOreilleProp;
+	public DoubleProperty heightProperty() {
+		return this.heightProperty;
 	}
 
-	public void setHauteurOreilleProp(DoubleProperty hauteurOreilleProp) {
-		this.hauteurOreilleProp = hauteurOreilleProp;
+	public double getSize() {
+		return this.sizeProperty.get();
 	}
 
-	public double getGrosseurOreille() {
-		return grosseurOreille;
+	public void setSize(double size) {
+		this.sizeProperty.set(size);
 	}
 
-	public void setGrosseurOreille(double grosseurOreille) {
-		this.grosseurOreille = grosseurOreille;
-	}
-
-	public DoubleProperty getGrosseurOreilleProp() {
-		return grosseurOreilleProp;
-	}
-
-	public void setGrosseurOreilleProp(DoubleProperty grosseurOreilleProp) {
-		this.grosseurOreilleProp = grosseurOreilleProp;
+	public DoubleProperty sizeProperty() {
+		return this.sizeProperty;
 	}
 
 }

@@ -5,75 +5,46 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public class Eye {
 
-	public enum enumCouleurYeux {
-		BLEU, VERT, BRUN
-	};
+	public EyeColor color;
+	public DoubleProperty distanceProperty = new SimpleDoubleProperty();
+	public DoubleProperty heightProperty = new SimpleDoubleProperty();
 
-	public enumCouleurYeux couleurYeux;
-
-	public double distanceYeux;
-	public DoubleProperty distanceYeuxProp = new SimpleDoubleProperty();
-
-	public double hauteurYeux;
-	public DoubleProperty hauteurYeuxProp = new SimpleDoubleProperty();
-
-	public double ecartYeux;
-	public DoubleProperty ecartYeuxProp = new SimpleDoubleProperty();
-
-	public enumCouleurYeux getCouleurYeux() {
-		return couleurYeux;
+	public Eye(EyeColor color, double distance, double height) {
+		this.color = color;
+		distanceProperty.set(distance);
+		heightProperty.set(height);
 	}
 
-	public void setCouleurYeux(enumCouleurYeux couleurYeux) {
-		this.couleurYeux = couleurYeux;
+	public EyeColor getCouleurYeux() {
+		return color;
 	}
 
-	public double getDistanceYeux() {
-		return distanceYeux;
+	public void setColor(EyeColor eyeColor) {
+		this.color = eyeColor;
 	}
 
-	public void setDistanceYeux(double distanceYeux) {
-		this.distanceYeux = distanceYeux;
+	public double getDistance() {
+		return this.distanceProperty.get();
 	}
 
-	public DoubleProperty getDistanceYeuxProp() {
-		return distanceYeuxProp;
+	public void setDistance(double distance) {
+		this.distanceProperty.set(distance);
 	}
 
-	public void setDistanceYeuxProp(DoubleProperty distanceYeuxProp) {
-		this.distanceYeuxProp = distanceYeuxProp;
+	public DoubleProperty distanceProperty() {
+		return this.distanceProperty;
 	}
 
-	public double getHauteurYeux() {
-		return hauteurYeux;
+	public double getHeight() {
+		return this.heightProperty.get();
 	}
 
-	public void setHauteurYeux(double hauteurYeux) {
-		this.hauteurYeux = hauteurYeux;
+	public void setHeight(double height) {
+		this.heightProperty.set(height);
 	}
 
-	public DoubleProperty getHauteurYeuxProp() {
-		return hauteurYeuxProp;
-	}
-
-	public void setHauteurYeuxProp(DoubleProperty hauteurYeuxProp) {
-		this.hauteurYeuxProp = hauteurYeuxProp;
-	}
-
-	public double getEcartYeux() {
-		return ecartYeux;
-	}
-
-	public void setEcartYeux(double ecartYeux) {
-		this.ecartYeux = ecartYeux;
-	}
-
-	public DoubleProperty getEcartYeuxProp() {
-		return ecartYeuxProp;
-	}
-
-	public void setEcartYeuxProp(DoubleProperty ecartYeuxProp) {
-		this.ecartYeuxProp = ecartYeuxProp;
+	public DoubleProperty heightProperty() {
+		return this.heightProperty;
 	}
 
 }

@@ -1,15 +1,26 @@
 package modele.genome;
 
 public enum Allele {
-	A('A'), C('C'), T('T'), G('G');
-	
-	private char symbol = ' ';
-	
-	private Allele(char symbol){
-		this.symbol = symbol;
+	A('A', 'a'), C('C', 'c'), T('T', 't'), G('G', 'g');
+
+	private char primarySymbol = ' ';
+	private char secondarySymbol = ' ';
+
+	private Allele(char p_symbol, char s_symbol) {
+		this.primarySymbol = p_symbol;
+		this.secondarySymbol = s_symbol;
 	}
-	
-	public char getSymbol(){
-		return this.symbol;
+
+	public char getPrimarySymbol() {
+		return this.primarySymbol;
+	}
+
+	public char getSecondarySymbol() {
+		return this.secondarySymbol;
+	}
+
+	@Override
+	public String toString() {
+		return new Character(primarySymbol).toString();
 	}
 }
