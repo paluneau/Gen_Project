@@ -79,7 +79,7 @@ public class ObjImporter {
         }
     }
 
-    private static boolean debug = false;
+    private static boolean debug = true;
     private static float scale = 1;
     private static boolean flatXZ = false;
 

@@ -1,9 +1,11 @@
-package controleur;
+﻿package controleur;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import javafx.collections.ObservableList;
 import exception.ConstructionException;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -16,6 +18,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import modele.Human;
 import modele.MusicPlayer;
+import modele.phenotype.EyeColor;
 import utils.EnvironmentThreeD;
 import vue.FichierChooser;
 import vue.MessageAlert;
@@ -67,8 +70,9 @@ public class Controller {
 	@FXML
 	private ChoiceBox<String> choiceBoxCouleurCheveux;
 
+	// TODO Est-ce legit de ne pas mettre des strings?
 	@FXML
-	private ChoiceBox<String> choiceBoxYeux;
+	private ChoiceBox<EyeColor> choiceBoxYeux;
 
 	@FXML
 	private Pane pane3D;
@@ -80,45 +84,71 @@ public class Controller {
 	private CheckMenuItem muteButton;
 
 	private Human human = null;
-
+	
+	//TODO Integrate with the Human class
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
 
-	private MessageAlert alertBox;
 	private FichierChooser directoryChooser;
 
 	@FXML
 	public void initialize() {
 		this.player = new MusicPlayer();
+
 		try {
 			this.human = new Human();
-		} catch (ConstructionException e) {
-			alertBox = new MessageAlert(e.getMessage());
-		} catch (IOException e) {
-			alertBox = new MessageAlert(e.getMessage());
-		} catch (URISyntaxException e) {
-			alertBox = new MessageAlert(e.getMessage());
+		} catch (ConstructionException | IOException | URISyntaxException e) {
+			// TODO le programme quitte tout seul à cause qu'il trouve pas le
+			// fichier du chromosome 14 quand il part
+			// alertExit(e.getMessage());
 		}
+
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
+		buildEyeColorBox();
+		setSlidersValue();
+		bindingModif();
+		ajouterEcouteurs();
+	}
+	
+	private void setSlidersValue(){
+		sliderHauteurVisage.setMin(-3);
+		sliderHauteurVisage.setMax(3);
+		sliderHauteurVisage.setValue(2);
+		sliderLargeurVisage.setMin(-3);
+		sliderLargeurVisage.setMax(3);
+		sliderLargeurVisage.setValue(2);
+		sliderDistanceYeux.setMin(-3);
+		sliderDistanceYeux.setMax(3);
+		sliderDistanceYeux.setValue(-2);
 	}
 
 	// Fait les Binding et rempli les ChoiceBox
-	public void bindingModif() {
+	private void bindingModif() {
 
-		choiceBoxYeux.setItems(FXCollections.observableArrayList("Bleu", "Vert", "Brun"));
 		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 
 		// FIXME test 3D vectoriel
-		sliderHauteurVisage.setMin(-10);
-		sliderHauteurVisage.setMax(10);
-		envirnm.getCoordonnatesProperty().bind(sliderHauteurVisage.valueProperty());
+		envirnm.getCoordonnatesXProperty().bind(sliderHauteurVisage.valueProperty());
+		envirnm.getCoordonnatesYProperty().bind(sliderLargeurVisage.valueProperty());
+		envirnm.getCoordonnatesZProperty().bind(sliderDistanceYeux.valueProperty());
 
 		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.buildObj();
-
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderLargeurVisage.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.changementWorld();
 			}
 		});
 
@@ -164,8 +194,26 @@ public class Controller {
 		 */
 	}
 
+	/**
+	 * Met les éléments dans la ChoiceBox pour la couleur des yeux.
+	 */
+	private void buildEyeColorBox() {
+		ObservableList<EyeColor> list = FXCollections.observableArrayList();
+		for (EyeColor c : EyeColor.values()) {
+			list.add(c);
+		}
+		choiceBoxYeux.setItems(list);
+	}
+
 	// Va contenir les multiples �couteurs
 	public void ajouterEcouteurs() {
+
+		choiceBoxYeux.valueProperty().addListener(new ChangeListener<EyeColor>() {
+			@Override
+			public void changed(ObservableValue<? extends EyeColor> observable, EyeColor oldValue, EyeColor newValue) {
+				human.getFace().getEye().setColor(newValue);
+			}
+		});
 
 	}
 
@@ -239,12 +287,17 @@ public class Controller {
 
 	@FXML
 	void mutePlayer(ActionEvent event) {
-		player.changeMute();
+		getPlayer().changeMute();
 	}
 
 	@FXML
 	void ouvrirDirectoryChooser(ActionEvent event) {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+	}
+
+	private void alertExit(String message) {
+		new MessageAlert(message);
+		Platform.exit();
 	}
 
 }
