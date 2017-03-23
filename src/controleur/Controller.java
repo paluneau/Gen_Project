@@ -276,17 +276,17 @@ public class Controller {
 	public MusicPlayer getPlayer() {
 		return this.player;
 	}
-	
+
 	private void modeDNA() {
 		try {
 			this.dNACreator = new DNACreator(envirnm.getFace());
 		} catch (ConstructionException | IOException | URISyntaxException e) {
 			// TODO le programme quitte tout seul à cause qu'il trouve pas le
 			// fichier du chromosome 14 quand il part
-			// alertExit(e.getMessage());
+			alertAndChooseFile(e.getMessage());
 		}
 	}
-	
+
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
@@ -297,9 +297,9 @@ public class Controller {
 		getPlayer().changeMute();
 	}
 
-	private void alertExit(String message) {
+	private void alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		Platform.exit();
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
 }
