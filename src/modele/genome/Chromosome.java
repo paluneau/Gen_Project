@@ -18,6 +18,7 @@ public class Chromosome {
 	private String dataSrcPath = null;
 	private String name = null;
 	private List<String> wntdSNPs = null;
+	private File srcFile = null;
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -26,6 +27,7 @@ public class Chromosome {
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
 			this.snips = new ArrayList<>();
+			this.srcFile = new File(getClass().getResource(dataSrcPath).toURI());
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
@@ -46,10 +48,17 @@ public class Chromosome {
 		return this.name;
 	}
 
-	private void loadSNPs() throws IOException, URISyntaxException {
+	/**
+	 * Permet de charger les données des fichiers de SNP
+	 * 
+	 * @throws IOException
+	 *             si le fichier est introuvable
+	 * @throws URISyntaxException
+	 *             si la syntaxe du path est invalide
+	 */
+	public void loadSNPs() throws IOException, URISyntaxException {
 		try {
-			FastaSequenceReader fsr = new FastaSequenceReader(new File(getClass().getResource(dataSrcPath).toURI()),
-					wntdSNPs);
+			FastaSequenceReader fsr = new FastaSequenceReader(this.srcFile, wntdSNPs);
 			Map<String, String> sequences = fsr.getSequences();
 			Iterator<String> keyIterator = sequences.keySet().iterator();
 
@@ -72,5 +81,9 @@ public class Chromosome {
 		}
 
 		return snpID;
+	}
+
+	public void setSrcFile(File newFile) {
+		this.setSrcFile(newFile);
 	}
 }
