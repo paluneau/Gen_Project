@@ -292,7 +292,7 @@ public class Controller {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
-	@FXML
+  @FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}
