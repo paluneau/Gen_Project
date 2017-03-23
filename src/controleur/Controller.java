@@ -293,6 +293,7 @@ public class Controller {
 	@FXML
 	void ouvrirDirectoryChooser(ActionEvent event) {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		
 	}
 
 	private void alertExit(String message) {
