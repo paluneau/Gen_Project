@@ -83,4 +83,10 @@ public class DNA {
 		return pair;
 	}
 
+	public Set<String> getChrSymbols() {
+		return chrSymbols;
+	}
+
+	
+	
 }
