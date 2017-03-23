@@ -10,13 +10,9 @@ import modele.genome.SNP;
 
 public class FastaExporter {
 
-	private String allele = null;
-	private String rs = null;
-	private String sequence = null;
+	public static void sauvegarder(DNA adn, String path) {
 
-	public void sauvegarder(DNA adn) {
-
-		File fichierSave = new File("ADN.fas");
+		File fichierSave = new File(path + "GPV - ADN.fas");
 		try {
 			PrintWriter printW = new PrintWriter(new FileWriter(fichierSave));
 			for (String s : adn.getChrSymbols()) {
@@ -27,9 +23,9 @@ public class FastaExporter {
 
 					for (SNP snp : chromosome.snips) {
 
-						allele = snp.getAllele().toString();
-						rs = snp.getRS();
-						sequence = snp.getSeq();
+						String allele = snp.getAllele().toString();
+						String rs = snp.getRS();
+						String sequence = snp.getSeq();
 
 						printW.println(">GPV | Chromosomes :" + s + ":" + i + " |allele = " + allele + "| rs = " + rs);
 						printW.println(sequence);
