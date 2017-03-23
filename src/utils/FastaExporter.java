@@ -12,7 +12,10 @@ public class FastaExporter {
 
 	public static void sauvegarder(DNA adn, String path) {
 
-		File fichierSave = new File(path + "GPV - ADN.fas");
+		// TODO - LES COMMENTS SONT LÀ PCQ LES ALLELE SON NULL PARCE QUE IL NE
+		// CHANGE PAS DES VALEURS DE DEPART
+
+		File fichierSave = new File(path + "/GPV - ADN.fas");
 		try {
 			PrintWriter printW = new PrintWriter(new FileWriter(fichierSave));
 			for (String s : adn.getChrSymbols()) {
@@ -23,11 +26,13 @@ public class FastaExporter {
 
 					for (SNP snp : chromosome.snips) {
 
-						String allele = snp.getAllele().toString();
+						// String allele = snp.getAllele().toString();
 						String rs = snp.getRS();
 						String sequence = snp.getSeq();
 
-						printW.println(">GPV | Chromosomes :" + s + ":" + i + " |allele = " + allele + "| rs = " + rs);
+						// printW.println(">GPV | Chromosomes :" + s + ":" + i +
+						// " |allele = " + allele + "| rs = " + rs);
+						printW.println(">GPV | Chromosomes :" + s + ":" + (i + 1) + "| rs = " + rs);
 						printW.println(sequence);
 						printW.println();
 
