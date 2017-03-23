@@ -3,6 +3,8 @@
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import com.sun.xml.internal.messaging.saaj.util.SAAJUtil;
+
 import javafx.collections.ObservableList;
 import exception.ConstructionException;
 import javafx.application.Platform;
@@ -20,6 +22,7 @@ import modele.EnvironmentThreeD;
 import modele.DNACreator;
 import modele.MusicPlayer;
 import modele.phenotype.EyeColor;
+import utils.FastaExporter;
 import vue.FichierChooser;
 import vue.MessageAlert;
 
@@ -290,6 +293,8 @@ public class Controller {
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+		//TODO - Tester si getAbsolutePath() est mieux de getPath(), juste voir lequel marche
 	}
 
   @FXML
