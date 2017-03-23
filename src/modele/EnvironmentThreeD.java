@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
@@ -175,19 +174,12 @@ public class EnvironmentThreeD {
 			MeshView cubiePart = reader.buildMeshView(s);
 			// every part of the obj is transformed with both rotations:
 			cubiePart.getTransforms().add(affineIni);
-			/*
-			 * since the model has Ns=0 it doesn't reflect light, so we change
-			 * it to 1
-			 */
 
 			// TODO problèmes de matériels
 			PhongMaterial material = (PhongMaterial) cubiePart.getMaterial();
 			material.setSpecularPower(1);
 			cubiePart.setMaterial(material);
-			/*
-			 * finally, add the name of the part and the obj part to the
-			 * hashMap:
-			 */
+
 			mapMeshes.put(s, cubiePart);
 		});
 
@@ -253,5 +245,4 @@ public class EnvironmentThreeD {
 			}
 		});
 	}
-
 }
