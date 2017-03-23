@@ -1,9 +1,11 @@
-package utils;
+package modele;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
 import javafx.beans.property.FloatProperty;
@@ -21,6 +23,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.Face;
 
 /*
  * TODO JAVADOC
@@ -37,42 +40,26 @@ public class EnvironmentThreeD {
 	 * Caméra et ses 3 dimensions de vue permettant de regarder dans l'espace
 	 */
 	private final PerspectiveCamera camera = new PerspectiveCamera(true);
-	private final ToolsThreeD cameraX = new ToolsThreeD();
-	private final ToolsThreeD cameraY = new ToolsThreeD();
-	private final ToolsThreeD cameraZ = new ToolsThreeD();
-	private final ToolsThreeD axisGroup = new ToolsThreeD();
+	private final ToolsThreeD cameraX = new ToolsThreeD(), cameraY = new ToolsThreeD(), cameraZ = new ToolsThreeD(),
+			axisGroup = new ToolsThreeD();
 
-	private static final double CAMERA_INITIAL_DISTANCE = -15;
-	private static final double CAMERA_INITIAL_X_ANGLE = 70.0;
-	private static final double CAMERA_INITIAL_Y_ANGLE = 320.0;
-	private static final double CAMERA_NEAR_CLIP = 0.1;
-	private static final double CAMERA_FAR_CLIP = 10000.0;
-	private static final double CONTROL_MULTIPLIER = 0.1;
-	private static final double SHIFT_MULTIPLIER = 10.0;
-	private static final double MOUSE_SPEED = 0.1;
-	private static final double MOUSE_WHEEL_SPEED = 0.02;
-	private static final double ROTATION_SPEED = 1.0;
-	private static final double TRACK_SPEED = 0.3;
+	private static final double CAMERA_INITIAL_DISTANCE = -15, CAMERA_INITIAL_X_ANGLE = 70.0,
+			CAMERA_INITIAL_Y_ANGLE = 320.0;
+	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
+	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
+	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
 	private static final String URL = "/tests/cube.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
 	 */
-	private double mousePosX;
-	private double mousePosY;
-	private double mouseOldX;
-	private double mouseOldY;
-	private double mouseDeltaX;
-	private double mouseDeltaY;
-	private double modifier = 1.0;
+	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
 
 	/**
 	 * Propriété de test contenant la valeur de coordonnée d'un point de l'obj.
 	 * Voir buildObj()
 	 */
-	private FloatProperty coordonnatesX;
-	private FloatProperty coordonnatesY;
-	private FloatProperty coordonnatesZ;
+	private FloatProperty coordonnatesX, coordonnatesY, coordonnatesZ;
 
 	private ObjImporter reader;
 
@@ -80,6 +67,7 @@ public class EnvironmentThreeD {
 	 * Group contenant notre OBJ 3D
 	 */
 	private ToolsThreeD objGroup;
+	private Face face = null;
 
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
@@ -90,6 +78,7 @@ public class EnvironmentThreeD {
 		coordonnatesY.setValue(2);
 		coordonnatesZ.setValue(-2);
 		objGroup = new ToolsThreeD();
+		face = new Face();
 		scene.setFill(Color.GREY);
 		handleControls(scene);
 		scene.setCamera(camera);
@@ -116,6 +105,10 @@ public class EnvironmentThreeD {
 
 	public FloatProperty getCoordonnatesZProperty() {
 		return coordonnatesZ;
+	}
+
+	public Face getFace() {
+		return this.face;
 	}
 
 	private void buildAxes() {
@@ -260,4 +253,5 @@ public class EnvironmentThreeD {
 			}
 		});
 	}
+
 }

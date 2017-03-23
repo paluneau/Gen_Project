@@ -16,10 +16,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
-import modele.Human;
+import modele.EnvironmentThreeD;
+import modele.DNACreator;
 import modele.MusicPlayer;
 import modele.phenotype.EyeColor;
-import utils.EnvironmentThreeD;
 import vue.FichierChooser;
 import vue.MessageAlert;
 
@@ -83,9 +83,9 @@ public class Controller {
 	@FXML
 	private CheckMenuItem muteButton;
 
-	private Human human = null;
-	
-	//TODO Integrate with the Human class
+	private DNACreator dNACreator = null;
+
+	// TODO Integrate with the Human class
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
@@ -96,22 +96,14 @@ public class Controller {
 	public void initialize() {
 		this.player = new MusicPlayer();
 
-		try {
-			this.human = new Human();
-		} catch (ConstructionException | IOException | URISyntaxException e) {
-			// TODO le programme quitte tout seul à cause qu'il trouve pas le
-			// fichier du chromosome 14 quand il part
-			// alertExit(e.getMessage());
-		}
-
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 		buildEyeColorBox();
 		setSlidersValue();
 		bindingModif();
 		ajouterEcouteurs();
 	}
-	
-	private void setSlidersValue(){
+
+	private void setSlidersValue() {
 		sliderHauteurVisage.setMin(-3);
 		sliderHauteurVisage.setMax(3);
 		sliderHauteurVisage.setValue(2);
@@ -139,13 +131,13 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderLargeurVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.changementWorld();
@@ -211,7 +203,7 @@ public class Controller {
 		choiceBoxYeux.valueProperty().addListener(new ChangeListener<EyeColor>() {
 			@Override
 			public void changed(ObservableValue<? extends EyeColor> observable, EyeColor oldValue, EyeColor newValue) {
-				human.getFace().getEye().setColor(newValue);
+				envirnm.getFace().getEye().setColor(newValue);
 			}
 		});
 
@@ -284,15 +276,25 @@ public class Controller {
 	public MusicPlayer getPlayer() {
 		return this.player;
 	}
-
+	
+	private void modeDNA() {
+		try {
+			this.dNACreator = new DNACreator(envirnm.getFace());
+		} catch (ConstructionException | IOException | URISyntaxException e) {
+			// TODO le programme quitte tout seul à cause qu'il trouve pas le
+			// fichier du chromosome 14 quand il part
+			// alertExit(e.getMessage());
+		}
+	}
+	
 	@FXML
-	void mutePlayer(ActionEvent event) {
-		getPlayer().changeMute();
+	private void ouvrirDirectoryChooser(ActionEvent event) {
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 	}
 
 	@FXML
-	void ouvrirDirectoryChooser(ActionEvent event) {
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+	private void mutePlayer(ActionEvent event) {
+		getPlayer().changeMute();
 	}
 
 	private void alertExit(String message) {

@@ -12,38 +12,24 @@ import modele.genome.Chromosome;
 import modele.genome.DNA;
 import modele.genome.TargetSNPs;
 import modele.phenotype.Face;
-import utils.EnvironmentThreeD;
 
-public class Human {
+public class DNACreator {
 
 	private DNA dna = null;
 	private Face face = null;
-	private EnvironmentThreeD envirnm = null;
 
-	public Human() throws ConstructionException, IOException, URISyntaxException {
-		this.dna = new DNA(chrSymByTargets());
-		this.face = new Face();
-		this.envirnm = new EnvironmentThreeD();
+	public DNACreator(Face f) throws ConstructionException, IOException, URISyntaxException {
+		if (f != null) {
+			this.dna = new DNA(chrSymByTargets());
+			this.face = f;
+		} else {
+			throw new ConstructionException("VISAGE INEXISTANT");
+		}
+
 	}
 
 	public DNA getDna() {
 		return dna;
-	}
-
-	public void setDna(DNA dna) {
-		this.dna = dna;
-	}
-
-	public Face getFace() {
-		return face;
-	}
-
-	public void setFace(Face face) {
-		this.face = face;
-	}
-	
-	public EnvironmentThreeD getEnvirnm(){
-		return envirnm;
 	}
 
 	/**
@@ -69,7 +55,7 @@ public class Human {
 	 * Met le SNP des yeux bruns
 	 */
 	private void setBrownEyeGene() {
-		if (getFace().getEye().getCouleurYeux().equals(Color.BROWN)) {
+		if (face.getEye().getCouleurYeux().equals(Color.BROWN)) {
 
 			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
@@ -158,7 +144,7 @@ public class Human {
 	}
 
 	private void setEyeColorGene() {
-		switch (this.getFace().getEye().getCouleurYeux()) {
+		switch (face.getEye().getCouleurYeux()) {
 		case BLUE:
 			setBlueEyeGene();
 			break;
