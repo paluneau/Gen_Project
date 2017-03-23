@@ -292,12 +292,14 @@ public class Controller {
 
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
+		modeDNA();
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
-		//TODO - Tester si getAbsolutePath() est mieux de getPath(), juste voir lequel marche
+		System.out.println(dNACreator.getDna());
+		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getPath());
+
 	}
 
-  @FXML
+	@FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}

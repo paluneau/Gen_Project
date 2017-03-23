@@ -75,7 +75,8 @@ public class DNA {
 
 		for (int i = 0; i < size && !find; i++) {
 			if (pair1.get(i).getName().equals(symbol)) {
-				Chromosome[] couple = { pair1.get(i), pair2.get(i) };
+				pair[0] = pair1.get(i);
+				pair[1] = pair2.get(i);
 				find = true;
 			}
 		}
@@ -87,6 +88,4 @@ public class DNA {
 		return chrSymbols;
 	}
 
-	
-	
 }

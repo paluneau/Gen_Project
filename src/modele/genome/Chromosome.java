@@ -27,6 +27,7 @@ public class Chromosome {
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
 			this.snips = new ArrayList<>();
+			System.out.println(dataSrcPath);
 			this.srcFile = new File(getClass().getResource(dataSrcPath).toURI());
 			loadSNPs();
 		} else {
