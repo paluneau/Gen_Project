@@ -19,6 +19,7 @@ public class Chromosome {
 	private String name = null;
 	private List<String> wntdSNPs = null;
 	private File srcFile = null;
+	private static File altSrcFile = null;
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -58,7 +59,10 @@ public class Chromosome {
 	 */
 	public void loadSNPs() throws IOException, URISyntaxException {
 		try {
-			FastaSequenceReader fsr = new FastaSequenceReader(this.srcFile, wntdSNPs);
+
+			FastaSequenceReader fsr = (altSrcFile == null) ? new FastaSequenceReader(srcFile, wntdSNPs)
+					: new FastaSequenceReader(new File(altSrcFile + "/" + dataSrcPath), wntdSNPs);
+
 			Map<String, String> sequences = fsr.getSequences();
 			Iterator<String> keyIterator = sequences.keySet().iterator();
 
@@ -67,7 +71,8 @@ public class Chromosome {
 				snips.add(new SNP(key, sequences.get(key)));
 			}
 		} catch (NullPointerException e) {
-			throw new FileNotFoundException("File: " + dataSrcPath + " not found");
+			throw new FileNotFoundException(
+					"FASTA files are not all in the same folder. Select a folder containing every FASTA file.");
 		}
 	}
 
@@ -83,7 +88,8 @@ public class Chromosome {
 		return snpID;
 	}
 
-	public void setSrcFile(File newFile) {
-		this.setSrcFile(newFile);
+	public static void setAltSrcFile(File newFile) {
+		Chromosome.altSrcFile = newFile;
+		;
 	}
 }

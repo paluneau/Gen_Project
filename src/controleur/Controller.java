@@ -1,5 +1,6 @@
 ﻿package controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -21,6 +22,7 @@ import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
 import modele.DNACreator;
 import modele.MusicPlayer;
+import modele.genome.Chromosome;
 import modele.phenotype.EyeColor;
 import utils.FastaExporter;
 import vue.FichierChooser;
@@ -286,7 +288,9 @@ public class Controller {
 		} catch (ConstructionException | IOException | URISyntaxException e) {
 			// TODO le programme quitte tout seul à cause qu'il trouve pas le
 			// fichier du chromosome 14 quand il part
-			alertAndChooseFile(e.getMessage());
+			File newFolder = alertAndChooseFile(e.getMessage());
+			Chromosome.setAltSrcFile(newFolder);
+			modeDNA();
 		}
 	}
 
@@ -294,17 +298,19 @@ public class Controller {
 	private void ouvrirDirectoryChooser(ActionEvent event) {
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
-		//TODO - Tester si getAbsolutePath() est mieux de getPath(), juste voir lequel marche
+		// TODO - Tester si getAbsolutePath() est mieux de getPath(), juste voir
+		// lequel marche
 	}
 
-  @FXML
+	@FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}
 
-	private void alertAndChooseFile(String message) {
+	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		return directoryChooser.getFichierChoisi();
 	}
 
 }
