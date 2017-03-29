@@ -22,9 +22,14 @@ public class DNA {
 			pair2 = new ArrayList<>();
 			createChr();
 		} else {
-			throw new ConstructionException("No SNPs to look for.");
+			throw new ConstructionException("Aucun SNP ciblé.");
 		}
 
+	}
+	
+
+	public Set<String> getChrSymbols() {
+		return chrSymbols;
 	}
 
 	/**
@@ -84,8 +89,5 @@ public class DNA {
 		return pair;
 	}
 
-	public Set<String> getChrSymbols() {
-		return chrSymbols;
-	}
 
 }

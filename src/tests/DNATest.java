@@ -2,12 +2,14 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import modele.genome.Chromosome;
 import modele.genome.DNA;
 
 public class DNATest {
@@ -16,6 +18,7 @@ public class DNATest {
 
 	@Before
 	public void setUp() throws Exception {
+		Chromosome.setAltSrcFile(new File(getClass().getResource("/tests").toURI()));
 		Set<String> symbols = new HashSet<>();
 		symbols.add("15");
 		d1 = new DNA(symbols);

@@ -1,5 +1,6 @@
 ﻿package controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -22,6 +23,7 @@ import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
 import modele.DNACreator;
 import modele.MusicPlayer;
+import modele.genome.Chromosome;
 import modele.phenotype.EyeColor;
 import utils.FastaExporter;
 import vue.FichierChooser;
@@ -219,33 +221,83 @@ public class Controller {
 		return this.player;
 	}
 
-	private void modeDNA() {
+	/**
+	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
+	 * fichiers à lire sont introuvables
+	 * 
+	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
+	 *         tout est correct
+	 */
+	private boolean modeDNA() {
+		boolean flagError = false;
+
 		try {
 			this.dNACreator = new DNACreator(envirnm.getFace());
-		} catch (ConstructionException | IOException | URISyntaxException e) {
-			// TODO le programme quitte tout seul à cause qu'il trouve pas le
-			// fichier du chromosome 14 quand il part
-			alertAndChooseFile(e.getMessage());
+		} catch (IOException e) {
+
+			File newFolder = alertAndChooseFile(e.getMessage());
+			Chromosome.setAltSrcFile(newFolder);
+
+			try {
+				this.dNACreator = new DNACreator(envirnm.getFace());
+			} catch (IOException e1) {
+				new MessageAlert("Impossible de trouver le(s) fichier(s).");
+				flagError = true;
+			} catch (ConstructionException e1) {
+				new MessageAlert(e1.getMessage());
+			} catch (URISyntaxException e1) {
+				new MessageAlert(e1.getMessage());
+			}
+
+		} catch (ConstructionException e) {
+			new MessageAlert(e.getMessage());
+		} catch (URISyntaxException e) {
+			new MessageAlert(e.getMessage());
 		}
+
+		return flagError;
 	}
 
+	/**
+	 * Permet de choisir un fichier du répertoire afin d'enregistrer
+	 * l'exportation de l'ADN
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
-		modeDNA();
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		System.out.println(dNACreator.getDna());
-		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getPath());
+		boolean error = modeDNA();
+		
+		if (!error) {
+			FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+		} else {
+			new MessageAlert("Échec de l'exportation");
+		}
 
 	}
 
+	/**
+	 * Permet de "muter" la musique
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}
 
-	private void alertAndChooseFile(String message) {
+	/**
+	 * Affiche une erreur et ouvre un DirectoryChooser
+	 * 
+	 * @param message
+	 *            le message a afficher
+	 * @return le path du dossier sélectionné
+	 */
+	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		return directoryChooser.getFichierChoisi();
 	}
 
 }

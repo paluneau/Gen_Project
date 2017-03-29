@@ -19,6 +19,7 @@ public class Chromosome {
 	private String name = null;
 	private List<String> wntdSNPs = null;
 	private File srcFile = null;
+	private static File altSrcFile = null;
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -27,8 +28,6 @@ public class Chromosome {
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
 			this.snips = new ArrayList<>();
-			System.out.println(dataSrcPath);
-			this.srcFile = new File(getClass().getResource(dataSrcPath).toURI());
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
@@ -42,7 +41,7 @@ public class Chromosome {
 	 * @return le chemin d'acc�s
 	 */
 	private String generatePath() {
-		return "/fasta/chr_" + getName().toUpperCase() + ".fas";
+		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
 
 	public String getName() {
@@ -58,18 +57,28 @@ public class Chromosome {
 	 *             si la syntaxe du path est invalide
 	 */
 	public void loadSNPs() throws IOException, URISyntaxException {
-		try {
-			FastaSequenceReader fsr = new FastaSequenceReader(this.srcFile, wntdSNPs);
-			Map<String, String> sequences = fsr.getSequences();
-			Iterator<String> keyIterator = sequences.keySet().iterator();
 
-			while (keyIterator.hasNext()) {
-				String key = keyIterator.next();
-				snips.add(new SNP(key, sequences.get(key)));
+		FastaSequenceReader fsr = null;
+
+		if (getClass().getResource("/fasta" + dataSrcPath) == null) {
+			if (Chromosome.altSrcFile == null) {
+				throw new FileNotFoundException(
+						"Fichier(s) introuvable(s). Sélectionnez un répertoire contenant tous les fichiers FASTA.");
+			} else {
+				fsr = new FastaSequenceReader(new File(Chromosome.altSrcFile + dataSrcPath), wntdSNPs);
 			}
-		} catch (NullPointerException e) {
-			throw new FileNotFoundException("File: " + dataSrcPath + " not found");
+		} else {
+			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
+
+		Map<String, String> sequences = fsr.getSequences();
+		Iterator<String> keyIterator = sequences.keySet().iterator();
+
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			snips.add(new SNP(key, sequences.get(key)));
+		}
+
 	}
 
 	public SNP getSNPByRS(String rs) {
@@ -84,7 +93,8 @@ public class Chromosome {
 		return snpID;
 	}
 
-	public void setSrcFile(File newFile) {
-		this.setSrcFile(newFile);
+	public static void setAltSrcFile(File newFile) {
+		Chromosome.altSrcFile = newFile;
+		;
 	}
 }

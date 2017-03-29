@@ -129,7 +129,7 @@ public class EnvironmentThreeD {
 	private void buildObj() {
 		Set<String> meshes = reader.getMeshes();
 		Map<String, MeshView> mapMeshes = new HashMap<>();
-
+    
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
