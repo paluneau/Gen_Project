@@ -66,7 +66,6 @@ public class DNACreator {
 		}
 
 		setNotBlueEyeGene();
-
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class DNACreator {
 	}
 
 	private void setEyeColorGene() {
-		switch (face.getEye().getCouleurYeux()) {
+		switch (face.getLEye().getCouleurYeux()) {
 		case BLUE:
 			setBlueEyeGene();
 			break;

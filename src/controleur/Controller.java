@@ -3,12 +3,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import com.sun.xml.internal.messaging.saaj.util.SAAJUtil;
-
 import javafx.collections.ObservableList;
 import exception.ConstructionException;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
@@ -118,9 +113,10 @@ public class Controller {
 		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
 		 * sliderDistanceYeux.setValue(-2);
 		 */
-		sliderEcartYeux.setMin(-1);
-		sliderEcartYeux.setMax(1);
+		sliderEcartYeux.setMin(-0.2);
+		sliderEcartYeux.setMax(0.2);
 		sliderEcartYeux.setValue(0);
+		sliderDistanceYeux.setMax(0.000000000001);
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 	}
 
@@ -151,14 +147,22 @@ public class Controller {
 
 		choiceBoxYeux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EyeColor>() {
 			public void changed(ObservableValue<? extends EyeColor> ov, EyeColor old_val, EyeColor new_val) {
-				envirnm.getFace().getEye().setColor(new_val);
+				envirnm.getFace().getLEye().setColor(new_val);
+				envirnm.getFace().getREye().setColor(new_val);
 				envirnm.changementWorld();
 			}
 		});
 
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.getFace().getEye().setDistance(new_val.floatValue());
+				envirnm.getFace().setEyeDistance(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.criss = new_val.floatValue();
 				envirnm.changementWorld();
 			}
 		});
@@ -278,6 +282,7 @@ public class Controller {
 	 */
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
+
 		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 		
 		if (directoryChooser.getFichierChoisi() != null) {
@@ -287,6 +292,7 @@ public class Controller {
 			} else {
 				new MessageAlert("Échec de l'exportation");
 			}
+
 		}
 
 	}

@@ -1,48 +1,69 @@
 package modele.phenotype;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.paint.Color;
-
 public class Face {
 
-	private Ear ear = null;
-	private Eye eye = null;
+	private Ear LEar = null;
+	private Ear REar = null;
+	private Eye LEye = null;
+	private Eye REye = null;
 	private Hair hair = null;
 	private Mouth mouth = null;
 	private Nose nose = null;
-	private Sourcils sourcils = null;
+  private Sourcils LSourcils = null;
+	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
 
 	public double hauteurVisage;
-	public DoubleProperty hauteurVisageProp = new SimpleDoubleProperty();
 
 	public double largeurVisage;
-	public DoubleProperty largeurVisageProp = new SimpleDoubleProperty();
 
 	public Face() {
-		ear = new Ear();
-		eye = new Eye(EyeColor.BROWN, 0, 0);
+		LEar = new Ear();
+		REar = new Ear();
+		LEye = new Eye(EyeColor.BROWN, 0, 0);
+		REye = new Eye(EyeColor.BROWN, 0, 0);
 		hair = new Hair();
 		mouth = new Mouth();
 		nose = new Nose();
-		sourcils = new Sourcils();
+		LSourcils = new Sourcils();
+		RSourcils = new Sourcils();
 	}
 
-	public Ear getEar() {
-		return ear;
+	public Ear getLEar() {
+		return LEar;
 	}
 
-	public void setEar(Ear ear) {
-		this.ear = ear;
+	public void setLEar(Ear ear) {
+		this.LEar = ear;
 	}
 
-	public Eye getEye() {
-		return eye;
+	public Ear getREar() {
+		return REar;
 	}
 
-	public void setEye(Eye eye) {
-		this.eye = eye;
+	public void setREar(Ear ear) {
+		this.REar = ear;
+	}
+
+	public Eye getLEye() {
+		return LEye;
+	}
+
+	public void setLEye(Eye eye) {
+		this.LEye = eye;
+	}
+
+	public Eye getREye() {
+		return REye;
+	}
+
+	public void setREye(Eye eye) {
+		this.REye = eye;
+	}
+	
+	public void setEyeDistance(float distance) {
+		this.LEye.updateDistanceNez(-distance);
+		this.REye.updateDistanceNez(distance);
 	}
 
 	public Hair getHair() {
@@ -69,12 +90,20 @@ public class Face {
 		this.nose = nose;
 	}
 
-	public Sourcils getSourcils() {
-		return sourcils;
+	public Sourcils getLSourcils() {
+		return LSourcils;
 	}
 
-	public void setSourcils(Sourcils sourcils) {
-		this.sourcils = sourcils;
+	public void setLSourcils(Sourcils sourcils) {
+		this.LSourcils = sourcils;
+	}
+
+	public Sourcils getRSourcils() {
+		return RSourcils;
+	}
+
+	public void setRSourcils(Sourcils sourcils) {
+		this.RSourcils = sourcils;
 	}
 
 	public double getHauteurVisage() {
@@ -85,28 +114,12 @@ public class Face {
 		this.hauteurVisage = hauteurVisage;
 	}
 
-	public DoubleProperty getHauteurVisageProp() {
-		return hauteurVisageProp;
-	}
-
-	public void setHauteurVisageProp(DoubleProperty hauteurVisageProp) {
-		this.hauteurVisageProp = hauteurVisageProp;
-	}
-
 	public double getLargeurVisage() {
 		return largeurVisage;
 	}
 
 	public void setLargeurVisage(double largeurVisage) {
 		this.largeurVisage = largeurVisage;
-	}
-
-	public DoubleProperty getLargeurVisageProp() {
-		return largeurVisageProp;
-	}
-
-	public void setLargeurVisageProp(DoubleProperty largeurVisageProp) {
-		this.largeurVisageProp = largeurVisageProp;
 	}
 
 	public SkinColor getSkinColor() {
@@ -116,5 +129,4 @@ public class Face {
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
 	}
-
 }
