@@ -1,4 +1,4 @@
-package modele.genome;
+package modele.phenotype;
 
 import javafx.scene.paint.Color;
 

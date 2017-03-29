@@ -24,8 +24,6 @@ public class ChromosomeTest {
 		Chromosome.setAltSrcFile(new File(getClass().getResource("/tests").toURI()));
 		tgt = new LinkedList<String>();
 		tgt.add("12913832");
-		tgt.add("1426654");
-		tgt.add("1545397");
 
 		try {
 			chr15 = new Chromosome("15", tgt);
@@ -49,8 +47,6 @@ public class ChromosomeTest {
 	public void testLire() {
 		tgt = new LinkedList<String>();
 		tgt.add("12913832");
-		tgt.add("1426654");
-		tgt.add("1545397");
 
 		try {
 			chr15 = new Chromosome("0", tgt);
@@ -67,10 +63,8 @@ public class ChromosomeTest {
 
 	@Test
 	public void testGetSNPByID() {
-		SNP rs1545397 = chr15.getSNPByRS("rs1545397");
 		SNP rs12913832 = chr15.getSNPByRS("rs12913832");
 		System.out.println(chr15.getSNPByRS("rs12913832"));
-		assertNull(rs1545397);
 		assertNotNull(rs12913832);
 	}
 

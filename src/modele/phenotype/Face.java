@@ -3,7 +3,6 @@ package modele.phenotype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.paint.Color;
-import modele.genome.SkinColor;
 
 public class Face {
 

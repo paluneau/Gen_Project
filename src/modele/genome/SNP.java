@@ -104,14 +104,13 @@ public class SNP {
 	 *            Nouvel allèle
 	 * @return Le caractère qui convient
 	 */
+	//TODO TROUVER UNE FACON MOINS BATARD
 	private Allele getWildCard(Allele x, Allele y) {
 		Allele result = null;
 		Set<Allele> set = new HashSet<Allele>();
 		set.add(x);
 		set.add(y);
 
-		// TODO Rajouter encore des wildcards possibles pour avoir jusqu'à trois
-		// variations du SNP
 		if (x.equals(y)) {
 			result = x;
 		} else if (set.contains(Allele.A) && set.contains(Allele.G)) {
