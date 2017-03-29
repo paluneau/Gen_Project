@@ -19,9 +19,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.CullFace;
 import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.EyeColor;
 import modele.phenotype.Face;
 
 /*
@@ -47,18 +50,12 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/tests/cube.obj";
+	private static final String URL = "/obj/face.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
 	 */
 	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
-
-	/**
-	 * Propriété de test contenant la valeur de coordonnée d'un point de l'obj.
-	 * Voir buildObj()
-	 */
-	private FloatProperty coordonnatesX, coordonnatesY, coordonnatesZ;
 
 	private ObjImporter reader;
 
@@ -70,12 +67,6 @@ public class EnvironmentThreeD {
 
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
-		coordonnatesX = new SimpleFloatProperty();
-		coordonnatesY = new SimpleFloatProperty();
-		coordonnatesZ = new SimpleFloatProperty();
-		coordonnatesX.setValue(2);
-		coordonnatesY.setValue(2);
-		coordonnatesZ.setValue(-2);
 		objGroup = new ToolsThreeD();
 		face = new Face();
 		scene.setFill(Color.GREY);
@@ -83,8 +74,8 @@ public class EnvironmentThreeD {
 		scene.setCamera(camera);
 		buildImporter();
 		buildCamera();
-		buildObj();
 		buildAxes();
+		buildObj();
 		return scene;
 	}
 
@@ -92,18 +83,6 @@ public class EnvironmentThreeD {
 		world.getChildren().remove(objGroup);
 		objGroup.getChildren().clear();
 		buildObj();
-	}
-
-	public FloatProperty getCoordonnatesXProperty() {
-		return coordonnatesX;
-	}
-
-	public FloatProperty getCoordonnatesYProperty() {
-		return coordonnatesY;
-	}
-
-	public FloatProperty getCoordonnatesZProperty() {
-		return coordonnatesZ;
 	}
 
 	public Face getFace() {
@@ -150,22 +129,6 @@ public class EnvironmentThreeD {
 	private void buildObj() {
 		Set<String> meshes = reader.getMeshes();
 		Map<String, MeshView> mapMeshes = new HashMap<>();
-		ObservableFloatArray points = reader.getMesh().getPoints();
-
-		/*
-		 * Ce point là se fait binder sa position. index du set(X=2,Y=0,Z=1)
-		 */
-		for (int i = 0; i < points.size() / 6; i++) {
-			points.set(2 + (3 * i), coordonnatesX.floatValue());
-		}
-		for (int i = 2; i < 2 + (reader.getMesh().getPoints().size() / 6); i++) {
-			points.set(0 + (3 * i), coordonnatesY.floatValue());
-		}
-
-		points.set(1 + (3 * 1), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 2), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 5), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 6), coordonnatesZ.floatValue());
 
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
@@ -174,6 +137,19 @@ public class EnvironmentThreeD {
 			MeshView cubiePart = reader.buildMeshView(s);
 			// every part of the obj is transformed with both rotations:
 			cubiePart.getTransforms().add(affineIni);
+			
+			if (s.contains("Oeil")) {
+				TriangleMesh m = (TriangleMesh) cubiePart.getMesh();
+				ObservableFloatArray points = m.getPoints();
+				for (int i = 0; i < points.size() / 6; i++) {
+					//TODO Work on that algo
+					points.set(2 + (3 * i), getFace().getEye().getDistance());
+				}
+				final PhongMaterial blueMaterial = new PhongMaterial();
+				blueMaterial.setDiffuseColor(getFace().getEye().getCouleurYeux().getColor());
+				blueMaterial.setSpecularColor(getFace().getEye().getCouleurYeux().getColor());
+				cubiePart.setMaterial(blueMaterial);
+			}
 
 			// TODO problèmes de matériels
 			PhongMaterial material = (PhongMaterial) cubiePart.getMaterial();
