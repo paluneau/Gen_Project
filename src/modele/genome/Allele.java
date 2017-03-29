@@ -2,7 +2,8 @@ package modele.genome;
 
 public enum Allele {
 	A('A', 'a', false), C('C', 'c', false), T('T', 't', false), G('G', 'g', false), N('N', 'n', true), Y('Y', 'y',
-			true), K('K', 'k', true), M('M', 'm', true), S('S', 's', true), W('W', 'w', true), R('R', 'r', true);
+			true), K('K', 'k', true), M('M', 'm', true), S('S', 's', true), W('W', 'w', true), R('R', 'r',
+					true), B('B', 'b', true), D('D', 'd', true), H('H', 'h', true), V('V', 'v', true);
 
 	private char primarySymbol = ' ';
 	private char secondarySymbol = ' ';

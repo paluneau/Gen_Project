@@ -126,6 +126,18 @@ public class SNP {
 			result = Allele.S;
 		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
 			result = Allele.W;
+			//
+		} else if ((set.contains(Allele.Y) && set.contains(Allele.G))
+				|| (set.contains(Allele.S) && set.contains(Allele.T))
+				|| (set.contains(Allele.K) && set.contains(Allele.C))) {
+			result = Allele.B;
+		} else if ((set.contains(Allele.R) || set.contains(Allele.W) || set.contains(Allele.K))
+				&& set.contains(Allele.G)) {
+			result = Allele.D;
+		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+			result = Allele.H;
+		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+			result = Allele.V;
 		} else {
 			result = Allele.N;
 		}
