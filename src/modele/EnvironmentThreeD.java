@@ -7,8 +7,7 @@ import java.util.Set;
 import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
@@ -19,12 +18,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.CullFace;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import modele.phenotype.EyeColor;
 import modele.phenotype.Face;
 
 /*
@@ -57,7 +54,9 @@ public class EnvironmentThreeD {
 	 */
 	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
 
-	private ObjImporter reader;
+	public float criss = 0;
+
+	private ObjImporter reader = null;
 
 	/**
 	 * Group contenant notre OBJ 3D
@@ -77,7 +76,7 @@ public class EnvironmentThreeD {
 		buildAxes();
 		buildObj(true);
 		return scene;
-		
+
 	}
 
 	public void changementWorld() {
@@ -127,61 +126,67 @@ public class EnvironmentThreeD {
 	 * Méthode permettant d'importer les .obj et de les mettre dans notre scène
 	 * world
 	 */
+
 	private void buildObj(boolean firstBuild) {
-		Set<String> meshes = reader.getMeshes();
-		Map<String, MeshView> mapMeshes = new HashMap<>();
-    
+		Set<String> physionomyGroups = reader.getMeshes();
+		Map<String, MeshView> groupMeshes = new HashMap<>();
+
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
-		meshes.stream().forEach(s -> {
-			MeshView cubiePart = reader.buildMeshView(s);
+		physionomyGroups.stream().forEach(s -> {
+			MeshView genomicPart = reader.buildMeshView(s);
+			// TODO Transparent stuff
+			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
-			cubiePart.getTransforms().add(affineIni);
+			genomicPart.getTransforms().add(affineIni);
+			ObservableFloatArray points3D = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			if (s.contains("Oeil")) {
-				cubiePart.setMaterial(updateLEye(cubiePart, firstBuild));
-				cubiePart.setMaterial(updateREye(cubiePart, firstBuild));
+			if (s.contains("Oeil gauche")) {
+				genomicPart.setMaterial(updateLEye(points3D, firstBuild));
+			}
+			if (s.contains("Oeil droit")) {
+				genomicPart.setMaterial(updateREye(points3D, firstBuild));
 			}
 
-			// TODO problèmes de matériels
-			PhongMaterial material = (PhongMaterial) cubiePart.getMaterial();
-			material.setSpecularPower(1);
-			cubiePart.setMaterial(material);
-
-			mapMeshes.put(s, cubiePart);
+			groupMeshes.put(s, genomicPart);
 		});
 
-		objGroup.getChildren().addAll(mapMeshes.values());
+		objGroup.getChildren().addAll(groupMeshes.values());
 		world.getChildren().add(objGroup);
+
 	}
 
-	private PhongMaterial updateLEye(MeshView mesh, boolean firstBuild) {
-		TriangleMesh m = (TriangleMesh) mesh.getMesh();
-		ObservableFloatArray points = m.getPoints();
+	private PhongMaterial updateLEye(ObservableFloatArray points, boolean firstBuild) {
 		if (firstBuild) {
-			getFace().getLEye().setIniPoints(points);
+			getFace().getLEye().setIniPoints(createArrayCopy(points), points);
 		}
+
 		points = getFace().getLEye().getPointsUpdater();
 
-		final PhongMaterial blueMaterial = new PhongMaterial();
-		blueMaterial.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
-		blueMaterial.setSpecularColor(getFace().getLEye().getCouleurYeux().getColor());
-		return blueMaterial;
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		material.setSpecularColor(Color.BLACK);
+		return material;
 	}
 
-	private PhongMaterial updateREye(MeshView mesh, boolean firstBuild) {
-		TriangleMesh m = (TriangleMesh) mesh.getMesh();
-		ObservableFloatArray points = m.getPoints();
+	private PhongMaterial updateREye(ObservableFloatArray points, boolean firstBuild) {
 		if (firstBuild) {
-			getFace().getREye().setIniPoints(points);
+			getFace().getREye().setIniPoints(createArrayCopy(points), points);
 		}
+
 		points = getFace().getREye().getPointsUpdater();
 
-		final PhongMaterial blueMaterial = new PhongMaterial();
-		blueMaterial.setDiffuseColor(getFace().getREye().getCouleurYeux().getColor());
-		blueMaterial.setSpecularColor(getFace().getREye().getCouleurYeux().getColor());
-		return blueMaterial;
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(getFace().getREye().getCouleurYeux().getColor());
+		material.setSpecularColor(getFace().getREye().getCouleurYeux().getColor());
+		return material;
+	}
+
+	private ObservableFloatArray createArrayCopy(ObservableFloatArray original) {
+		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
+		pTemp.addAll(original);
+		return pTemp;
 	}
 
 	private void buildCamera() {

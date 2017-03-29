@@ -1,5 +1,6 @@
 package modele.phenotype;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 
 public class Eye {
@@ -14,6 +15,8 @@ public class Eye {
 		this.color = color;
 		setLargeur(largeur);
 		setHeight(height);
+		iniPoints = FXCollections.observableFloatArray();
+		pointsUpdater = FXCollections.observableFloatArray();
 	}
 
 	public EyeColor getCouleurYeux() {
@@ -40,13 +43,9 @@ public class Eye {
 		this.height = height;
 	}
 
-	public ObservableFloatArray getIniPoints() {
-		return iniPoints;
-	}
-
-	public void setIniPoints(ObservableFloatArray iniPoints) {
+	public void setIniPoints(ObservableFloatArray iniPoints, ObservableFloatArray pointsUpdater) {
 		this.iniPoints = iniPoints;
-		this.pointsUpdater = iniPoints;
+		this.pointsUpdater = pointsUpdater;
 	}
 
 	public ObservableFloatArray getPointsUpdater() {
@@ -54,8 +53,8 @@ public class Eye {
 	}
 
 	public void updateDistanceNez(float distance) {
-		for (int i = 0; i < pointsUpdater.size(); i++) {
-			pointsUpdater.set(i, iniPoints.get(i) + distance);
+		for (int i = 0; i < pointsUpdater.size() / 3; i++) {
+			pointsUpdater.set(2 + (3 * i), iniPoints.get(2 + (3 * i)) + distance);
 		}
 	}
 

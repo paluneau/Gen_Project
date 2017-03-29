@@ -131,7 +131,6 @@ public class ObjImporter {
         meshView.setMaterial(materials.get(key));
         meshView.setMesh(meshes.get(key));
         meshView.setCullFace(CullFace.BACK);
-        meshView.setOpacity(2);
         return meshView;
     }
 

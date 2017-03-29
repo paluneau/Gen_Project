@@ -62,7 +62,7 @@ public class Face {
 	
 	public void setEyeDistance(float distance) {
 		this.LEye.updateDistanceNez(-distance);
-		this.REye.updateDistanceNez(-distance);
+		this.REye.updateDistanceNez(distance);
 	}
 
 	public Hair getHair() {
