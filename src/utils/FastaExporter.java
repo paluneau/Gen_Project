@@ -12,9 +12,6 @@ public class FastaExporter {
 
 	public static void sauvegarder(DNA adn, String path) {
 
-		// TODO - LES COMMENTS SONT LÀ PCQ LES ALLELE SON NULL PARCE QUE IL NE
-		// CHANGE PAS DES VALEURS DE DEPART
-
 		File fichierSave = new File(path + "/GPV - ADN.fas");
 		try {
 			System.out.println(fichierSave);
@@ -27,13 +24,11 @@ public class FastaExporter {
 
 					for (SNP snp : chromosome.snips) {
 
-						// String allele = snp.getAllele().toString();
+						String allele = snp.getAllele().toString();
 						String rs = snp.getRS();
 						String sequence = snp.getSeq();
 
-						// printW.println(">GPV | Chromosomes :" + s + ":" + i +
-						// " |allele = " + allele + "| rs = " + rs);
-						printW.println(">GPV | Chromosome " + s + "." + (i + 1) + "| rs = " + rs);
+						printW.println("> GPV | Chromosome " + s + "." + i + " | allele=" + allele + " | rs=" + rs);
 						printW.println(sequence);
 						printW.println();
 
@@ -44,6 +39,7 @@ public class FastaExporter {
 			}
 			printW.close();
 		} catch (IOException e) {
+			//TODO Gérer l'exception autrement
 			System.out.println(e);
 		}
 

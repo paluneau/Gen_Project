@@ -282,29 +282,55 @@ public class Controller {
 		return this.player;
 	}
 
+	/**
+	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
+	 * fichiers à lire sont introuvables
+	 * 
+	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
+	 *         tout est correct
+	 */
 	private boolean modeDNA() {
 		boolean flagError = false;
+
 		try {
 			this.dNACreator = new DNACreator(envirnm.getFace());
-		} catch (ConstructionException | IOException | URISyntaxException e) {
+		} catch (IOException e) {
+
 			File newFolder = alertAndChooseFile(e.getMessage());
 			Chromosome.setAltSrcFile(newFolder);
+
 			try {
 				this.dNACreator = new DNACreator(envirnm.getFace());
-			} catch (ConstructionException | IOException | URISyntaxException e1) {
+			} catch (IOException e1) {
 				new MessageAlert("Impossible de trouver le(s) fichier(s).");
 				flagError = true;
+			} catch (ConstructionException e1) {
+				new MessageAlert(e1.getMessage());
+			} catch (URISyntaxException e1) {
+				new MessageAlert(e1.getMessage());
 			}
+
+		} catch (ConstructionException e) {
+			new MessageAlert(e.getMessage());
+		} catch (URISyntaxException e) {
+			new MessageAlert(e.getMessage());
 		}
+
 		return flagError;
 	}
 
+	/**
+	 * Permet de choisir un fichier du répertoire afin d'enregistrer
+	 * l'exportation de l'ADN
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
+		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 		boolean error = modeDNA();
-
+		
 		if (!error) {
-			directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 			FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
 		} else {
 			new MessageAlert("Échec de l'exportation");
@@ -312,11 +338,23 @@ public class Controller {
 
 	}
 
+	/**
+	 * Permet de "muter" la musique
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}
 
+	/**
+	 * Affiche une erreur et ouvre un DirectoryChooser
+	 * 
+	 * @param message
+	 *            le message a afficher
+	 * @return le path du dossier sélectionné
+	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
 		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());

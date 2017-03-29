@@ -1,7 +1,9 @@
 package modele.genome;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SNP {
 	private String rs = null;
@@ -63,7 +65,7 @@ public class SNP {
 
 	/**
 	 * Utilise la séquence modèle pour créer la "vraie" séquence en intégrant
-	 * l'allèle du SNP
+	 * l'allèle du SNP.
 	 */
 	private void applyAlleleOnSeq() {
 		List<Character> chrAllele = getAlleleChars();
@@ -92,22 +94,37 @@ public class SNP {
 		}
 	}
 
+	/**
+	 * Permet de retourner le caractère qui remplace plusieurs allèles sur un
+	 * même SNP
+	 * 
+	 * @param x
+	 *            Ancien allèle
+	 * @param y
+	 *            Nouvel allèle
+	 * @return Le caractère qui convient
+	 */
 	private Allele getWildCard(Allele x, Allele y) {
 		Allele result = null;
+		Set<Allele> set = new HashSet<Allele>();
+		set.add(x);
+		set.add(y);
 
+		// TODO Rajouter encore des wildcards possibles pour avoir jusqu'à trois
+		// variations du SNP
 		if (x.equals(y)) {
 			result = x;
-		} else if ((x.equals(Allele.A) && y.equals(Allele.G)) || (x.equals(Allele.G) && y.equals(Allele.A))) {
+		} else if (set.contains(Allele.A) && set.contains(Allele.G)) {
 			result = Allele.R;
-		} else if ((x.equals(Allele.C) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.C))) {
+		} else if (set.contains(Allele.C) && set.contains(Allele.T)) {
 			result = Allele.Y;
-		} else if ((x.equals(Allele.G) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.G))) {
+		} else if (set.contains(Allele.G) && set.contains(Allele.T)) {
 			result = Allele.K;
-		} else if ((x.equals(Allele.A) && y.equals(Allele.C)) || (x.equals(Allele.C) && y.equals(Allele.A))) {
+		} else if (set.contains(Allele.C) && set.contains(Allele.A)) {
 			result = Allele.M;
-		} else if ((x.equals(Allele.C) && y.equals(Allele.G)) || (x.equals(Allele.G) && y.equals(Allele.C))) {
+		} else if (set.contains(Allele.C) && set.contains(Allele.G)) {
 			result = Allele.S;
-		} else if ((x.equals(Allele.A) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.A))) {
+		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
 			result = Allele.W;
 		} else {
 			result = Allele.N;

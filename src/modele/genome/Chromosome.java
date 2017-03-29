@@ -61,13 +61,12 @@ public class Chromosome {
 		FastaSequenceReader fsr = null;
 
 		if (getClass().getResource("/fasta" + dataSrcPath) == null) {
-			
 			if (Chromosome.altSrcFile == null) {
-				throw new FileNotFoundException("Fichier(s) introuvable(s). Sélectionnez un répertoire contenant tous les fichiers FASTA.");
-			}else{
+				throw new FileNotFoundException(
+						"Fichier(s) introuvable(s). Sélectionnez un répertoire contenant tous les fichiers FASTA.");
+			} else {
 				fsr = new FastaSequenceReader(new File(Chromosome.altSrcFile + dataSrcPath), wntdSNPs);
 			}
-		
 		} else {
 			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
