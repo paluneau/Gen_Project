@@ -1,18 +1,15 @@
 package modele.phenotype;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
 public class Eye {
 
 	public EyeColor color;
-	public DoubleProperty distanceProperty = new SimpleDoubleProperty();
-	public DoubleProperty heightProperty = new SimpleDoubleProperty();
+	public float distance = 0;
+	public float height = 0;
 
-	public Eye(EyeColor color, double distance, double height) {
+	public Eye(EyeColor color, float distance, float height) {
 		this.color = color;
-		distanceProperty.set(distance);
-		heightProperty.set(height);
+		setDistance(distance);
+		setHeight(height);
 	}
 
 	public EyeColor getCouleurYeux() {
@@ -23,28 +20,20 @@ public class Eye {
 		this.color = eyeColor;
 	}
 
-	public double getDistance() {
-		return this.distanceProperty.get();
+	public float getDistance() {
+		return this.distance;
 	}
 
-	public void setDistance(double distance) {
-		this.distanceProperty.set(distance);
+	public void setDistance(float distance) {
+		this.distance = distance;
 	}
 
-	public DoubleProperty distanceProperty() {
-		return this.distanceProperty;
+	public float getHeight() {
+		return this.height;
 	}
 
-	public double getHeight() {
-		return this.heightProperty.get();
-	}
-
-	public void setHeight(double height) {
-		this.heightProperty.set(height);
-	}
-
-	public DoubleProperty heightProperty() {
-		return this.heightProperty;
+	public void setHeight(float height) {
+		this.height = height;
 	}
 
 }

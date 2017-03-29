@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
@@ -100,95 +101,26 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		this.player = new MusicPlayer();
-
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
+		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
+		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 		buildEyeColorBox();
 		setSlidersValue();
-		bindingModif();
 		ajouterEcouteurs();
 	}
 
 	private void setSlidersValue() {
-		sliderHauteurVisage.setMin(-3);
-		sliderHauteurVisage.setMax(3);
-		sliderHauteurVisage.setValue(2);
-		sliderLargeurVisage.setMin(-3);
-		sliderLargeurVisage.setMax(3);
-		sliderLargeurVisage.setValue(2);
-		sliderDistanceYeux.setMin(-3);
-		sliderDistanceYeux.setMax(3);
-		sliderDistanceYeux.setValue(-2);
-	}
-
-	// Fait les Binding et rempli les ChoiceBox
-	private void bindingModif() {
-
-		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
-		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
-
-		// FIXME test 3D vectoriel
-		envirnm.getCoordonnatesXProperty().bind(sliderHauteurVisage.valueProperty());
-		envirnm.getCoordonnatesYProperty().bind(sliderLargeurVisage.valueProperty());
-		envirnm.getCoordonnatesZProperty().bind(sliderDistanceYeux.valueProperty());
-
-		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		sliderLargeurVisage.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		// TODO - LES BINDING FONT DES NULLPOINTEREXCEPTION
 		/*
-		 * // Binding du visage
-		 * human.getFace().hauteurVisageProp.bind(sliderHauteurVisage.
-		 * valueProperty());
-		 * human.getFace().largeurVisageProp.bind(sliderLargeurVisage.
-		 * valueProperty());
-		 * 
-		 * // Binding des Oreilles
-		 * human.getFace().getEar().grosseurOreilleProp.bind(
-		 * sliderGrosseurOreilles.valueProperty());
-		 * human.getFace().getEar().hauteurOreilleProp.bind(
-		 * sliderHauteurOreilles.valueProperty());
-		 * 
-		 * // Binding des Yeux
-		 * human.getFace().getEye().distanceYeuxProp.bind(sliderDistanceYeux.
-		 * valueProperty());
-		 * human.getFace().getEye().ecartYeuxProp.bind(sliderEcartYeux.
-		 * valueProperty());
-		 * human.getFace().getEye().hauteurYeuxProp.bind(sliderHauteurYeux.
-		 * valueProperty());
-		 * 
-		 * // Binding de la bouche
-		 * human.getFace().getMouth().finesseBoucheProp.bind(sliderFinesseBouche
-		 * .valueProperty());
-		 * human.getFace().getMouth().hauteurBoucheProp.bind(sliderHauteurBouche
-		 * .valueProperty());
-		 * 
-		 * // Binding du Nez
-		 * human.getFace().getNose().grosseurNezProp.bind(sliderGrosseurNez.
-		 * valueProperty());
-		 * human.getFace().getNose().hauteurNezProp.bind(sliderHauteurNez.
-		 * valueProperty());
-		 * 
-		 * // Binding des Sourcils
-		 * human.getFace().getSourcils().distanceSourcilsProp.bind(
-		 * sliderDistanceSourcils.valueProperty());
-		 * human.getFace().getSourcils().hauteurSourcilsProp.bind(
-		 * sliderHauteurSourcils.valueProperty());
+		 * sliderHauteurVisage.setMin(-3); sliderHauteurVisage.setMax(3);
+		 * sliderHauteurVisage.setValue(2); sliderLargeurVisage.setMin(-3);
+		 * sliderLargeurVisage.setMax(3); sliderLargeurVisage.setValue(2);
+		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
+		 * sliderDistanceYeux.setValue(-2);
 		 */
+		sliderEcartYeux.setMin(-1);
+		sliderEcartYeux.setMax(1);
+		sliderEcartYeux.setValue(0);
+		choiceBoxYeux.setValue(EyeColor.BROWN);
 	}
 
 	/**
@@ -205,10 +137,17 @@ public class Controller {
 	// Va contenir les multiples �couteurs
 	public void ajouterEcouteurs() {
 
-		choiceBoxYeux.valueProperty().addListener(new ChangeListener<EyeColor>() {
-			@Override
-			public void changed(ObservableValue<? extends EyeColor> observable, EyeColor oldValue, EyeColor newValue) {
-				envirnm.getFace().getEye().setColor(newValue);
+		choiceBoxYeux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EyeColor>() {
+			public void changed(ObservableValue<? extends EyeColor> ov, EyeColor old_val, EyeColor new_val) {
+				envirnm.getFace().getEye().setColor(new_val);
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().getEye().setDistance(new_val.floatValue());
+				envirnm.changementWorld();
 			}
 		});
 
