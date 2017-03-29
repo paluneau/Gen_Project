@@ -55,7 +55,6 @@ public class DNACreator {
 	 * Met le SNP des yeux bruns
 	 */
 	private void setBrownEyeGene() {
-<<<<<<< HEAD
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 		}
@@ -65,20 +64,6 @@ public class DNACreator {
 		}
 
 		setNotBlueEyeGene();
-=======
-		
-
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
-			}
-
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
-			}
-
-			setNotBlueEyeGene();
-
->>>>>>> 93ecf2622fc1419041c433aaa2009124369c34e2
 	}
 
 	/**
