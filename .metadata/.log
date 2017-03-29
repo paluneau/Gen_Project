@@ -1,0 +1,737 @@
+!SESSION 2017-03-29 14:19:46.476 -----------------------------------------------
+eclipse.buildId=4.6.2.M20161124-1400
+java.version=1.8.0_121
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_CA
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.e4.ui.di 2 0 2017-03-29 14:20:48.468
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.e4.ui.di.events
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.e4.ui.internal.di.UIEventObjectSupplier
+	state = Unsatisfied
+	properties = {dependency.injection.annotation=org.eclipse.e4.ui.di.UIEventTopic}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier]
+	references = null
+	located in bundle = org.eclipse.e4.ui.di_1.1.0.v20150422-0725 [1854]
+]
+Component2: Component[
+	name = org.eclipse.e4.ui.di.events
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.e4.ui.internal.di.UIEventObjectSupplier
+	state = Unsatisfied
+	properties = {dependency.injection.annotation=org.eclipse.e4.ui.di.UIEventTopic}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.e4.core.di.suppliers.ExtendedObjectSupplier]
+	references = {
+		Reference[name = EventAdmin, interface = org.osgi.service.event.EventAdmin, policy = static, cardinality = 1..1, target = null, bind = setEventAdmin, unbind = null]
+	}
+	located in bundle = org.eclipse.e4.ui.di_1.1.100.v20160506-0759 [1283]
+]  
+
+!ENTRY org.eclipse.equinox.event 2 0 2017-03-29 14:20:48.470
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.equinox.event
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.equinox.internal.event.EventComponent
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.osgi.service.event.EventAdmin]
+	references = null
+	located in bundle = org.eclipse.equinox.event_1.3.100.v20140115-1647 [1879]
+]
+Component2: Component[
+	name = org.eclipse.equinox.event
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.equinox.internal.event.EventComponent
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.osgi.service.event.EventAdmin]
+	references = null
+	located in bundle = org.eclipse.equinox.event_1.3.200.v20160324-1850 [1349]
+]  
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2017-03-29 14:20:48.472
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.equinox.p2.transport.ecf
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.equinox.internal.p2.transport.ecf.ECFTransportComponent
+	state = Unsatisfied
+	properties = {p2.agent.servicename=org.eclipse.equinox.internal.p2.repository.Transport}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.equinox.p2.core.spi.IAgentServiceFactory]
+	references = null
+	located in bundle = org.eclipse.equinox.p2.transport.ecf_1.1.100.v20150521-1342 [1883]
+]
+Component2: Component[
+	name = org.eclipse.equinox.p2.transport.ecf
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.equinox.internal.p2.transport.ecf.ECFTransportComponent
+	state = Unsatisfied
+	properties = {p2.agent.servicename=org.eclipse.equinox.internal.p2.repository.Transport}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.equinox.p2.core.spi.IAgentServiceFactory]
+	references = null
+	located in bundle = org.eclipse.equinox.p2.transport.ecf_1.1.201.v20161115-1927 [1377]
+]  
+
+!ENTRY org.eclipse.fx.core 2 0 2017-03-29 14:20:48.485
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.core.internal.JAXBObjectSerializer
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.core.internal.JAXBObjectSerializer
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.core.ObjectSerializer]
+	references = null
+	located in bundle = org.eclipse.fx.core_2.4.0.201605111715 [2179]
+]
+Component2: Component[
+	name = org.eclipse.fx.core.internal.JAXBObjectSerializer
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.core.internal.JAXBObjectSerializer
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.core.ObjectSerializer]
+	references = null
+	located in bundle = org.eclipse.fx.core_2.1.0.201508240602 [1889]
+]  
+
+!ENTRY org.eclipse.fx.core 2 0 2017-03-29 14:20:48.486
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	configuration-pid = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.core.log.LoggerFactory]
+	references = {
+		Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+	}
+	located in bundle = org.eclipse.fx.core_2.4.0.201605111715 [2179]
+]
+Component2: Component[
+	name = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	configuration-pid = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.core.internal.JUtilLoggerFactory
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.core.log.LoggerFactory]
+	references = {
+		Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+	}
+	located in bundle = org.eclipse.fx.core_2.1.0.201508240602 [1889]
+]  
+
+!ENTRY org.eclipse.fx.ide.css.cssext.proposals 2 0 2017-03-29 14:20:48.490
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.css.cssext.proposals.PaintProposalContributor
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.css.cssext.proposals.internal.paint.PaintProposalContributer
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.css.cssext.proposal.CssExtProposalContributor]
+	references = null
+	located in bundle = org.eclipse.fx.ide.css.cssext.proposals_2.4.0.201605112122 [2185]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.css.cssext.proposals.PaintProposalContributor
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.css.cssext.proposals.internal.paint.PaintProposalContributer
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.css.cssext.proposal.CssExtProposalContributor]
+	references = null
+	located in bundle = org.eclipse.fx.ide.css.cssext.proposals_2.1.0.201508240705 [1895]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.494
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.manifest
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.BundleManifestGenerator
+	state = Unsatisfied
+	properties = {type=bundle-manifest}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.manifest
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.BundleManifestGenerator
+	state = Unsatisfied
+	properties = {type=bundle-manifest}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.494
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.pluginxml
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.PluginXMLGenerator
+	state = Unsatisfied
+	properties = {type=bundle-plugin-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.pluginxml
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.PluginXMLGenerator
+	state = Unsatisfied
+	properties = {type=bundle-plugin-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.495
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.buildprops
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.BuildPropertiesGenerator
+	state = Unsatisfied
+	properties = {type=bundle-build-properties}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.buildprops
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.BuildPropertiesGenerator
+	state = Unsatisfied
+	properties = {type=bundle-build-properties}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.495
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.def_projecthandler
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.DefaultProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.def_projecthandler
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.DefaultProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.496
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.bundle_projecthandler
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.BundleProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.bundle_projecthandler
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.BundleProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.496
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.rrobot
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.RRobotImpl
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.RRobot]
+	references = {
+		Reference[name = ProjectHandler, interface = org.eclipse.fx.ide.rrobot.ProjectHandler, policy = dynamic, cardinality = 0..n, target = null, bind = addProjectHandler, unbind = removeProjectHandler]
+	}
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.rrobot
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.RRobotImpl
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.RRobot]
+	references = {
+		Reference[name = ProjectHandler, interface = org.eclipse.fx.ide.rrobot.ProjectHandler, policy = dynamic, cardinality = 0..n, target = null, bind = addProjectHandler, unbind = removeProjectHandler]
+	}
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.497
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.feature
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.FeatureProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.feature
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.FeatureProjectHandler
+	state = Unsatisfied
+	properties = 
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.ProjectHandler]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.497
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.featurexml
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.FeatureGenerator
+	state = Unsatisfied
+	properties = {type=feature-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.featurexml
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.FeatureGenerator
+	state = Unsatisfied
+	properties = {type=feature-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.498
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.productgen
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.ProductGenerator
+	state = Unsatisfied
+	properties = {type=bundle-product}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.productgen
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.ProductGenerator
+	state = Unsatisfied
+	properties = {type=bundle-product}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.498
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.javafx_exec
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.dynamic.JavaExecutor
+	state = Unsatisfied
+	properties = {executabletype=java}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.javafx_exec
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.dynamic.JavaExecutor
+	state = Unsatisfied
+	properties = {executabletype=java}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.498
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.js-boolean-exec
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.expr.JSBooleanExpressionExec
+	state = Unsatisfied
+	properties = {executabletype=javascript}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.BooleanExpressionExecutor]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.js-boolean-exec
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.expr.JSBooleanExpressionExec
+	state = Unsatisfied
+	properties = {executabletype=javascript}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.BooleanExpressionExecutor]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.fx.ide.rrobot 2 0 2017-03-29 14:20:48.499
+!MESSAGE [SCR] Found components with duplicated names! Details: 
+Component1 : Component[
+	name = org.eclipse.fx.ide.rrobot.componentgen
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.DSComponentGenerator
+	state = Unsatisfied
+	properties = {type=ds-component-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.4.0.201605112122 [2205]
+]
+Component2: Component[
+	name = org.eclipse.fx.ide.rrobot.componentgen
+	activate = activate
+	deactivate = deactivate
+	modified = 
+	configuration-policy = optional
+	factory = null
+	autoenable = true
+	immediate = false
+	implementation = org.eclipse.fx.ide.rrobot.impl.generators.DSComponentGenerator
+	state = Unsatisfied
+	properties = {type=ds-component-xml}
+	serviceFactory = false
+	serviceInterface = [org.eclipse.fx.ide.rrobot.model.task.Generator]
+	references = null
+	located in bundle = org.eclipse.fx.ide.rrobot_2.1.0.201508240705 [1913]
+]  
+
+!ENTRY org.eclipse.jface 2 0 2017-03-29 14:21:38.261
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2017-03-29 14:21:38.262
+!MESSAGE A conflict occurred for CTRL+F4:
+Binding(CTRL+F4,
+	ParameterizedCommand(Command(org.eclipse.ui.file.close,Close,
+		Close the active editor,
+		Category(org.eclipse.ui.category.file,File,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@4c0f0108,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+F4,
+	ParameterizedCommand(Command(org.scala.tools.eclipse.search.commands.OpenTypeHierarchy,Open Type Hierarchy,
+		Open Type Hierarchy,
+		Category(org.scala.tools.eclipse.search.commands,Search - Scala,Search - Scala,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@728b4997,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.egit.ui 2 0 2017-03-29 14:21:43.741
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'U:\'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-03-29 14:23:06.175
+!MESSAGE Could not bind a reference of component org.eclipse.fx.core.internal.JUtilLoggerFactory. The reference is: Reference[name = registerHandler, interface = java.util.logging.Handler, policy = dynamic, policy-option = greedy, cardinality = 0..n, target = null, bind = registerHandler, unbind = unregisterHandler, updated = null]
+
+!ENTRY org.eclipse.equinox.ds 1 0 2017-03-29 14:24:23.774
+!MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:38:05.761
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:38:05.761
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:38:05.813
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:38:05.814
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:46:11.444
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2017-03-29 14:46:11.445
+!MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
