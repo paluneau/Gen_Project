@@ -2,6 +2,8 @@ package modele.phenotype;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.paint.Color;
+import modele.genome.SkinColor;
 
 public class Face {
 
@@ -11,6 +13,7 @@ public class Face {
 	private Mouth mouth = null;
 	private Nose nose = null;
 	private Sourcils sourcils = null;
+	private SkinColor skinColor = null;
 
 	public double hauteurVisage;
 	public DoubleProperty hauteurVisageProp = new SimpleDoubleProperty();
@@ -105,6 +108,14 @@ public class Face {
 
 	public void setLargeurVisageProp(DoubleProperty largeurVisageProp) {
 		this.largeurVisageProp = largeurVisageProp;
+	}
+
+	public SkinColor getSkinColor() {
+		return skinColor;
+	}
+
+	public void setSkinColor(SkinColor skinColor) {
+		this.skinColor = skinColor;
 	}
 
 }

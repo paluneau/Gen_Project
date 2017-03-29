@@ -126,17 +126,21 @@ public class SNP {
 			result = Allele.S;
 		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
 			result = Allele.W;
-			//
 		} else if ((set.contains(Allele.Y) && set.contains(Allele.G))
 				|| (set.contains(Allele.S) && set.contains(Allele.T))
 				|| (set.contains(Allele.K) && set.contains(Allele.C))) {
 			result = Allele.B;
-		} else if ((set.contains(Allele.R) || set.contains(Allele.W) || set.contains(Allele.K))
-				&& set.contains(Allele.G)) {
+		} else if ((set.contains(Allele.R) && set.contains(Allele.T))
+				|| (set.contains(Allele.W) && set.contains(Allele.G))
+				|| (set.contains(Allele.K) && set.contains(Allele.A))) {
 			result = Allele.D;
-		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+		} else if ((set.contains(Allele.M) && set.contains(Allele.T))
+				|| (set.contains(Allele.W) && set.contains(Allele.C))
+				|| (set.contains(Allele.Y) && set.contains(Allele.A))) {
 			result = Allele.H;
-		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+		} else if ((set.contains(Allele.R) && set.contains(Allele.C))
+				|| (set.contains(Allele.M) && set.contains(Allele.G))
+				|| (set.contains(Allele.S) && set.contains(Allele.A))) {
 			result = Allele.V;
 		} else {
 			result = Allele.N;
