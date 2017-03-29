@@ -9,8 +9,9 @@ public class Face {
 	private Hair hair = null;
 	private Mouth mouth = null;
 	private Nose nose = null;
-	private Sourcils LSourcils = null;
+  private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
+	private SkinColor skinColor = null;
 
 	public double hauteurVisage;
 
@@ -121,4 +122,11 @@ public class Face {
 		this.largeurVisage = largeurVisage;
 	}
 
+	public SkinColor getSkinColor() {
+		return skinColor;
+	}
+
+	public void setSkinColor(SkinColor skinColor) {
+		this.skinColor = skinColor;
+	}
 }

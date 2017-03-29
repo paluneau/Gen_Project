@@ -104,14 +104,13 @@ public class SNP {
 	 *            Nouvel allèle
 	 * @return Le caractère qui convient
 	 */
+	//TODO TROUVER UNE FACON MOINS BATARD
 	private Allele getWildCard(Allele x, Allele y) {
 		Allele result = null;
 		Set<Allele> set = new HashSet<Allele>();
 		set.add(x);
 		set.add(y);
 
-		// TODO Rajouter encore des wildcards possibles pour avoir jusqu'à trois
-		// variations du SNP
 		if (x.equals(y)) {
 			result = x;
 		} else if (set.contains(Allele.A) && set.contains(Allele.G)) {
@@ -126,17 +125,21 @@ public class SNP {
 			result = Allele.S;
 		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
 			result = Allele.W;
-			//
 		} else if ((set.contains(Allele.Y) && set.contains(Allele.G))
 				|| (set.contains(Allele.S) && set.contains(Allele.T))
 				|| (set.contains(Allele.K) && set.contains(Allele.C))) {
 			result = Allele.B;
-		} else if ((set.contains(Allele.R) || set.contains(Allele.W) || set.contains(Allele.K))
-				&& set.contains(Allele.G)) {
+		} else if ((set.contains(Allele.R) && set.contains(Allele.T))
+				|| (set.contains(Allele.W) && set.contains(Allele.G))
+				|| (set.contains(Allele.K) && set.contains(Allele.A))) {
 			result = Allele.D;
-		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+		} else if ((set.contains(Allele.M) && set.contains(Allele.T))
+				|| (set.contains(Allele.W) && set.contains(Allele.C))
+				|| (set.contains(Allele.Y) && set.contains(Allele.A))) {
 			result = Allele.H;
-		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
+		} else if ((set.contains(Allele.R) && set.contains(Allele.C))
+				|| (set.contains(Allele.M) && set.contains(Allele.G))
+				|| (set.contains(Allele.S) && set.contains(Allele.A))) {
 			result = Allele.V;
 		} else {
 			result = Allele.N;

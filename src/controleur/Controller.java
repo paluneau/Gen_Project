@@ -20,6 +20,7 @@ import modele.DNACreator;
 import modele.MusicPlayer;
 import modele.genome.Chromosome;
 import modele.phenotype.EyeColor;
+import modele.phenotype.SkinColor;
 import utils.FastaExporter;
 import vue.FichierChooser;
 import vue.MessageAlert;
@@ -71,9 +72,11 @@ public class Controller {
 	@FXML
 	private ChoiceBox<String> choiceBoxCouleurCheveux;
 
-	// TODO Est-ce legit de ne pas mettre des strings?
 	@FXML
 	private ChoiceBox<EyeColor> choiceBoxYeux;
+
+	@FXML
+	private ChoiceBox<SkinColor> choiceBoxSkin;
 
 	@FXML
 	private Pane pane3D;
@@ -90,8 +93,6 @@ public class Controller {
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
-
-	private FichierChooser directoryChooser;
 
 	@FXML
 	public void initialize() {
@@ -128,6 +129,17 @@ public class Controller {
 			list.add(c);
 		}
 		choiceBoxYeux.setItems(list);
+	}
+
+	/**
+	 * Met les éléments dans la ChoiceBox pour la couleur des yeux.
+	 */
+	private void buildSkinColorBox() {
+		ObservableList<SkinColor> list = FXCollections.observableArrayList();
+		for (SkinColor c : SkinColor.values()) {
+			list.add(c);
+		}
+		choiceBoxSkin.setItems(list);
 	}
 
 	// Va contenir les multiples �couteurs
@@ -270,13 +282,17 @@ public class Controller {
 	 */
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		boolean error = modeDNA();
 
-		if (!error) {
-			FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
-		} else {
-			new MessageAlert("Échec de l'exportation");
+		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		
+		if (directoryChooser.getFichierChoisi() != null) {
+			boolean error = modeDNA();
+			if (!error) {
+				FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+			} else {
+				new MessageAlert("Échec de l'exportation");
+			}
+
 		}
 
 	}
@@ -300,7 +316,7 @@ public class Controller {
 	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
 	}
 

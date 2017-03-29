@@ -22,6 +22,7 @@ public class DNACreator {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
 			this.face = f;
+			updateDNA();
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
 		}
@@ -55,6 +56,7 @@ public class DNACreator {
 	 * Met le SNP des yeux bruns
 	 */
 	private void setBrownEyeGene() {
+
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 		}
@@ -152,6 +154,22 @@ public class DNACreator {
 		}
 	}
 
+	private void setEyeSkinGene() {
+		switch (face.getSkinColor()) {
+		case LIGHT:
+			setLightSkinGene();
+			setNonDarkSkinGene();
+			break;
+		case MEDIUM:
+			setNonDarkSkinGene();
+			setNonLightSkinGene();
+			break;
+		case DARK:
+			setNonLightSkinGene();
+			break;
+		}
+	}
+
 	/**
 	 * Met le SNP de la peau pâle
 	 */
@@ -169,7 +187,7 @@ public class DNACreator {
 			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
 		}
 	}
-	
+
 	/**
 	 * Met le SNP de la peau non-foncée
 	 */
