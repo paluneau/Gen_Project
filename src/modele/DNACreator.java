@@ -123,7 +123,6 @@ public class DNACreator {
 		}
 	}
 
-	// TODO certains SNPs servent pour les yeux et pour la peau en même temps.
 	/**
 	 * Met le SNP des yeux non-bruns
 	 */
@@ -171,6 +170,18 @@ public class DNACreator {
 	private void setNonLightSkinGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
+		}
+	}
+	
+	/**
+	 * Met le SNP de la peau non-foncée
+	 */
+	private void setNonDarkSkinGene() {
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1545397.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1545397.getId()).setAllele(Allele.T);
+		}
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
 		}
 	}
 

@@ -42,11 +42,13 @@ public class SNP {
 		List<Character> ls = new ArrayList<>();
 
 		for (Allele a : Allele.values()) {
-			ls.add(new Character(a.getPrimarySymbol()));
-			ls.add(new Character(a.getSecondarySymbol()));
+			if (!a.isWildCard()) {
+				ls.add(new Character(a.getPrimarySymbol()));
+				ls.add(new Character(a.getSecondarySymbol()));
+			}
 		}
 		ls.add(new Character(' '));
-		ls.remove(new Character('N'));
+
 		return ls;
 	}
 
@@ -68,16 +70,49 @@ public class SNP {
 		boolean replaced = false;
 		int size = seqModel.length();
 
-		for (int i = 0; i < size; i++) {
-			Character current = new Character(seqModel.charAt(i));
-			if (replaced || chrAllele.contains(current)) {
-				seq += current.toString();
-			} else {
-				seq += new Character(getAllele().getPrimarySymbol()).toString();
-				this.varPos = i;
-				replaced = true;
+		if (seq.isEmpty()) {
+			for (int i = 0; i < size; i++) {
+				Character current = new Character(seqModel.charAt(i));
+				if (replaced || chrAllele.contains(current)) {
+					seq += current.toString();
+				} else {
+					seq += new Character(getAllele().getPrimarySymbol()).toString();
+					this.varPos = i;
+					replaced = true;
+				}
 			}
+		} else {
+			char courant = seq.charAt(getVarPos());
+			char latest = getAllele().getPrimarySymbol();
+			this.allele = getWildCard(Allele.valueOf(Character.toString(courant)),
+					Allele.valueOf(Character.toString(latest)));
+			char[] letters = getSeq().toCharArray();
+			letters[getVarPos()] = getAllele().getPrimarySymbol();
+			this.seq = new String(letters);
 		}
+	}
+
+	private Allele getWildCard(Allele x, Allele y) {
+		Allele result = null;
+
+		if (x.equals(y)) {
+			result = x;
+		} else if ((x.equals(Allele.A) && y.equals(Allele.G)) || (x.equals(Allele.G) && y.equals(Allele.A))) {
+			result = Allele.R;
+		} else if ((x.equals(Allele.C) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.C))) {
+			result = Allele.Y;
+		} else if ((x.equals(Allele.G) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.G))) {
+			result = Allele.K;
+		} else if ((x.equals(Allele.A) && y.equals(Allele.C)) || (x.equals(Allele.C) && y.equals(Allele.A))) {
+			result = Allele.M;
+		} else if ((x.equals(Allele.C) && y.equals(Allele.G)) || (x.equals(Allele.G) && y.equals(Allele.C))) {
+			result = Allele.S;
+		} else if ((x.equals(Allele.A) && y.equals(Allele.T)) || (x.equals(Allele.T) && y.equals(Allele.A))) {
+			result = Allele.W;
+		} else {
+			result = Allele.N;
+		}
+		return result;
 	}
 
 }

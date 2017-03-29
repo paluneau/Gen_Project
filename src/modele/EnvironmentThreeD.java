@@ -47,7 +47,7 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/tests/cube.obj";
+	private static final String URL = "/obj/facegroupes.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
@@ -155,7 +155,7 @@ public class EnvironmentThreeD {
 		/*
 		 * Ce point là se fait binder sa position. index du set(X=2,Y=0,Z=1)
 		 */
-		for (int i = 0; i < points.size() / 6; i++) {
+		/*for (int i = 0; i < points.size() / 6; i++) {
 			points.set(2 + (3 * i), coordonnatesX.floatValue());
 		}
 		for (int i = 2; i < 2 + (reader.getMesh().getPoints().size() / 6); i++) {
@@ -166,7 +166,7 @@ public class EnvironmentThreeD {
 		points.set(1 + (3 * 2), coordonnatesZ.floatValue());
 		points.set(1 + (3 * 5), coordonnatesZ.floatValue());
 		points.set(1 + (3 * 6), coordonnatesZ.floatValue());
-
+*/
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
