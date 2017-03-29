@@ -18,6 +18,15 @@ public class Face {
 	public double largeurVisage;
 	public DoubleProperty largeurVisageProp = new SimpleDoubleProperty();
 
+	public Face() {
+		ear = new Ear();
+		eye = new Eye(EyeColor.BROWN, 0, 0);
+		hair = new Hair();
+		mouth = new Mouth();
+		nose = new Nose();
+		sourcils = new Sourcils();
+	}
+
 	public Ear getEar() {
 		return ear;
 	}
