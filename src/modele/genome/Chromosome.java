@@ -29,7 +29,6 @@ public class Chromosome {
 			this.dataSrcPath = generatePath();
 			this.snips = new ArrayList<>();
 			System.out.println(dataSrcPath);
-			this.srcFile = new File(getClass().getResource(dataSrcPath).toURI());
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
@@ -43,7 +42,7 @@ public class Chromosome {
 	 * @return le chemin d'acc�s
 	 */
 	private String generatePath() {
-		return "/fasta/chr_" + getName().toUpperCase() + ".fas";
+		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
 
 	public String getName() {
@@ -59,22 +58,29 @@ public class Chromosome {
 	 *             si la syntaxe du path est invalide
 	 */
 	public void loadSNPs() throws IOException, URISyntaxException {
-		try {
 
-			FastaSequenceReader fsr = (altSrcFile == null) ? new FastaSequenceReader(srcFile, wntdSNPs)
-					: new FastaSequenceReader(new File(altSrcFile + "/" + dataSrcPath), wntdSNPs);
+		FastaSequenceReader fsr = null;
 
-			Map<String, String> sequences = fsr.getSequences();
-			Iterator<String> keyIterator = sequences.keySet().iterator();
-
-			while (keyIterator.hasNext()) {
-				String key = keyIterator.next();
-				snips.add(new SNP(key, sequences.get(key)));
+		if (getClass().getResource("/fasta" + dataSrcPath) == null) {
+			
+			if (Chromosome.altSrcFile == null) {
+				throw new FileNotFoundException("Fichier(s) introuvable(s). Sélectionnez un répertoire contenant tous les fichiers FASTA.");
+			}else{
+				fsr = new FastaSequenceReader(new File(Chromosome.altSrcFile + dataSrcPath), wntdSNPs);
 			}
-		} catch (NullPointerException e) {
-			throw new FileNotFoundException(
-					"FASTA files are not all in the same folder. Select a folder containing every FASTA file.");
+		
+		} else {
+			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
+
+		Map<String, String> sequences = fsr.getSequences();
+		Iterator<String> keyIterator = sequences.keySet().iterator();
+
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			snips.add(new SNP(key, sequences.get(key)));
+		}
+
 	}
 
 	public SNP getSNPByRS(String rs) {

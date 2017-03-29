@@ -1,7 +1,7 @@
 package modele.genome;
 
 public enum Allele {
-	A('A', 'a'), C('C', 'c'), T('T', 't'), G('G', 'g');
+	A('A', 'a'), C('C', 'c'), T('T', 't'), G('G', 'g'), N('N', 'n');
 
 	private char primarySymbol = ' ';
 	private char secondarySymbol = ' ';

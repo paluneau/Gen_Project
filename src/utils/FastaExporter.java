@@ -17,6 +17,7 @@ public class FastaExporter {
 
 		File fichierSave = new File(path + "/GPV - ADN.fas");
 		try {
+			System.out.println(fichierSave);
 			PrintWriter printW = new PrintWriter(new FileWriter(fichierSave));
 			for (String s : adn.getChrSymbols()) {
 				Chromosome[] pairChromo = adn.getChrPair(s);
@@ -32,7 +33,7 @@ public class FastaExporter {
 
 						// printW.println(">GPV | Chromosomes :" + s + ":" + i +
 						// " |allele = " + allele + "| rs = " + rs);
-						printW.println(">GPV | Chromosomes :" + s + ":" + (i + 1) + "| rs = " + rs);
+						printW.println(">GPV | Chromosome " + s + "." + (i + 1) + "| rs = " + rs);
 						printW.println(sequence);
 						printW.println();
 

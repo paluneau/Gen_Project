@@ -282,24 +282,34 @@ public class Controller {
 		return this.player;
 	}
 
-	private void modeDNA() {
+	private boolean modeDNA() {
+		boolean flagError = false;
 		try {
 			this.dNACreator = new DNACreator(envirnm.getFace());
 		} catch (ConstructionException | IOException | URISyntaxException e) {
-			// TODO le programme quitte tout seul à cause qu'il trouve pas le
-			// fichier du chromosome 14 quand il part
 			File newFolder = alertAndChooseFile(e.getMessage());
 			Chromosome.setAltSrcFile(newFolder);
-			modeDNA();
+			try {
+				this.dNACreator = new DNACreator(envirnm.getFace());
+			} catch (ConstructionException | IOException | URISyntaxException e1) {
+				new MessageAlert("Impossible de trouver le(s) fichier(s).");
+				flagError = true;
+			}
 		}
+		return flagError;
 	}
 
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
-		// TODO - Tester si getAbsolutePath() est mieux de getPath(), juste voir
-		// lequel marche
+		boolean error = modeDNA();
+
+		if (!error) {
+			directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+			FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+		} else {
+			new MessageAlert("Échec de l'exportation");
+		}
+
 	}
 
 	@FXML
