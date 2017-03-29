@@ -1,0 +1,31 @@
+gnl|dbSNP|rs3894 rs=3894|pos=201|len=401|taxid=9606|mol="genomic"|class=1|alleles="C/T"|build=147|suspect=?|GMAF=A:1233:0.027575
+ATAAGCAAAT AACTGAAGTT TAATCAGTCT CCTCCCAGCA AGTGATATGC AACTGAGATT CCTTATGACA CATCTGAACA
+CTAGTGGATT TGCTTTGTAG TAGGAACAAG GTACATTCGC GGGATAAATG TGGCCAAGTT TTATCTGCTG CCAGGGCTTT
+CAAATAGGTT GACCTGACAA TGGGTCACCT CTGGGACTGA 
+Y
+AATTAGGAAG AGCTGGTACC TAAAATGAAA GATGCCCTTA AATTTCAGAT TCACAATTTT TTTTTCTTAG TATAAGCATG
+TCCCATGTAA TATCTGGGAT ATACTCATAC CTTTAAAAAT GTGCTCATTG TTTATCTGAA ATTCACATTT TAACAGGGAA
+CCATTGTTTT GTTATTGTTT ATTGTTTTGT TTCTAAATAA 
+
+>gnl|dbSNP|rs3895 rs=3895|pos=88|len=273|taxid=9606|mol="genomic"|class=1|alleles="A/G"|build=36|suspect=?
+tcctaggtta tgattacaga gcgaggatta ttataatatt ggaataaaga ataattgcta caaactaatg attaatgata
+ttcatat
+R
+taatcatatc taagatctat atctagtata actattctta ttttatatat tttattgtac tggaacagct tgtgcccttg
+gtctcttgcc tcggcacctg ggtggcttgc catccacaGA AGTGTTTTAA CAGCAAAAAT TACTGTGAAT TTTCTGCCCA
+AAACCTTGTC ATGTTTACAA GACGT
+
+>gnl|dbSNP|rs3896 rs=3896|pos=73|len=322|taxid=9606|mol="genomic"|class=1|alleles="C/T"|build=147|suspect=?
+gggtttatac tgacctgcca atgttaaaag ggacctaaat tcactttggg gaagtggcca gaaaggaaga ag
+Y
+agaaggagaa gagtgcaaga aacctccagt tgtgggggtt gagcctccag gataagaaag aaagaaatct ccagtagggg
+ggattgagcc taacacaaac ctttggtaat agacaaggca agacatttcc aataggggag attgagtgtc acctcaaaac
+tattaagatg ggaaataccc caggtaagat agagggtaaa aaaggataaa gctagcagca ataacattcc ccctgaaagt
+tcCCAATAA
+
+>gnl|dbSNP|rs3897 rs=3897|pos=37|len=218|taxid=9606|mol="genomic"|class=1|alleles="C/T"|build=147|suspect=?
+CACTACCACA TTTCTGGTTG GCTTGTAGTT CTTTCT
+Y
+GGAAAAATAT TATTCTAATT TCCTTATAGT ATTAGCCATC AAAGTAGGGG AAGCAGATCA AATCTACCAT AAGACCAAGT
+CATAGGAAGA AGATCAAATT AAGATGCTAG GCAAAAGTCT CAGCACATAT GGATTATGAG AAGCACATTC ACACATCCAA
+ACTCAAAGAA TGGACTCAGC G
