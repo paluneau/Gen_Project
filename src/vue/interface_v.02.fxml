@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
@@ -156,25 +156,10 @@
       <MenuBar prefHeight="25.0" prefWidth="516.0" BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="Fichier">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Édition">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Importer">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#ouvrirModeADN" text="Mode ADN" />
                </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Exporter">
-               <items>
-                  <MenuItem fx:id="exportButton" mnemonicParsing="false" onAction="#ouvrirDirectoryChooser" text="Exporter Visage" />
-               </items>
-            </Menu>
+          </Menu>
             <Menu mnemonicParsing="false" text="Musique">
                <items>
                   <CheckMenuItem fx:id="muteButton" mnemonicParsing="false" onAction="#mutePlayer" selected="true" text="Playing" />
