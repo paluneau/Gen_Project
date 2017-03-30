@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlModeADN">
+   <children>
+      <MenuBar layoutY="2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="384.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Exporter">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#ouvrirDirectoryChooser" text="Exporter ADN" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Accordion layoutY="27.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="446.0" prefWidth="384.0">
+        <panes>
+            <TitledPane animated="false" text="Oreille">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoOreille" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleOreille" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSOreille" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqOreille" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+          <TitledPane animated="false" text="Yeux">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoYeux" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleYeux" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSYeux" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqYeux" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Visage">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoVisage" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleVisage" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSVisage" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqVisage" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+          </TitledPane>
+            <TitledPane animated="false" text="Cheveux">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoCheveux" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleCheveux" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSCheveux" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqCheveux" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="Bouche">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoBouche" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleBouche" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSBouche" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqBouche" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="Nez">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoNez" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleNez" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSNez" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqNez" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="Peau">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoPeau" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAllelePeau" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSPeau" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqPeau" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="Sourcils">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" text="Chromosome :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="31.0" text="Allèle :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="48.0" text="RS :" underline="true">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="18.0" layoutY="76.0" text="Séquence :" underline="true">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelChromoSourcils" layoutX="96.0" layoutY="14.0" text="labelChromo" />
+                        <Label fx:id="labelAlleleSourcils" layoutX="55.0" layoutY="31.0" text="labelall" />
+                        <Label fx:id="labelRSSourcils" layoutX="39.0" layoutY="48.0" text="labelRs" />
+                        <Label fx:id="labelSeqSourcils" layoutX="82.0" layoutY="76.0" text="labelSeq" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</Pane>
