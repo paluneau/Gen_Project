@@ -39,10 +39,9 @@ public class FastaExporter {
 			}
 			printW.close();
 		} catch (IOException e) {
-			//TODO Gérer l'exception autrement
+			// TODO Gérer l'exception autrement
 			System.out.println(e);
 		}
 
 	}
-
 }
