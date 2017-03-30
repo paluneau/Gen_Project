@@ -9,13 +9,13 @@ public class Face {
 	private Hair hair = null;
 	private Mouth mouth = null;
 	private Nose nose = null;
-  private Sourcils LSourcils = null;
+	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
 
-	public double hauteurVisage;
-
-	public double largeurVisage;
+	private double hauteurVisage = 0;
+	private double largeurVisage = 0;
+	private float distanceYeux = 0;
 
 	public Face() {
 		LEar = new Ear();
@@ -60,10 +60,11 @@ public class Face {
 	public void setREye(Eye eye) {
 		this.REye = eye;
 	}
-	
+
 	public void setEyeDistance(float distance) {
-		this.LEye.updateDistanceNez(-distance);
-		this.REye.updateDistanceNez(distance);
+		this.distanceYeux = distance;
+		this.LEye.updateDistanceNez(-distanceYeux / 2);
+		this.REye.updateDistanceNez(distanceYeux / 2);
 	}
 
 	public Hair getHair() {
