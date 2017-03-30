@@ -23,6 +23,7 @@ public class CtrlModeADN {
 
 	public void createFenetreModeADN(EnvironmentThreeD envirnm) {
 		this.envirnm = envirnm;
+		modeDNA();
 	}
 
 	/**
@@ -58,7 +59,7 @@ public class CtrlModeADN {
 		try {
 			dNACreator = new DNACreator(envirnm.getFace());
 		} catch (IOException e) {
-			File newFolder = alertAndChooseFile(e.getMessage(), pane);
+			File newFolder = alertAndChooseFile(e.getMessage());
 			Chromosome.setAltSrcFile(newFolder);
 
 			try {
@@ -88,9 +89,9 @@ public class CtrlModeADN {
 	 *            le message a afficher
 	 * @return le path du dossier sélectionné
 	 */
-	private File alertAndChooseFile(String message, Pane owner) {
+	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(owner.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
 	}
 }

@@ -42,7 +42,6 @@ public class GenomicApplication extends Application {
 					try {
 						FXMLLoader loader = new FXMLLoader(getClass().getResource("/vue/ModeADN.fxml"));
 						Pane pane = (Pane) loader.load();
-						((CtrlModeADN) loader.getController()).createFenetreModeADN(c.getEnvirnm());
 						Stage stage = new Stage();
 						Scene scene = new Scene(pane);
 						stage.setScene(scene);
@@ -50,6 +49,7 @@ public class GenomicApplication extends Application {
 						stage.setTitle("Mode ADN");
 						stage.setScene(scene);
 						stage.show();
+						((CtrlModeADN) loader.getController()).createFenetreModeADN(c.getEnvirnm());
 						c.modeADN.set(false);
 					} catch (IOException e) {
 						e.printStackTrace();
