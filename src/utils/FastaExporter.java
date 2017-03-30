@@ -10,11 +10,6 @@ import modele.genome.SNP;
 
 public class FastaExporter {
 
-	/**
-	 * Sauvegarder en format FASTA (.fas) les informations tiré du modèle dans un fichier texte
-	 * @param adn
-	 * @param path
-	 */
 	public static void sauvegarder(DNA adn, String path) {
 
 		File fichierSave = new File(path + "/GPV - ADN.fas");
@@ -44,10 +39,9 @@ public class FastaExporter {
 			}
 			printW.close();
 		} catch (IOException e) {
-			//TODO Gérer l'exception autrement
+			// TODO Gérer l'exception autrement
 			System.out.println(e);
 		}
 
 	}
-
 }
