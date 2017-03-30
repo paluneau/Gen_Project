@@ -1,10 +1,8 @@
 ﻿package controleur;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import javafx.collections.ObservableList;
-import exception.ConstructionException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,18 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
-import modele.DNACreator;
 import modele.MusicPlayer;
-import modele.genome.Chromosome;
 import modele.phenotype.EyeColor;
 import modele.phenotype.SkinColor;
-import utils.FastaExporter;
-import vue.FichierChooser;
-import vue.MessageAlert;
 
 public class Controller {
 
@@ -82,17 +74,14 @@ public class Controller {
 	private Pane pane3D;
 
 	@FXML
-	private MenuItem exportButton;
-
-	@FXML
 	private CheckMenuItem muteButton;
-
-	private DNACreator dNACreator = null;
 
 	// TODO Integrate with the Human class
 	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
 
 	private MusicPlayer player = null;
+
+	public BooleanProperty modeADN = null;
 
 	@FXML
 	public void initialize() {
@@ -100,6 +89,8 @@ public class Controller {
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
+		modeADN = new SimpleBooleanProperty();
+		modeADN.set(false);
 		buildEyeColorBox();
 		setSlidersValue();
 		ajouterEcouteurs();
@@ -237,64 +228,8 @@ public class Controller {
 		return this.player;
 	}
 
-	/**
-	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
-	 * fichiers à lire sont introuvables
-	 * 
-	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
-	 *         tout est correct
-	 */
-	private boolean modeDNA() {
-		boolean flagError = false;
-
-		try {
-			this.dNACreator = new DNACreator(envirnm.getFace());
-		} catch (IOException e) {
-
-			File newFolder = alertAndChooseFile(e.getMessage());
-			Chromosome.setAltSrcFile(newFolder);
-
-			try {
-				this.dNACreator = new DNACreator(envirnm.getFace());
-			} catch (IOException e1) {
-				new MessageAlert("Impossible de trouver le(s) fichier(s).");
-				flagError = true;
-			} catch (ConstructionException e1) {
-				new MessageAlert(e1.getMessage());
-			} catch (URISyntaxException e1) {
-				new MessageAlert(e1.getMessage());
-			}
-
-		} catch (ConstructionException e) {
-			new MessageAlert(e.getMessage());
-		} catch (URISyntaxException e) {
-			new MessageAlert(e.getMessage());
-		}
-
-		return flagError;
-	}
-
-	/**
-	 * Permet de choisir un fichier du répertoire afin d'enregistrer
-	 * l'exportation de l'ADN
-	 * 
-	 * @param event
-	 */
-	@FXML
-	private void ouvrirDirectoryChooser(ActionEvent event) {
-
-		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		
-		if (directoryChooser.getFichierChoisi() != null) {
-			boolean error = modeDNA();
-			if (!error) {
-				FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
-			} else {
-				new MessageAlert("Échec de l'exportation");
-			}
-
-		}
-
+	public EnvironmentThreeD getEnvirnm() {
+		return envirnm;
 	}
 
 	/**
@@ -307,17 +242,9 @@ public class Controller {
 		getPlayer().changeMute();
 	}
 
-	/**
-	 * Affiche une erreur et ouvre un DirectoryChooser
-	 * 
-	 * @param message
-	 *            le message a afficher
-	 * @return le path du dossier sélectionné
-	 */
-	private File alertAndChooseFile(String message) {
-		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		return directoryChooser.getFichierChoisi();
+	@FXML
+	private void ouvrirModeADN(ActionEvent event) {
+		modeADN.set(true);
 	}
 
 }
