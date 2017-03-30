@@ -12,7 +12,7 @@ public class MusicPlayer {
 	private MediaPlayer mediaPlayer;
 	
 	public MusicPlayer() {
-		resource = getClass().getResource("/sons/Lobo_Loco_-_02_-_Gasriese_Zeta_II_ID_82.mp3");
+		resource = getClass().getResource("/sons/Deus Ex - UNATCO - Headquarters.mp3");
 		Media media = new Media(resource.toString());
 		mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.setOnEndOfMedia(new Runnable() {
