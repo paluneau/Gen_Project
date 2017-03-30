@@ -1,18 +1,22 @@
 package modele.phenotype;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableFloatArray;
 
 public class Eye {
 
-	public EyeColor color;
-	public DoubleProperty distanceProperty = new SimpleDoubleProperty();
-	public DoubleProperty heightProperty = new SimpleDoubleProperty();
+	private EyeColor color;
+	private float largeur = 0;
+	private float height = 0;
+	private ObservableFloatArray iniPoints = null;
+	private ObservableFloatArray pointsUpdater = null;
 
-	public Eye(EyeColor color, double distance, double height) {
+	public Eye(EyeColor color, float largeur, float height) {
 		this.color = color;
-		distanceProperty.set(distance);
-		heightProperty.set(height);
+		setLargeur(largeur);
+		setHeight(height);
+		iniPoints = FXCollections.observableFloatArray();
+		pointsUpdater = FXCollections.observableFloatArray();
 	}
 
 	public EyeColor getCouleurYeux() {
@@ -23,28 +27,35 @@ public class Eye {
 		this.color = eyeColor;
 	}
 
-	public double getDistance() {
-		return this.distanceProperty.get();
+	public float getLargeur() {
+		return this.largeur;
 	}
 
-	public void setDistance(double distance) {
-		this.distanceProperty.set(distance);
+	public void setLargeur(float distance) {
+		this.largeur = distance;
 	}
 
-	public DoubleProperty distanceProperty() {
-		return this.distanceProperty;
+	public float getHeight() {
+		return this.height;
 	}
 
-	public double getHeight() {
-		return this.heightProperty.get();
+	public void setHeight(float height) {
+		this.height = height;
 	}
 
-	public void setHeight(double height) {
-		this.heightProperty.set(height);
+	public void setIniPoints(ObservableFloatArray iniPoints, ObservableFloatArray pointsUpdater) {
+		this.iniPoints = iniPoints;
+		this.pointsUpdater = pointsUpdater;
 	}
 
-	public DoubleProperty heightProperty() {
-		return this.heightProperty;
+	public ObservableFloatArray getPointsUpdater() {
+		return pointsUpdater;
+	}
+
+	public void updateDistanceNez(float distance) {
+		for (int i = 0; i < pointsUpdater.size() / 3; i++) {
+			pointsUpdater.set(2 + (3 * i), iniPoints.get(2 + (3 * i)) + distance);
+		}
 	}
 
 }

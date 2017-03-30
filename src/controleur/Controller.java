@@ -1,13 +1,10 @@
 ﻿package controleur;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import com.sun.xml.internal.messaging.saaj.util.SAAJUtil;
-
 import javafx.collections.ObservableList;
 import exception.ConstructionException;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,7 +18,9 @@ import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
 import modele.DNACreator;
 import modele.MusicPlayer;
+import modele.genome.Chromosome;
 import modele.phenotype.EyeColor;
+import modele.phenotype.SkinColor;
 import utils.FastaExporter;
 import vue.FichierChooser;
 import vue.MessageAlert;
@@ -73,9 +72,11 @@ public class Controller {
 	@FXML
 	private ChoiceBox<String> choiceBoxCouleurCheveux;
 
-	// TODO Est-ce legit de ne pas mettre des strings?
 	@FXML
 	private ChoiceBox<EyeColor> choiceBoxYeux;
+
+	@FXML
+	private ChoiceBox<SkinColor> choiceBoxSkin;
 
 	@FXML
 	private Pane pane3D;
@@ -93,100 +94,30 @@ public class Controller {
 
 	private MusicPlayer player = null;
 
-	private FichierChooser directoryChooser;
-
 	@FXML
 	public void initialize() {
 		this.player = new MusicPlayer();
-
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
+		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
+		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 		buildEyeColorBox();
 		setSlidersValue();
-		bindingModif();
 		ajouterEcouteurs();
 	}
 
 	private void setSlidersValue() {
-		sliderHauteurVisage.setMin(-3);
-		sliderHauteurVisage.setMax(3);
-		sliderHauteurVisage.setValue(2);
-		sliderLargeurVisage.setMin(-3);
-		sliderLargeurVisage.setMax(3);
-		sliderLargeurVisage.setValue(2);
-		sliderDistanceYeux.setMin(-3);
-		sliderDistanceYeux.setMax(3);
-		sliderDistanceYeux.setValue(-2);
-	}
-
-	// Fait les Binding et rempli les ChoiceBox
-	private void bindingModif() {
-
-		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
-		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
-
-		// FIXME test 3D vectoriel
-		envirnm.getCoordonnatesXProperty().bind(sliderHauteurVisage.valueProperty());
-		envirnm.getCoordonnatesYProperty().bind(sliderLargeurVisage.valueProperty());
-		envirnm.getCoordonnatesZProperty().bind(sliderDistanceYeux.valueProperty());
-
-		sliderHauteurVisage.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		sliderLargeurVisage.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.changementWorld();
-			}
-		});
-
-		// TODO - LES BINDING FONT DES NULLPOINTEREXCEPTION
 		/*
-		 * // Binding du visage
-		 * human.getFace().hauteurVisageProp.bind(sliderHauteurVisage.
-		 * valueProperty());
-		 * human.getFace().largeurVisageProp.bind(sliderLargeurVisage.
-		 * valueProperty());
-		 * 
-		 * // Binding des Oreilles
-		 * human.getFace().getEar().grosseurOreilleProp.bind(
-		 * sliderGrosseurOreilles.valueProperty());
-		 * human.getFace().getEar().hauteurOreilleProp.bind(
-		 * sliderHauteurOreilles.valueProperty());
-		 * 
-		 * // Binding des Yeux
-		 * human.getFace().getEye().distanceYeuxProp.bind(sliderDistanceYeux.
-		 * valueProperty());
-		 * human.getFace().getEye().ecartYeuxProp.bind(sliderEcartYeux.
-		 * valueProperty());
-		 * human.getFace().getEye().hauteurYeuxProp.bind(sliderHauteurYeux.
-		 * valueProperty());
-		 * 
-		 * // Binding de la bouche
-		 * human.getFace().getMouth().finesseBoucheProp.bind(sliderFinesseBouche
-		 * .valueProperty());
-		 * human.getFace().getMouth().hauteurBoucheProp.bind(sliderHauteurBouche
-		 * .valueProperty());
-		 * 
-		 * // Binding du Nez
-		 * human.getFace().getNose().grosseurNezProp.bind(sliderGrosseurNez.
-		 * valueProperty());
-		 * human.getFace().getNose().hauteurNezProp.bind(sliderHauteurNez.
-		 * valueProperty());
-		 * 
-		 * // Binding des Sourcils
-		 * human.getFace().getSourcils().distanceSourcilsProp.bind(
-		 * sliderDistanceSourcils.valueProperty());
-		 * human.getFace().getSourcils().hauteurSourcilsProp.bind(
-		 * sliderHauteurSourcils.valueProperty());
+		 * sliderHauteurVisage.setMin(-3); sliderHauteurVisage.setMax(3);
+		 * sliderHauteurVisage.setValue(2); sliderLargeurVisage.setMin(-3);
+		 * sliderLargeurVisage.setMax(3); sliderLargeurVisage.setValue(2);
+		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
+		 * sliderDistanceYeux.setValue(-2);
 		 */
+		sliderEcartYeux.setMin(-0.2);
+		sliderEcartYeux.setMax(0.2);
+		sliderEcartYeux.setValue(0);
+		sliderDistanceYeux.setMax(0.000000000001);
+		choiceBoxYeux.setValue(EyeColor.BROWN);
 	}
 
 	/**
@@ -200,13 +131,39 @@ public class Controller {
 		choiceBoxYeux.setItems(list);
 	}
 
+	/**
+	 * Met les éléments dans la ChoiceBox pour la couleur des yeux.
+	 */
+	private void buildSkinColorBox() {
+		ObservableList<SkinColor> list = FXCollections.observableArrayList();
+		for (SkinColor c : SkinColor.values()) {
+			list.add(c);
+		}
+		choiceBoxSkin.setItems(list);
+	}
+
 	// Va contenir les multiples �couteurs
 	public void ajouterEcouteurs() {
 
-		choiceBoxYeux.valueProperty().addListener(new ChangeListener<EyeColor>() {
-			@Override
-			public void changed(ObservableValue<? extends EyeColor> observable, EyeColor oldValue, EyeColor newValue) {
-				envirnm.getFace().getEye().setColor(newValue);
+		choiceBoxYeux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EyeColor>() {
+			public void changed(ObservableValue<? extends EyeColor> ov, EyeColor old_val, EyeColor new_val) {
+				envirnm.getFace().getLEye().setColor(new_val);
+				envirnm.getFace().getREye().setColor(new_val);
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setEyeDistance(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.criss = new_val.floatValue();
+				envirnm.changementWorld();
 			}
 		});
 
@@ -280,33 +237,87 @@ public class Controller {
 		return this.player;
 	}
 
-	private void modeDNA() {
+	/**
+	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
+	 * fichiers à lire sont introuvables
+	 * 
+	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
+	 *         tout est correct
+	 */
+	private boolean modeDNA() {
+		boolean flagError = false;
+
 		try {
 			this.dNACreator = new DNACreator(envirnm.getFace());
-		} catch (ConstructionException | IOException | URISyntaxException e) {
-			// TODO le programme quitte tout seul à cause qu'il trouve pas le
-			// fichier du chromosome 14 quand il part
-			alertAndChooseFile(e.getMessage());
+		} catch (IOException e) {
+
+			File newFolder = alertAndChooseFile(e.getMessage());
+			Chromosome.setAltSrcFile(newFolder);
+
+			try {
+				this.dNACreator = new DNACreator(envirnm.getFace());
+			} catch (IOException e1) {
+				new MessageAlert("Impossible de trouver le(s) fichier(s).");
+				flagError = true;
+			} catch (ConstructionException e1) {
+				new MessageAlert(e1.getMessage());
+			} catch (URISyntaxException e1) {
+				new MessageAlert(e1.getMessage());
+			}
+
+		} catch (ConstructionException e) {
+			new MessageAlert(e.getMessage());
+		} catch (URISyntaxException e) {
+			new MessageAlert(e.getMessage());
 		}
+
+		return flagError;
 	}
 
+	/**
+	 * Permet de choisir un fichier du répertoire afin d'enregistrer
+	 * l'exportation de l'ADN
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void ouvrirDirectoryChooser(ActionEvent event) {
-		modeDNA();
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
-		System.out.println(dNACreator.getDna());
-		FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getPath());
+
+		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		
+		if (directoryChooser.getFichierChoisi() != null) {
+			boolean error = modeDNA();
+			if (!error) {
+				FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+			} else {
+				new MessageAlert("Échec de l'exportation");
+			}
+
+		}
 
 	}
 
+	/**
+	 * Permet de "muter" la musique
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void mutePlayer(ActionEvent event) {
 		getPlayer().changeMute();
 	}
 
-	private void alertAndChooseFile(String message) {
+	/**
+	 * Affiche une erreur et ouvre un DirectoryChooser
+	 * 
+	 * @param message
+	 *            le message a afficher
+	 * @return le path du dossier sélectionné
+	 */
+	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane3D.getScene().getWindow());
+		return directoryChooser.getFichierChoisi();
 	}
 
 }

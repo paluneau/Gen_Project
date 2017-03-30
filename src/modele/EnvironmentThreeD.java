@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.SimpleFloatProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
@@ -21,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Face;
@@ -48,20 +47,16 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/tests/cube.obj";
+	private static final String URL = "/obj/face.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
 	 */
 	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
 
-	/**
-	 * Propriété de test contenant la valeur de coordonnée d'un point de l'obj.
-	 * Voir buildObj()
-	 */
-	private FloatProperty coordonnatesX, coordonnatesY, coordonnatesZ;
+	public float criss = 0;
 
-	private ObjImporter reader;
+	private ObjImporter reader = null;
 
 	/**
 	 * Group contenant notre OBJ 3D
@@ -71,12 +66,6 @@ public class EnvironmentThreeD {
 
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
-		coordonnatesX = new SimpleFloatProperty();
-		coordonnatesY = new SimpleFloatProperty();
-		coordonnatesZ = new SimpleFloatProperty();
-		coordonnatesX.setValue(2);
-		coordonnatesY.setValue(2);
-		coordonnatesZ.setValue(-2);
 		objGroup = new ToolsThreeD();
 		face = new Face();
 		scene.setFill(Color.GREY);
@@ -84,27 +73,16 @@ public class EnvironmentThreeD {
 		scene.setCamera(camera);
 		buildImporter();
 		buildCamera();
-		buildObj();
 		buildAxes();
+		buildObj(true);
 		return scene;
+
 	}
 
 	public void changementWorld() {
 		world.getChildren().remove(objGroup);
 		objGroup.getChildren().clear();
-		buildObj();
-	}
-
-	public FloatProperty getCoordonnatesXProperty() {
-		return coordonnatesX;
-	}
-
-	public FloatProperty getCoordonnatesYProperty() {
-		return coordonnatesY;
-	}
-
-	public FloatProperty getCoordonnatesZProperty() {
-		return coordonnatesZ;
+		buildObj(false);
 	}
 
 	public Face getFace() {
@@ -148,51 +126,67 @@ public class EnvironmentThreeD {
 	 * Méthode permettant d'importer les .obj et de les mettre dans notre scène
 	 * world
 	 */
-	private void buildObj() {
-		Set<String> meshes = reader.getMeshes();
-		Map<String, MeshView> mapMeshes = new HashMap<>();
-		ObservableFloatArray points = reader.getMesh().getPoints();
 
-		/*
-		 * Ce point là se fait binder sa position. index du set(X=2,Y=0,Z=1)
-		 */
-		for (int i = 0; i < points.size() / 6; i++) {
-			points.set(2 + (3 * i), coordonnatesX.floatValue());
-		}
-		for (int i = 2; i < 2 + (reader.getMesh().getPoints().size() / 6); i++) {
-			points.set(0 + (3 * i), coordonnatesY.floatValue());
-		}
-
-		points.set(1 + (3 * 1), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 2), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 5), coordonnatesZ.floatValue());
-		points.set(1 + (3 * 6), coordonnatesZ.floatValue());
+	private void buildObj(boolean firstBuild) {
+		Set<String> physionomyGroups = reader.getMeshes();
+		Map<String, MeshView> groupMeshes = new HashMap<>();
 
 		final Affine affineIni = new Affine();
 		affineIni.prepend(new Rotate(-90, Rotate.X_AXIS));
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
-		meshes.stream().forEach(s -> {
-			MeshView cubiePart = reader.buildMeshView(s);
+		physionomyGroups.stream().forEach(s -> {
+			MeshView genomicPart = reader.buildMeshView(s);
+			// TODO Transparent stuff
+			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
-			cubiePart.getTransforms().add(affineIni);
-			/*
-			 * since the model has Ns=0 it doesn't reflect light, so we change
-			 * it to 1
-			 */
+			genomicPart.getTransforms().add(affineIni);
+			ObservableFloatArray points3D = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			// TODO problèmes de matériels
-			PhongMaterial material = (PhongMaterial) cubiePart.getMaterial();
-			material.setSpecularPower(1);
-			cubiePart.setMaterial(material);
-			/*
-			 * finally, add the name of the part and the obj part to the
-			 * hashMap:
-			 */
-			mapMeshes.put(s, cubiePart);
+			if (s.contains("Oeil gauche")) {
+				genomicPart.setMaterial(updateLEye(points3D, firstBuild));
+			}
+			if (s.contains("Oeil droit")) {
+				genomicPart.setMaterial(updateREye(points3D, firstBuild));
+			}
+
+			groupMeshes.put(s, genomicPart);
 		});
 
-		objGroup.getChildren().addAll(mapMeshes.values());
+		objGroup.getChildren().addAll(groupMeshes.values());
 		world.getChildren().add(objGroup);
+
+	}
+
+	private PhongMaterial updateLEye(ObservableFloatArray points, boolean firstBuild) {
+		if (firstBuild) {
+			getFace().getLEye().setIniPoints(createArrayCopy(points), points);
+		}
+
+		points = getFace().getLEye().getPointsUpdater();
+
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		material.setSpecularColor(Color.BLACK);
+		return material;
+	}
+
+	private PhongMaterial updateREye(ObservableFloatArray points, boolean firstBuild) {
+		if (firstBuild) {
+			getFace().getREye().setIniPoints(createArrayCopy(points), points);
+		}
+
+		points = getFace().getREye().getPointsUpdater();
+
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(getFace().getREye().getCouleurYeux().getColor());
+		material.setSpecularColor(getFace().getREye().getCouleurYeux().getColor());
+		return material;
+	}
+
+	private ObservableFloatArray createArrayCopy(ObservableFloatArray original) {
+		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
+		pTemp.addAll(original);
+		return pTemp;
 	}
 
 	private void buildCamera() {
@@ -253,5 +247,4 @@ public class EnvironmentThreeD {
 			}
 		});
 	}
-
 }

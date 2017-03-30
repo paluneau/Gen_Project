@@ -22,6 +22,7 @@ public class DNACreator {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
 			this.face = f;
+			updateDNA();
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
 		}
@@ -55,19 +56,16 @@ public class DNACreator {
 	 * Met le SNP des yeux bruns
 	 */
 	private void setBrownEyeGene() {
-		if (face.getEye().getCouleurYeux().equals(Color.BROWN)) {
 
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
-			}
-
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
-			}
-
-			setNotBlueEyeGene();
-
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
 		}
+
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
+		}
+
+		setNotBlueEyeGene();
 	}
 
 	/**
@@ -124,7 +122,6 @@ public class DNACreator {
 		}
 	}
 
-	// TODO certains SNPs servent pour les yeux et pour la peau en même temps.
 	/**
 	 * Met le SNP des yeux non-bruns
 	 */
@@ -144,7 +141,7 @@ public class DNACreator {
 	}
 
 	private void setEyeColorGene() {
-		switch (face.getEye().getCouleurYeux()) {
+		switch (face.getLEye().getCouleurYeux()) {
 		case BLUE:
 			setBlueEyeGene();
 			break;
@@ -153,6 +150,22 @@ public class DNACreator {
 			break;
 		case GREEN:
 			setGreenEyeGene();
+			break;
+		}
+	}
+
+	private void setEyeSkinGene() {
+		switch (face.getSkinColor()) {
+		case LIGHT:
+			setLightSkinGene();
+			setNonDarkSkinGene();
+			break;
+		case MEDIUM:
+			setNonDarkSkinGene();
+			setNonLightSkinGene();
+			break;
+		case DARK:
+			setNonLightSkinGene();
 			break;
 		}
 	}
@@ -172,6 +185,18 @@ public class DNACreator {
 	private void setNonLightSkinGene() {
 		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
 			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
+		}
+	}
+
+	/**
+	 * Met le SNP de la peau non-foncée
+	 */
+	private void setNonDarkSkinGene() {
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1545397.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1545397.getId()).setAllele(Allele.T);
+		}
+		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
+			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
 		}
 	}
 

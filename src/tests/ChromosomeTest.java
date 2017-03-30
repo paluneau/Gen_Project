@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -20,11 +21,9 @@ public class ChromosomeTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Chromosome.setAltSrcFile(new File(getClass().getResource("/tests").toURI()));
 		tgt = new LinkedList<String>();
 		tgt.add("12913832");
-		tgt.add("1426654");
-		tgt.add("1545397");
-		
 
 		try {
 			chr15 = new Chromosome("15", tgt);
@@ -43,14 +42,11 @@ public class ChromosomeTest {
 	public void testGetName() {
 		assertEquals(chr15.getName(), "15");
 	}
-	
+
 	@Test
 	public void testLire() {
 		tgt = new LinkedList<String>();
 		tgt.add("12913832");
-		tgt.add("1426654");
-		tgt.add("1545397");
-		
 
 		try {
 			chr15 = new Chromosome("0", tgt);
@@ -67,11 +63,8 @@ public class ChromosomeTest {
 
 	@Test
 	public void testGetSNPByID() {
-		SNP rs1545397 = chr15.getSNPByRS("rs1545397");
-		SNP rs1426654 = chr15.getSNPByRS("rs1426654");
 		SNP rs12913832 = chr15.getSNPByRS("rs12913832");
-		assertNotNull(rs1426654);
-		assertNotNull(rs1545397);
+		System.out.println(chr15.getSNPByRS("rs12913832"));
 		assertNotNull(rs12913832);
 	}
 

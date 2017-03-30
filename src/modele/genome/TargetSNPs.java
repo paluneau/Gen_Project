@@ -28,6 +28,4 @@ public enum TargetSNPs {
 		return chromosomeNbr;
 	}
 
-	// TODO methode pour obtenir la s�quence d'ADN
-
 }

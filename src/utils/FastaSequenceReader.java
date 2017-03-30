@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * This class will read first sequence from a Fasta format file
+ * Cette classe lit un fichier fasta et ressort tous les SNPs utile et leur séquence
  * 
  * @author http://www.cs.utexas.edu/~mobios/cs329e/rosetta/src/FastaSequence.
  *         java M�J Les g�nies du g�nome
@@ -25,7 +25,7 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Permet de lire les s�quences cibl�es dans un fischier au format FASTA standard
+	 * Permet de lire les s�quences cibl�es dans un fichier au format FASTA standard
 	 * @param file Le fichier � lire.
 	 * @throws IOException si le fichier est non-conforme
 	 */
