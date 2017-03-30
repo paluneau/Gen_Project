@@ -96,7 +96,7 @@ public class Controller {
 
 	@FXML
 	public void initialize() {
-		this.player = new MusicPlayer();
+		this.player = new MusicPlayer(MusicPlayer.SONG1);
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
 		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
