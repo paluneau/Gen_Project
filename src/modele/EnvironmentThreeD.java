@@ -22,6 +22,7 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.Eye;
 import modele.phenotype.Face;
 
 /*
@@ -140,13 +141,15 @@ public class EnvironmentThreeD {
 			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
-			ObservableFloatArray points3D = ((TriangleMesh) genomicPart.getMesh()).getPoints();
+			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
 			if (s.contains("Oeil gauche")) {
-				genomicPart.setMaterial(updateLEye(points3D, firstBuild));
+				Eye eye = getFace().getLEye();
+				genomicPart.setMaterial(updateEye(points3DGroup, eye, firstBuild));
 			}
 			if (s.contains("Oeil droit")) {
-				genomicPart.setMaterial(updateREye(points3D, firstBuild));
+				Eye eye = getFace().getREye();
+				genomicPart.setMaterial(updateEye(points3DGroup, eye, firstBuild));
 			}
 
 			groupMeshes.put(s, genomicPart);
@@ -157,29 +160,15 @@ public class EnvironmentThreeD {
 
 	}
 
-	private PhongMaterial updateLEye(ObservableFloatArray points, boolean firstBuild) {
+	private PhongMaterial updateEye(ObservableFloatArray points, Eye eye, boolean firstBuild) {
 		if (firstBuild) {
-			getFace().getLEye().setIniPoints(createArrayCopy(points), points);
+			eye.setIniPoints(createArrayCopy(points), points);
 		}
-
-		points = getFace().getLEye().getPointsUpdater();
+		points = eye.getPointsUpdater();
 
 		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		material.setDiffuseColor(eye.getCouleurYeux().getColor());
 		material.setSpecularColor(Color.BLACK);
-		return material;
-	}
-
-	private PhongMaterial updateREye(ObservableFloatArray points, boolean firstBuild) {
-		if (firstBuild) {
-			getFace().getREye().setIniPoints(createArrayCopy(points), points);
-		}
-
-		points = getFace().getREye().getPointsUpdater();
-
-		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(getFace().getREye().getCouleurYeux().getColor());
-		material.setSpecularColor(getFace().getREye().getCouleurYeux().getColor());
 		return material;
 	}
 
