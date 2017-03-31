@@ -14,7 +14,7 @@ import utils.FastaSequenceReader;
 
 public class Chromosome {
 
-	public List<SNP> snips = null;
+	private List<SNP> snips = null;
 	private String dataSrcPath = null;
 	private String name = null;
 	private List<String> wntdSNPs = null;
@@ -34,14 +34,8 @@ public class Chromosome {
 		}
 	}
 
-	/**
-	 * Cr�e le chemin d'acc�s pour atteindre le fichier li� au chromosome *
-	 * Format: chr_*.fas
-	 * 
-	 * @return le chemin d'acc�s
-	 */
-	private String generatePath() {
-		return "/chr_" + getName().toUpperCase() + ".fas";
+	public List<SNP> getSnips(){
+		return this.snips;
 	}
 
 	public String getName() {
@@ -96,5 +90,15 @@ public class Chromosome {
 	public static void setAltSrcFile(File newFile) {
 		Chromosome.altSrcFile = newFile;
 		;
+	}
+	
+	/**
+	 * Cr�e le chemin d'acc�s pour atteindre le fichier li� au chromosome *
+	 * Format: chr_*.fas
+	 * 
+	 * @return le chemin d'acc�s
+	 */
+	private String generatePath() {
+		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
 }

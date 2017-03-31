@@ -1,9 +1,21 @@
 package modele.phenotype;
 
+import java.util.Map;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
+import modele.genome.Allele;
+import modele.genome.BlueEyesGenes;
+import modele.genome.BrownEyesGenes;
+import modele.genome.GreenEyesGenes;
+import modele.genome.TargetSNPs;
+import utils.Mapable;
 
 public class Eye {
+
+	private static final Map<TargetSNPs, Allele[]> BLUEEYES = Mapable.valuesAsMap(BlueEyesGenes::values);
+	private static final Map<TargetSNPs, Allele[]> BROWNEYES = Mapable.valuesAsMap(BrownEyesGenes::values);
+	private static final Map<TargetSNPs, Allele[]> GREENEYES = Mapable.valuesAsMap(GreenEyesGenes::values);
 
 	private EyeColor color;
 	private float largeur = 0;
@@ -57,5 +69,6 @@ public class Eye {
 			pointsUpdater.set(2 + (3 * i), iniPoints.get(2 + (3 * i)) + distance);
 		}
 	}
+	
 
 }
