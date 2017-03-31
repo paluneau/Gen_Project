@@ -151,13 +151,6 @@ public class Controller {
 			}
 		});
 
-		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.criss = new_val.floatValue();
-				envirnm.changementWorld();
-			}
-		});
-
 	}
 
 	public Slider getSliderHauteurVisage() {

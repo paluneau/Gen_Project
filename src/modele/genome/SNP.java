@@ -104,7 +104,7 @@ public class SNP {
 	 *            Nouvel allèle
 	 * @return Le caractère qui convient
 	 */
-	//TODO TROUVER UNE FACON MOINS BATARD
+	//TODO TROUVER UNE FACON MOINS BATARDE
 	private Allele getWildCard(Allele x, Allele y) {
 		Allele result = null;
 		Set<Allele> set = new HashSet<Allele>();

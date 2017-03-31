@@ -28,6 +28,7 @@ public class DNACreator {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
 			this.face = f;
+			System.out.println(this.face.getLEye().getCouleurYeux());
 			updateDNA();
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
