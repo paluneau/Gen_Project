@@ -1,8 +1,5 @@
 package modele.genome;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import utils.Mapable;
 
 public enum BlueEyesGenes implements Mapable<TargetSNPs, Allele[]> {
@@ -28,16 +25,5 @@ public enum BlueEyesGenes implements Mapable<TargetSNPs, Allele[]> {
 		// TODO Auto-generated method stub
 		return alleles;
 	}
-
-	// TODO trouver un moyen de ne pas répéter la methode 3x et +...
-	/*
-	 * public static Map<TargetSNPs, Allele[]> valuesAsMaps() { Map<TargetSNPs,
-	 * Allele[]> out = new HashMap<>(); Mapable[] tab = values();
-	 * 
-	 * for (Mapable g : tab) { out.put(((BlueEyesGenes) g).snp, ((BlueEyesGenes)
-	 * g).alleles); }
-	 * 
-	 * return out; }
-	 */
 
 }

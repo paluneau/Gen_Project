@@ -3,16 +3,22 @@
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-
 import exception.ConstructionException;
-import javafx.scene.paint.Color;
 import modele.genome.Allele;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
 import modele.genome.TargetSNPs;
 import modele.phenotype.Face;
 
+/**
+ * Classe qui va créer l'ADN selon le visage, donc affecter les variations
+ * appropriées au génome
+ * 
+ * @author Les génies du génome
+ *
+ */
 public class DNACreator {
 
 	private DNA dna = null;
@@ -35,7 +41,7 @@ public class DNACreator {
 
 	/**
 	 * Retourne la liste des différents chromosomes à inspecter selon les snp à
-	 * trouver
+	 * trouver (le Set élimine les doublons)
 	 * 
 	 * @param chrNbr
 	 *            le numero du chromosome
@@ -53,107 +59,24 @@ public class DNACreator {
 	}
 
 	/**
-	 * Met le SNP des yeux bruns
+	 * Affecte les bonnes variations sur l'ADN
+	 * 
+	 * @param map
+	 *            contient comme clés les SNP et comme valeurs les alleles
 	 */
-	private void setBrownEyeGene() {
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
-		}
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
-		}
-
-		setNotBlueEyeGene();
-	}
-
-	/**
-	 * Met le SNP des yeux bleus
-	 */
-	private void setBlueEyeGene() {
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12203592.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS12203592.getId()).setAllele(Allele.T);
-		}
-
-		setNotBrownEyeGene();
-
-	}
-
-	/**
-	 * Met le SNP des yeux verts
-	 */
-	private void setGreenEyeGene() {
-		double rnd = Math.random();
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12203592.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS12203592.getId()).setAllele(Allele.T);
-		}
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.C);
-		}
-
-		if (rnd <= 0.6) {
-			setNotBrownEyeGene();
-		} else {
-			setNotBlueEyeGene();
-		}
-
-	}
-
-	/**
-	 * Met le SNP des yeus non-bleus Utilise le pourentage des haplotypes dans
-	 * la population européenne pour déterminer l'allèle. src:
-	 * https://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=12913832
-	 */
-	private void setNotBlueEyeGene() {
-		double rnd = Math.random();
-
-		if (rnd <= 0.9) {
-			Chromosome[] chrPair = getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr());
-			chrPair[0].getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.A);
-			chrPair[1].getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
-		} else {
-			for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
-				chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.A);
+	private void setGenes(Map<TargetSNPs, Allele[]> map) {
+		map.forEach((snp, alleles) -> {
+			int pos = 0;
+			TargetSNPs current = snp;
+			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
+				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
+				pos++;
 			}
-		}
-	}
-
-	/**
-	 * Met le SNP des yeux non-bruns
-	 */
-	private void setNotBrownEyeGene() {
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
-		}
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS16891982.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS16891982.getId()).setAllele(Allele.G);
-		}
-
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
-		}
+		});
 
 	}
 
-	private void setEyeColorGene() {
-		switch (face.getLEye().getCouleurYeux()) {
-		case BLUE:
-			setBlueEyeGene();
-			break;
-		case BROWN:
-			setBrownEyeGene();
-			break;
-		case GREEN:
-			setGreenEyeGene();
-			break;
-		}
-	}
-
+	// TODO A FAIRE COMME POUR LES YEUX ENUM + MAPS
 	private void setEyeSkinGene() {
 		switch (face.getSkinColor()) {
 		case LIGHT:
@@ -204,7 +127,7 @@ public class DNACreator {
 	 * Met à jour l'ADN selon l'aspect actuel du visage
 	 */
 	public void updateDNA() {
-		setEyeColorGene();
+		setGenes(this.face.getLEye().getCouleurYeux().getGenes());
 
 	}
 
