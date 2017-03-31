@@ -22,13 +22,14 @@ public class FastaExporter {
 				for (int i = 0; i < pairChromo.length; i++) {
 					Chromosome chromosome = pairChromo[i];
 
-					for (SNP snp : chromosome.snips) {
+					for (SNP snp : chromosome.getSnips()) {
 
 						String allele = snp.getAllele().toString();
 						String rs = snp.getRS();
 						String sequence = snp.getSeq();
 
-						printW.println("> GPV | Chromosome " + s + "." + i + " | allele=" + allele + " | rs=" + rs);
+						printW.println(
+								"> GPV | Chromosome " + s + "." + (i + 1) + " | allele=" + allele + " | rs=" + rs + " at "+snp.getVarPos());
 						printW.println(sequence);
 						printW.println();
 

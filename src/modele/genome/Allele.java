@@ -4,10 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum Allele {
-	
+
 	A('A', 'a', false), C('C', 'c', false), T('T', 't', false), G('G', 'g', false), N('N', 'n', true), Y('Y', 'y',
 			true), K('K', 'k', true), M('M', 'm', true), S('S', 's', true), W('W', 'w', true), R('R', 'r',
 					true), B('B', 'b', true), D('D', 'd', true), H('H', 'h', true), V('V', 'v', true);
+
+	public static final Allele[] HOMOA = { Allele.A, Allele.A };
+	public static final Allele[] HOMOG = { Allele.G, Allele.G };
+	public static final Allele[] HOMOC = { Allele.C, Allele.C };
+	public static final Allele[] HOMOT = { Allele.T, Allele.T };
+	public static final Allele[] HETEROAG = { Allele.A, Allele.G };
 
 	private char primarySymbol = ' ';
 	private char secondarySymbol = ' ';

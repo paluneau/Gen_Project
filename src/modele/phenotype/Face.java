@@ -1,6 +1,15 @@
 package modele.phenotype;
 
+import java.util.Map;
+
+import modele.genome.Allele;
+import modele.genome.TargetSNPs;
+
 public class Face {
+	
+	private static Map<TargetSNPs, Allele[]> lightSkin = null;
+	private static Map<TargetSNPs, Allele[]> mediumSkin = null;
+	private static Map<TargetSNPs, Allele[]> darkSkin = null;
 
 	private Ear LEar = null;
 	private Ear REar = null;
