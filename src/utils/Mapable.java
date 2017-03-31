@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * Interface qui permet de générer une Map à partir d'une méthode qui donne un
  * tableau statique d'objets (très pratique pour transformer une énum en map!!)
  * 
- * @author Client
+ * @author Les génies du génôme
  *
  * @param <T>
  *            Type de la clé

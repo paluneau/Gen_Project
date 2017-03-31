@@ -12,8 +12,16 @@ import java.util.Map;
 import exception.ConstructionException;
 import utils.FastaSequenceReader;
 
+/**
+ * Classe représentant un chromosome, elle va lire dans les fichiers FASTA par
+ * chromosome pour ensuite affecter les séquences aux bons SNPs
+ * 
+ * @author Les génies du génome
+ *
+ */
 public class Chromosome {
 
+	// TODO vérifier si on ne peut pas changer snips en map...
 	private List<SNP> snips = null;
 	private String dataSrcPath = null;
 	private String name = null;
@@ -34,7 +42,7 @@ public class Chromosome {
 		}
 	}
 
-	public List<SNP> getSnips(){
+	public List<SNP> getSnips() {
 		return this.snips;
 	}
 
@@ -66,15 +74,20 @@ public class Chromosome {
 		}
 
 		Map<String, String> sequences = fsr.getSequences();
-		Iterator<String> keyIterator = sequences.keySet().iterator();
 
-		while (keyIterator.hasNext()) {
-			String key = keyIterator.next();
-			snips.add(new SNP(key, sequences.get(key)));
-		}
-
+		sequences.forEach((desc, seq) -> {
+			snips.add(new SNP(desc, seq));
+		});
 	}
 
+	/**
+	 * Retourne un SNP selon son RS (son numero rsXXXXX)
+	 * 
+	 * @param rs
+	 *            le rs
+	 * @return le SNP
+	 */
+	// TODO vrm plus efficace si snips -> map
 	public SNP getSNPByRS(String rs) {
 		SNP snpID = null;
 
@@ -87,11 +100,18 @@ public class Chromosome {
 		return snpID;
 	}
 
+	/**
+	 * Définit un chemin d'accès alternatif vers un autre répertoire si jamais
+	 * les fichiers sont introuvables dans les ressources
+	 * 
+	 * @param newFile
+	 *            le répertoire où les fichiers FASTA sont localisés
+	 */
 	public static void setAltSrcFile(File newFile) {
 		Chromosome.altSrcFile = newFile;
 		;
 	}
-	
+
 	/**
 	 * Cr�e le chemin d'acc�s pour atteindre le fichier li� au chromosome *
 	 * Format: chr_*.fas

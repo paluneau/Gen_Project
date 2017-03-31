@@ -13,10 +13,6 @@ import utils.Mapable;
 
 public class Eye {
 
-	private static final Map<TargetSNPs, Allele[]> BLUEEYES = Mapable.valuesAsMap(BlueEyesGenes::values);
-	private static final Map<TargetSNPs, Allele[]> BROWNEYES = Mapable.valuesAsMap(BrownEyesGenes::values);
-	private static final Map<TargetSNPs, Allele[]> GREENEYES = Mapable.valuesAsMap(GreenEyesGenes::values);
-
 	private EyeColor color;
 	private float largeur = 0;
 	private float height = 0;

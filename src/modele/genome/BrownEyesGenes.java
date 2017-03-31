@@ -1,8 +1,5 @@
 package modele.genome;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import utils.Mapable;
 
 public enum BrownEyesGenes implements Mapable<TargetSNPs, Allele[]> {
@@ -17,17 +14,6 @@ public enum BrownEyesGenes implements Mapable<TargetSNPs, Allele[]> {
 		this.alleles = alleles;
 		this.snp = snp;
 	}
-
-	/*public static Map<TargetSNPs, Allele[]> valuesAsMaps() {
-		Map<TargetSNPs, Allele[]> out = new HashMap<>();
-		BrownEyesGenes[] tab = values();
-		
-		for (BrownEyesGenes g : tab) {
-			out.put(g.snp, g.alleles);
-		}
-		
-		return out;
-	}*/
 
 	@Override
 	public TargetSNPs getKey() {
