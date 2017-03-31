@@ -22,7 +22,6 @@ public enum BlueEyesGenes implements Mapable<TargetSNPs, Allele[]> {
 
 	@Override
 	public Allele[] getValue() {
-		// TODO Auto-generated method stub
 		return alleles;
 	}
 

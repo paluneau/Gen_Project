@@ -12,6 +12,7 @@ import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -55,8 +56,6 @@ public class EnvironmentThreeD {
 	 */
 	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
 
-	public float criss = 0;
-
 	private ObjImporter reader = null;
 
 	/**
@@ -70,7 +69,7 @@ public class EnvironmentThreeD {
 		objGroup = new ToolsThreeD();
 		face = new Face();
 		scene.setFill(Color.GREY);
-		handleControls(scene);
+		handleControls(root);
 		scene.setCamera(camera);
 		buildImporter();
 		buildCamera();
@@ -192,7 +191,7 @@ public class EnvironmentThreeD {
 		cameraX.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 	}
 
-	private void handleControls(SubScene pane) {
+	private void handleControls(Pane pane) {
 
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
@@ -233,6 +232,13 @@ public class EnvironmentThreeD {
 				double z = camera.getTranslateZ();
 				double newZ = z + me.getDeltaY() * MOUSE_WHEEL_SPEED * modifier;
 				camera.setTranslateZ(newZ);
+			}
+		});
+		
+		//TODO contrôles du clavier 
+		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent me) {
+				System.out.println("coq roti");
 			}
 		});
 	}
