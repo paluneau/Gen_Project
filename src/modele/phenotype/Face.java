@@ -1,15 +1,9 @@
 package modele.phenotype;
 
-import java.util.Map;
-
-import modele.genome.Allele;
-import modele.genome.TargetSNPs;
+import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.SkinColor;
 
 public class Face {
-	
-	private static Map<TargetSNPs, Allele[]> lightSkin = null;
-	private static Map<TargetSNPs, Allele[]> mediumSkin = null;
-	private static Map<TargetSNPs, Allele[]> darkSkin = null;
 
 	private Ear LEar = null;
 	private Ear REar = null;
@@ -26,16 +20,17 @@ public class Face {
 	private double largeurVisage = 0;
 	private float distanceYeux = 0;
 
-	public Face() {
+	public Face(EyeColor eyeColor, SkinColor skinColor) {
 		LEar = new Ear();
 		REar = new Ear();
-		LEye = new Eye(EyeColor.BROWN, 0, 0);
-		REye = new Eye(EyeColor.BROWN, 0, 0);
+		LEye = new Eye(eyeColor, 0, 0);
+		REye = new Eye(eyeColor, 0, 0);
 		hair = new Hair();
 		mouth = new Mouth();
 		nose = new Nose();
 		LSourcils = new Sourcils();
 		RSourcils = new Sourcils();
+		this.skinColor = skinColor;
 	}
 
 	public Ear getLEar() {

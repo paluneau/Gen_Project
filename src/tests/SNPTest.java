@@ -3,8 +3,9 @@ package tests;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import modele.genome.Allele;
+
 import modele.genome.SNP;
+import modele.genome.data.Allele;
 
 public class SNPTest {
 

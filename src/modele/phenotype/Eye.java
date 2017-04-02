@@ -1,15 +1,8 @@
 package modele.phenotype;
 
-import java.util.Map;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
-import modele.genome.Allele;
-import modele.genome.BlueEyesGenes;
-import modele.genome.BrownEyesGenes;
-import modele.genome.GreenEyesGenes;
-import modele.genome.TargetSNPs;
-import utils.Mapable;
+import modele.phenotype.data.EyeColor;
 
 public class Eye {
 

@@ -1,7 +1,4 @@
-package modele.genome;
-
-import java.util.HashSet;
-import java.util.Set;
+package modele.genome.data;
 
 public enum Allele {
 
@@ -35,16 +32,6 @@ public enum Allele {
 
 	public boolean isWildCard() {
 		return this.wildCard;
-	}
-
-	private Set<Allele> convertToSet(Allele[] tab) {
-		Set<Allele> set = new HashSet<Allele>();
-
-		for (Allele a : tab) {
-			set.add(a);
-		}
-
-		return set;
 	}
 
 	@Override

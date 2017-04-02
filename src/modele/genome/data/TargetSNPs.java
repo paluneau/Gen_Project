@@ -1,4 +1,4 @@
-package modele.genome;
+package modele.genome.data;
 
 public enum TargetSNPs {
 	// TODO AJOUTER LES SNPS CIBL�S

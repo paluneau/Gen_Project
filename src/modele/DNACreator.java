@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import exception.ConstructionException;
-import modele.genome.Allele;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
-import modele.genome.TargetSNPs;
+import modele.genome.data.Allele;
+import modele.genome.data.TargetSNPs;
 import modele.phenotype.Face;
 
 /**
@@ -77,58 +77,12 @@ public class DNACreator {
 
 	}
 
-	// TODO A FAIRE COMME POUR LES YEUX ENUM + MAPS
-	private void setEyeSkinGene() {
-		switch (face.getSkinColor()) {
-		case LIGHT:
-			setLightSkinGene();
-			setNonDarkSkinGene();
-			break;
-		case MEDIUM:
-			setNonDarkSkinGene();
-			setNonLightSkinGene();
-			break;
-		case DARK:
-			setNonLightSkinGene();
-			break;
-		}
-	}
-
-	/**
-	 * Met le SNP de la peau pâle
-	 */
-	private void setLightSkinGene() {
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS12913832.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS12913832.getId()).setAllele(Allele.G);
-		}
-	}
-
-	/**
-	 * Met le SNP de la peau non-pâle
-	 */
-	private void setNonLightSkinGene() {
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS6119471.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS6119471.getId()).setAllele(Allele.G);
-		}
-	}
-
-	/**
-	 * Met le SNP de la peau non-foncée
-	 */
-	private void setNonDarkSkinGene() {
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1545397.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS1545397.getId()).setAllele(Allele.T);
-		}
-		for (Chromosome chr : getDna().getChrPair(TargetSNPs.RS1426654.getChromosomeNbr())) {
-			chr.getSNPByRS("rs" + TargetSNPs.RS1426654.getId()).setAllele(Allele.A);
-		}
-	}
-
 	/**
 	 * Met à jour l'ADN selon l'aspect actuel du visage
 	 */
 	public void updateDNA() {
 		setGenes(this.face.getLEye().getCouleurYeux().getGenes());
+		setGenes(this.face.getSkinColor().getGenes());
 
 	}
 

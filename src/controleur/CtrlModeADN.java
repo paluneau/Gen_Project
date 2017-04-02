@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import modele.DNACreator;
 import modele.EnvironmentThreeD;
 import modele.genome.Chromosome;
+import modele.phenotype.Face;
 import utils.FastaExporter;
 import vue.FichierChooser;
 import vue.MessageAlert;
@@ -17,12 +18,12 @@ import vue.MessageAlert;
 public class CtrlModeADN {
 
 	private DNACreator dNACreator = null;
-	private EnvironmentThreeD envirnm = null;
+	private Face face = null;
 	@FXML
 	private Pane pane;
 
-	public void createFenetreModeADN(EnvironmentThreeD envirnm) {
-		this.envirnm = envirnm;
+	public void createFenetreModeADN(Face face) {
+		this.face = face;
 		modeDNA();
 	}
 
@@ -38,7 +39,12 @@ public class CtrlModeADN {
 		if (directoryChooser.getFichierChoisi() != null) {
 			boolean error = modeDNA();
 			if (!error) {
-				FastaExporter.sauvegarder(dNACreator.getDna(), directoryChooser.getFichierChoisi().getAbsolutePath());
+				try {
+					FastaExporter.sauvegarder(dNACreator.getDna(),
+							directoryChooser.getFichierChoisi().getAbsolutePath());
+				} catch (IOException e) {
+					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
+				}
 			} else {
 				new MessageAlert("Échec de l'exportation");
 			}
@@ -57,13 +63,13 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
-			dNACreator = new DNACreator(envirnm.getFace());
+			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
 			Chromosome.setAltSrcFile(newFolder);
 
 			try {
-				dNACreator = new DNACreator(envirnm.getFace());
+				dNACreator = new DNACreator(this.face);
 			} catch (IOException e1) {
 				new MessageAlert("Impossible de trouver le(s) fichier(s).");
 				flagError = true;

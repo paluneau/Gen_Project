@@ -25,6 +25,8 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Eye;
 import modele.phenotype.Face;
+import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.SkinColor;
 
 /*
  * TODO JAVADOC
@@ -64,11 +66,15 @@ public class EnvironmentThreeD {
 	private ToolsThreeD objGroup;
 	private Face face = null;
 
+	public EnvironmentThreeD(EyeColor initEyeColor, SkinColor initSkinColor) {
+		face = new Face(initEyeColor, initSkinColor);
+	}
+
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
 		objGroup = new ToolsThreeD();
-		face = new Face();
-		scene.setFill(Color.GREY);
+		// TODO pour qu'on voit le background on ne met pas de fill
+		// scene.setFill(Color.GREY);
 		handleControls(root);
 		scene.setCamera(camera);
 		buildImporter();
@@ -142,6 +148,8 @@ public class EnvironmentThreeD {
 			genomicPart.getTransforms().add(affineIni);
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
+			genomicPart.setMaterial(updateSkin());
+
 			if (s.contains("Oeil gauche")) {
 				Eye eye = getFace().getLEye();
 				genomicPart.setMaterial(updateEye(points3DGroup, eye, firstBuild));
@@ -157,6 +165,18 @@ public class EnvironmentThreeD {
 		objGroup.getChildren().addAll(groupMeshes.values());
 		world.getChildren().add(objGroup);
 
+	}
+
+	/**
+	 * crée un matériel de la couleur de la peau
+	 * 
+	 * @return la matériel
+	 */
+	private PhongMaterial updateSkin() {
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(getFace().getSkinColor().getColor());
+		material.setSpecularColor(Color.BLACK);
+		return material;
 	}
 
 	private PhongMaterial updateEye(ObservableFloatArray points, Eye eye, boolean firstBuild) {
@@ -234,8 +254,8 @@ public class EnvironmentThreeD {
 				camera.setTranslateZ(newZ);
 			}
 		});
-		
-		//TODO contrôles du clavier 
+
+		// TODO contrôles du clavier
 		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent me) {
 				System.out.println("coq roti");

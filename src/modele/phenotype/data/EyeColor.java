@@ -1,19 +1,19 @@
-package modele.phenotype;
+package modele.phenotype.data;
 
 import java.util.Map;
 
 import javafx.scene.paint.Color;
-import modele.genome.Allele;
-import modele.genome.BlueEyesGenes;
-import modele.genome.TargetSNPs;
-import modele.genome.GreenEyesGenes;
-import modele.genome.BrownEyesGenes;
+import modele.genome.data.Allele;
+import modele.genome.data.BlueEyesGenes;
+import modele.genome.data.BrownEyesGenes;
+import modele.genome.data.GreenEyesGenes;
+import modele.genome.data.TargetSNPs;
 import utils.Mapable;
 
 public enum EyeColor {
 
-	BLUE("Bleu", Color.BLUE, Mapable.valuesAsMap(BlueEyesGenes::values)), GREEN("Vert", Color.GREEN,
-			Mapable.valuesAsMap(GreenEyesGenes::values)), BROWN("Brun", Color.BROWN,
+	BLUE("Bleu", Color.ROYALBLUE, Mapable.valuesAsMap(BlueEyesGenes::values)), GREEN("Vert", Color.FORESTGREEN,
+			Mapable.valuesAsMap(GreenEyesGenes::values)), BROWN("Brun", Color.SIENNA,
 					Mapable.valuesAsMap(BrownEyesGenes::values));
 
 	private Color color = null;

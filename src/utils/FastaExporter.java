@@ -10,10 +10,9 @@ import modele.genome.SNP;
 
 public class FastaExporter {
 
-	public static void sauvegarder(DNA adn, String path) {
+	public static void sauvegarder(DNA adn, String path) throws IOException {
 
 		File fichierSave = new File(path + "/GPV - ADN.fas");
-		try {
 			System.out.println(fichierSave);
 			PrintWriter printW = new PrintWriter(new FileWriter(fichierSave));
 			for (String s : adn.getChrSymbols()) {
@@ -28,8 +27,8 @@ public class FastaExporter {
 						String rs = snp.getRS();
 						String sequence = snp.getSeq();
 
-						printW.println(
-								"> GPV | Chromosome " + s + "." + (i + 1) + " | allele=" + allele + " | rs=" + rs + " at "+snp.getVarPos());
+						printW.println("> GPV | Chromosome " + s + "." + (i + 1) + " | allele=" + allele + " at "
+								+ snp.getVarPos() + " | rs=" + rs);
 						printW.println(sequence);
 						printW.println();
 
@@ -39,10 +38,5 @@ public class FastaExporter {
 
 			}
 			printW.close();
-		} catch (IOException e) {
-			// TODO Gérer l'exception autrement
-			System.out.println(e);
-		}
-
 	}
 }
