@@ -1,0 +1,12 @@
+#pane3d{
+	 -fx-background-image: url("https://68.media.tumblr.com/1c3e46768003b7b855c3bc3602f2ab2a/tumblr_ngxqgo7Y0F1r95576o1_500.gif");
+	 -fx-background-position: center;
+	 -fx-background-repeat: no-repeat;
+	 /* cover ou stretch*/
+	 -fx-background-size: cover;
+		
+}
+
+.controlLabel{
+	-fx-font-weight: bold;
+}

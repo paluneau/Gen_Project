@@ -1,4 +1,4 @@
-package modele.genome;
+package modele.genome.data;
 
 import utils.Mapable;
 

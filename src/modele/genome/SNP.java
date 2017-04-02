@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import modele.genome.data.Allele;
+
 public class SNP {
 	private String rs = null;
 	private String seqModel = null;
