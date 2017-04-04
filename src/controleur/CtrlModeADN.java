@@ -3,6 +3,9 @@ package controleur;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import com.sun.jndi.url.dns.dnsURLContext;
+
 import exception.ConstructionException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,15 +39,18 @@ public class CtrlModeADN {
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
+		
 		if (directoryChooser.getFichierChoisi() != null) {
-			boolean error = modeDNA();
-			if (!error) {
+			boolean flagError = (dNACreator == null) ? modeDNA() : false;
+			
+			if (!flagError) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
 							directoryChooser.getFichierChoisi().getAbsolutePath());
 				} catch (IOException e) {
 					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
+			
 			} else {
 				new MessageAlert("Échec de l'exportation");
 			}
