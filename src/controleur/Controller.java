@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
 import modele.MusicPlayer;
 import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 public class Controller {
@@ -59,10 +60,7 @@ public class Controller {
 	private Slider sliderEcartYeux;
 
 	@FXML
-	private ChoiceBox<String> choiceBoxLongueurCheveux;
-
-	@FXML
-	private ChoiceBox<String> choiceBoxCouleurCheveux;
+	private ChoiceBox<HairColor> choiceBoxCouleurCheveux;
 
 	@FXML
 	private ChoiceBox<EyeColor> choiceBoxYeux;
@@ -83,15 +81,15 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		this.player = new MusicPlayer(MusicPlayer.SONG1);
-		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
-		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
 		modeADNProperty = new SimpleBooleanProperty();
 		setModeADN(false);
 		buildEyeColorBox();
 		buildSkinColorBox();
+		buildHairColorBox();
 		setSlidersValue();
 		ajouterEcouteurs();
-		envirnm = new EnvironmentThreeD(choiceBoxYeux.getValue(), choiceBoxSkin.getValue());
+		envirnm = new EnvironmentThreeD(choiceBoxYeux.getValue(), choiceBoxSkin.getValue(),
+				choiceBoxCouleurCheveux.getValue());
 		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
 
@@ -112,6 +110,7 @@ public class Controller {
 		sliderDistanceYeux.setMax(0.000000000001);
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
+		choiceBoxCouleurCheveux.setValue(HairColor.BLACK);
 	}
 
 	public void setModeADN(boolean val) {
@@ -149,6 +148,17 @@ public class Controller {
 	}
 
 	/**
+	 * Met les éléments dans la ChoiceBox pour la couleur des cheveux.
+	 */
+	private void buildHairColorBox() {
+		ObservableList<HairColor> list = FXCollections.observableArrayList();
+		for (HairColor c : HairColor.values()) {
+			list.add(c);
+		}
+		choiceBoxCouleurCheveux.setItems(list);
+	}
+
+	/**
 	 * Ajoute les multiples écouteurs sur les contrôles
 	 */
 	public void ajouterEcouteurs() {
@@ -171,6 +181,13 @@ public class Controller {
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setEyeDistance(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		choiceBoxCouleurCheveux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<HairColor>() {
+			public void changed(ObservableValue<? extends HairColor> ov, HairColor old_val, HairColor new_val) {
+				envirnm.getFace().getHair().setCouleurCheveux(new_val);
 				envirnm.changementWorld();
 			}
 		});

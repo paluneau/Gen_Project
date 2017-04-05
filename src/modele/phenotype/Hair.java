@@ -1,31 +1,22 @@
 package modele.phenotype;
 
+import modele.phenotype.data.HairColor;
+
 public class Hair {
-	public enum enumLongueurCheveux {
-		LONG, COURT, AUCUN
-	};
 
-	public enum enumCouleurCheveux {
-		BLOND, BRUN, ROUX
-	};
+	public HairColor couleurCheveux;
 
-	public enumCouleurCheveux couleurCheveux;
-	public enumLongueurCheveux longueurCheveux;
+	public Hair(HairColor hc) {
+		setCouleurCheveux(hc);
+	}
 
-	public enumCouleurCheveux getCouleurCheveux() {
+	public HairColor getCouleurCheveux() {
 		return couleurCheveux;
 	}
 
-	public void setCouleurCheveux(enumCouleurCheveux couleurCheveux) {
+	public void setCouleurCheveux(HairColor couleurCheveux) {
 		this.couleurCheveux = couleurCheveux;
-	}
-
-	public enumLongueurCheveux getLongueurCheveux() {
-		return longueurCheveux;
-	}
-
-	public void setLongueurCheveux(enumLongueurCheveux longueurCheveux) {
-		this.longueurCheveux = longueurCheveux;
+		System.out.println(this.couleurCheveux);
 	}
 
 }

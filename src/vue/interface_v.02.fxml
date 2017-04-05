@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
@@ -34,6 +34,15 @@
                            </children></AnchorPane>
                   </content>
                 </TitledPane>
+                <TitledPane text="Cheveux:">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Couleur des cheveux" />
+                              <ChoiceBox fx:id="choiceBoxCouleurCheveux" layoutX="14.0" layoutY="31.0" prefHeight="25.0" prefWidth="111.0" />
+                           </children></AnchorPane>
+                  </content>
+                </TitledPane>
                 <TitledPane animated="false" prefHeight="47.0" prefWidth="307.0" text="Peau :">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -41,11 +50,6 @@
                               <Label layoutX="14.0" layoutY="6.0" styleClass="controlLabel" text="Couleur de la peau" />
                               <ChoiceBox fx:id="choiceBoxSkin" layoutX="13.0" layoutY="23.0" prefHeight="25.0" prefWidth="102.0" />
                            </children></AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane text="Chromosome :">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                   </content>
                 </TitledPane>
               </panes>
@@ -137,12 +141,6 @@
                            </font>
                         </Label>
                         <ChoiceBox fx:id="choiceBoxLongueurCheveux" layoutX="16.0" layoutY="425.0" prefHeight="25.0" prefWidth="102.0" />
-                        <Label layoutX="174.0" layoutY="401.0" styleClass="controlLabel" text="Couleur des cheveux">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox fx:id="choiceBoxCouleurCheveux" layoutX="177.0" layoutY="424.0" prefHeight="25.0" prefWidth="102.0" />
                      </children>
                   </AnchorPane>
                </content>

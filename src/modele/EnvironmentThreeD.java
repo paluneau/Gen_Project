@@ -26,6 +26,7 @@ import javafx.scene.transform.Rotate;
 import modele.phenotype.Eye;
 import modele.phenotype.Face;
 import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 /*
@@ -66,8 +67,8 @@ public class EnvironmentThreeD {
 	private ToolsThreeD objGroup;
 	private Face face = null;
 
-	public EnvironmentThreeD(EyeColor initEyeColor, SkinColor initSkinColor) {
-		face = new Face(initEyeColor, initSkinColor);
+	public EnvironmentThreeD(EyeColor initEyeColor, SkinColor initSkinColor, HairColor initHairColor) {
+		face = new Face(initEyeColor, initSkinColor, initHairColor);
 	}
 
 	public SubScene buildWorld(Pane root, int width, int height) {
