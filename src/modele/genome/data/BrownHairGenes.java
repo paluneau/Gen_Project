@@ -3,16 +3,17 @@ package modele.genome.data;
 import utils.Mapable;
 
 public enum BrownHairGenes implements Mapable<TargetSNPs, Allele[]> {
-	;
+	SNP1(TargetSNPs.RS1393350, Allele.HOMOG), SNP2(TargetSNPs.RS4778138, Allele.HOMOT), SNP3(TargetSNPs.RS1015362,
+			Allele.HOMOC);
 
 	TargetSNPs snp = null;
 	Allele[] alleles = null;
-	
+
 	private BrownHairGenes(TargetSNPs snp, Allele[] alleles) {
 		this.alleles = alleles;
 		this.snp = snp;
 	}
-	
+
 	@Override
 	public TargetSNPs getKey() {
 		return snp;

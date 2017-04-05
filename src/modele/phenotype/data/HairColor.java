@@ -36,6 +36,10 @@ public enum HairColor {
 		return this.name;
 	}
 
+	public Map<TargetSNPs, Allele[]> getGenes() {
+		return this.genes;
+	}
+
 	@Override
 	public String toString() {
 		return this.getName();

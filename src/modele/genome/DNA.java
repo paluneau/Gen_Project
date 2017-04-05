@@ -19,6 +19,7 @@ public class DNA {
 	public DNA(Set<String> chrSymbols) throws ConstructionException, IOException, URISyntaxException {
 		if (!chrSymbols.isEmpty()) {
 			this.chrSymbols = chrSymbols;
+			System.out.println(chrSymbols);
 			pair1 = new ArrayList<>();
 			pair2 = new ArrayList<>();
 			createChr();
@@ -27,7 +28,6 @@ public class DNA {
 		}
 
 	}
-	
 
 	public Set<String> getChrSymbols() {
 		return chrSymbols;
@@ -89,6 +89,5 @@ public class DNA {
 
 		return pair;
 	}
-
 
 }
