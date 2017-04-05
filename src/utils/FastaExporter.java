@@ -21,7 +21,7 @@ public class FastaExporter {
 				for (int i = 0; i < pairChromo.length; i++) {
 					Chromosome chromosome = pairChromo[i];
 
-					for (SNP snp : chromosome.getSnips()) {
+					for (SNP snp : chromosome.getSnips().values()) {
 
 						String allele = snp.getAllele().toString();
 						String rs = snp.getRS();

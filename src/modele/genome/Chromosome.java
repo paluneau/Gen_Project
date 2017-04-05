@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +22,10 @@ import utils.FastaSequenceReader;
  */
 public class Chromosome {
 
-	// TODO vérifier si on ne peut pas changer snips en map...
-	private List<SNP> snips = null;
+	private Map<String, SNP> snips = null;
 	private String dataSrcPath = null;
 	private String name = null;
 	private List<String> wntdSNPs = null;
-	private File srcFile = null;
 	private static File altSrcFile = null;
 
 	public Chromosome(String name, List<String> targetSNP)
@@ -35,14 +34,14 @@ public class Chromosome {
 			this.name = name;
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
-			this.snips = new ArrayList<>();
+			this.snips = new HashMap<String, SNP>();
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
 		}
 	}
 
-	public List<SNP> getSnips() {
+	public Map<String, SNP> getSnips() {
 		return this.snips;
 	}
 
@@ -76,7 +75,7 @@ public class Chromosome {
 		Map<String, String> sequences = fsr.getSequences();
 
 		sequences.forEach((desc, seq) -> {
-			snips.add(new SNP(desc, seq));
+			snips.put(desc, new SNP(desc, seq));
 		});
 	}
 
@@ -87,17 +86,8 @@ public class Chromosome {
 	 *            le rs
 	 * @return le SNP
 	 */
-	// TODO vrm plus efficace si snips -> map
 	public SNP getSNPByRS(String rs) {
-		SNP snpID = null;
-
-		for (SNP snip : snips) {
-			if (snip.getRS().equals(rs)) {
-				snpID = snip;
-			}
-		}
-
-		return snpID;
+		return this.snips.get(rs);
 	}
 
 	/**

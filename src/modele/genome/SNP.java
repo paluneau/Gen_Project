@@ -148,5 +148,10 @@ public class SNP {
 		}
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getRS();
+	}
 
 }

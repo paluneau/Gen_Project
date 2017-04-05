@@ -3,19 +3,19 @@ package utils;
 import java.util.List;
 
 /**
- * Méthodes qui peuvent servir à travailler sur des listes
+ * Mï¿½thodes qui peuvent servir ï¿½ travailler sur des listes
  * 
- * @author Les génies du génome
+ * @author Les gï¿½nies du gï¿½nome
  *
  */
 public class ListTools {
 
 	/**
-	 * Met la liste en ordre décroissant et ajoute le "rs" devant chaque valeur
+	 * Met la liste en ordre dï¿½croissant et ajoute le "rs" devant chaque valeur
 	 * 
 	 * @param list
-	 *            la liste à formatter
-	 * @return la liste formattée
+	 *            la liste ï¿½ formatter
+	 * @return la liste formattï¿½e
 	 */
 	public static List<String> formatList(List<String> list) {
 		List<String> temp = reverseList(sortList(list), 0, list.size() - 1);
@@ -26,11 +26,11 @@ public class ListTools {
 	}
 
 	/**
-	 * Ordonne une liste en ordre décroissant (identifiants de snp)
+	 * Ordonne une liste en ordre dï¿½croissant (identifiants de snp)
 	 * 
 	 * @param list
 	 *            la liste a ordonner
-	 * @return la liste en ordre décroissant
+	 * @return la liste en ordre dï¿½croissant
 	 */
 	public static List<String> sortList(List<String> list) {
 		try {
@@ -44,21 +44,21 @@ public class ListTools {
 				switchItems(list, minIndex, i);
 			}
 		} catch (NumberFormatException e) {
-			System.out.println("Identifiant de SNP invalide");
+			System.out.println("Identifiant de SNP invalide. Impossible de convertir en Integer.");
 		}
 		return list;
 	}
 
 	/**
-	 * Inverse une liste de façon réscursive
+	 * Inverse une liste de faï¿½on rï¿½scursive
 	 * 
 	 * @param list
-	 *            la liste à inverser
+	 *            la liste ï¿½ inverser
 	 * @param startIndex
-	 *            index de départ (0)
+	 *            index de dï¿½part (0)
 	 * @param endIndex
 	 *            index de fin(taille de la liste - 1)
-	 * @return la liste inversée
+	 * @return la liste inversï¿½e
 	 */
 	public static List<String> reverseList(List<String> list, int startIndex, int endIndex) {
 
@@ -71,10 +71,10 @@ public class ListTools {
 	}
 
 	/**
-	 * Inverse la position de 2 éléments d'une liste
+	 * Inverse la position de 2 ï¿½lï¿½ments d'une liste
 	 * 
 	 * @param list
-	 *            la liste à modifier
+	 *            la liste ï¿½ modifier
 	 * @param indexA
 	 *            index du premier item
 	 * @param indexB

@@ -1,6 +1,6 @@
 package modele.genome.data;
 
-public enum Allele {
+public enum Allele implements BaseAzote {
 
 	A('A', 'a', false), C('C', 'c', false), T('T', 't', false), G('G', 'g', false), N('N', 'n', true), Y('Y', 'y',
 			true), K('K', 'k', true), M('M', 'm', true), S('S', 's', true), W('W', 'w', true), R('R', 'r',
@@ -22,16 +22,18 @@ public enum Allele {
 		this.wildCard = wildCard;
 	}
 
+	@Override
 	public char getPrimarySymbol() {
 		return this.primarySymbol;
 	}
 
+	@Override
 	public char getSecondarySymbol() {
 		return this.secondarySymbol;
 	}
 
 	public boolean isWildCard() {
-		return this.wildCard;
+		return wildCard;
 	}
 
 	@Override
