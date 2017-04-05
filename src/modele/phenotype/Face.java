@@ -1,6 +1,7 @@
 package modele.phenotype;
 
 import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 public class Face {
@@ -20,12 +21,12 @@ public class Face {
 	private double largeurVisage = 0;
 	private float distanceYeux = 0;
 
-	public Face(EyeColor eyeColor, SkinColor skinColor) {
+	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new Ear();
 		REar = new Ear();
 		LEye = new Eye(eyeColor, 0, 0);
 		REye = new Eye(eyeColor, 0, 0);
-		hair = new Hair();
+		hair = new Hair(hairColor);
 		mouth = new Mouth();
 		nose = new Nose();
 		LSourcils = new Sourcils();
