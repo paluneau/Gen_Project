@@ -73,8 +73,6 @@ public class EnvironmentThreeD {
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
 		objGroup = new ToolsThreeD();
-		// TODO pour qu'on voit le background on ne met pas de fill
-		// scene.setFill(Color.GREY);
 		handleControls(root);
 		scene.setCamera(camera);
 		buildImporter();
@@ -132,7 +130,6 @@ public class EnvironmentThreeD {
 	 * Méthode permettant d'importer les .obj et de les mettre dans notre scène
 	 * world
 	 */
-
 	private void buildObj(boolean firstBuild) {
 		Set<String> physionomyGroups = reader.getMeshes();
 		Map<String, MeshView> groupMeshes = new HashMap<>();
@@ -142,8 +139,6 @@ public class EnvironmentThreeD {
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
 		physionomyGroups.stream().forEach(s -> {
 			MeshView genomicPart = reader.buildMeshView(s);
-			// TODO Transparent stuff
-			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();

@@ -1,5 +1,7 @@
 package modele.phenotype;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableFloatArray;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.SkinColor;
 
@@ -15,6 +17,7 @@ public class Face {
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
+	private ObservableFloatArray points3D = FXCollections.observableFloatArray();
 
 	private double hauteurVisage = 0;
 	private double largeurVisage = 0;
