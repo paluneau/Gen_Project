@@ -1,5 +1,9 @@
 package modele.phenotype;
 
+import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
+import modele.phenotype.data.SkinColor;
+
 public class Face {
 
 	private Ear LEar = null;
@@ -9,24 +13,27 @@ public class Face {
 	private Hair hair = null;
 	private Mouth mouth = null;
 	private Nose nose = null;
-  private Sourcils LSourcils = null;
+	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
+	private Points pointsVisage = null;
 
-	public double hauteurVisage;
+	private double hauteurVisage = 0;
+	private double largeurVisage = 0;
+	private float distanceYeux = 0;
 
-	public double largeurVisage;
-
-	public Face() {
+	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new Ear();
 		REar = new Ear();
-		LEye = new Eye(EyeColor.BROWN, 0, 0);
-		REye = new Eye(EyeColor.BROWN, 0, 0);
-		hair = new Hair();
+		LEye = new Eye(eyeColor, 0, 0);
+		REye = new Eye(eyeColor, 0, 0);
+		hair = new Hair(hairColor);
 		mouth = new Mouth();
 		nose = new Nose();
 		LSourcils = new Sourcils();
-		RSourcils = new Sourcils();
+		RSourcils = new Sourcils();	
+		this.skinColor = skinColor;
+		pointsVisage = new Points();
 	}
 
 	public Ear getLEar() {
@@ -60,10 +67,10 @@ public class Face {
 	public void setREye(Eye eye) {
 		this.REye = eye;
 	}
-	
+
 	public void setEyeDistance(float distance) {
-		this.LEye.updateDistanceNez(-distance);
-		this.REye.updateDistanceNez(distance);
+		this.distanceYeux = distance;
+		pointsVisage.updateDistanceOeilNez(distance);
 	}
 
 	public Hair getHair() {
@@ -128,5 +135,9 @@ public class Face {
 
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
+	}
+	
+	public Points getPointsVisage(){
+		return pointsVisage;
 	}
 }

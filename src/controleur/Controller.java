@@ -14,8 +14,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import modele.EnvironmentThreeD;
 import modele.MusicPlayer;
-import modele.phenotype.EyeColor;
-import modele.phenotype.SkinColor;
+import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
+import modele.phenotype.data.SkinColor;
 
 public class Controller {
 
@@ -59,10 +60,7 @@ public class Controller {
 	private Slider sliderEcartYeux;
 
 	@FXML
-	private ChoiceBox<String> choiceBoxLongueurCheveux;
-
-	@FXML
-	private ChoiceBox<String> choiceBoxCouleurCheveux;
+	private ChoiceBox<HairColor> choiceBoxCouleurCheveux;
 
 	@FXML
 	private ChoiceBox<EyeColor> choiceBoxYeux;
@@ -76,26 +74,28 @@ public class Controller {
 	@FXML
 	private CheckMenuItem muteButton;
 
-	// TODO Integrate with the Human class
-	private EnvironmentThreeD envirnm = new EnvironmentThreeD();
-
+	private EnvironmentThreeD envirnm = null;
 	private MusicPlayer player = null;
-
-	public BooleanProperty modeADN = null;
+	private BooleanProperty modeADNProperty = null;
 
 	@FXML
 	public void initialize() {
-		this.player = new MusicPlayer();
-		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
-		choiceBoxLongueurCheveux.setItems(FXCollections.observableArrayList("Aucun", "Court", "Long"));
-		choiceBoxCouleurCheveux.setItems(FXCollections.observableArrayList("Blond", "Brun", "Roux"));
-		modeADN = new SimpleBooleanProperty();
-		modeADN.set(false);
+		this.player = new MusicPlayer(MusicPlayer.SONG1);
+		modeADNProperty = new SimpleBooleanProperty();
+		setModeADN(false);
 		buildEyeColorBox();
+		buildSkinColorBox();
+		buildHairColorBox();
 		setSlidersValue();
 		ajouterEcouteurs();
+		envirnm = new EnvironmentThreeD(choiceBoxYeux.getValue(), choiceBoxSkin.getValue(),
+				choiceBoxCouleurCheveux.getValue());
+		pane3D.getChildren().add(envirnm.buildWorld(pane3D, (int) pane3D.getPrefWidth(), (int) pane3D.getPrefHeight()));
 	}
 
+	/**
+	 * Détermine les valeurs initiales des contrôles
+	 */
 	private void setSlidersValue() {
 		/*
 		 * sliderHauteurVisage.setMin(-3); sliderHauteurVisage.setMax(3);
@@ -104,11 +104,25 @@ public class Controller {
 		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
 		 * sliderDistanceYeux.setValue(-2);
 		 */
-		sliderEcartYeux.setMin(-0.2);
-		sliderEcartYeux.setMax(0.2);
+		sliderEcartYeux.setMin(-0.4);
+		sliderEcartYeux.setMax(0.4);
 		sliderEcartYeux.setValue(0);
 		sliderDistanceYeux.setMax(0.000000000001);
 		choiceBoxYeux.setValue(EyeColor.BROWN);
+		choiceBoxSkin.setValue(SkinColor.MEDIUM);
+		choiceBoxCouleurCheveux.setValue(HairColor.BLACK);
+	}
+
+	public void setModeADN(boolean val) {
+		modeADNProperty.set(val);
+	}
+
+	public boolean getModeADN() {
+		return modeADNProperty.get();
+	}
+
+	public BooleanProperty getModeADNProperty() {
+		return modeADNProperty;
 	}
 
 	/**
@@ -133,13 +147,33 @@ public class Controller {
 		choiceBoxSkin.setItems(list);
 	}
 
-	// Va contenir les multiples �couteurs
+	/**
+	 * Met les éléments dans la ChoiceBox pour la couleur des cheveux.
+	 */
+	private void buildHairColorBox() {
+		ObservableList<HairColor> list = FXCollections.observableArrayList();
+		for (HairColor c : HairColor.values()) {
+			list.add(c);
+		}
+		choiceBoxCouleurCheveux.setItems(list);
+	}
+
+	/**
+	 * Ajoute les multiples écouteurs sur les contrôles
+	 */
 	public void ajouterEcouteurs() {
 
 		choiceBoxYeux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EyeColor>() {
 			public void changed(ObservableValue<? extends EyeColor> ov, EyeColor old_val, EyeColor new_val) {
 				envirnm.getFace().getLEye().setColor(new_val);
 				envirnm.getFace().getREye().setColor(new_val);
+				envirnm.changementWorld();
+			}
+		});
+
+		choiceBoxSkin.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<SkinColor>() {
+			public void changed(ObservableValue<? extends SkinColor> ov, SkinColor old_val, SkinColor new_val) {
+				envirnm.getFace().setSkinColor(new_val);
 				envirnm.changementWorld();
 			}
 		});
@@ -151,9 +185,9 @@ public class Controller {
 			}
 		});
 
-		sliderDistanceYeux.valueProperty().addListener(new ChangeListener<Number>() {
-			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.criss = new_val.floatValue();
+		choiceBoxCouleurCheveux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<HairColor>() {
+			public void changed(ObservableValue<? extends HairColor> ov, HairColor old_val, HairColor new_val) {
+				envirnm.getFace().getHair().setCouleurCheveux(new_val);
 				envirnm.changementWorld();
 			}
 		});
@@ -242,9 +276,14 @@ public class Controller {
 		getPlayer().changeMute();
 	}
 
+	/**
+	 * Permet d'ouvrir le mode ADN
+	 * 
+	 * @param event
+	 */
 	@FXML
 	private void ouvrirModeADN(ActionEvent event) {
-		modeADN.set(true);
+		setModeADN(true);
 	}
 
 }

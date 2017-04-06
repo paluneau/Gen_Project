@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import modele.genome.data.Allele;
+
 public class SNP {
 	private String rs = null;
 	private String seqModel = null;
@@ -104,7 +106,7 @@ public class SNP {
 	 *            Nouvel allèle
 	 * @return Le caractère qui convient
 	 */
-	//TODO TROUVER UNE FACON MOINS BATARD
+	//TODO TROUVER UNE FACON MOINS BATARDE
 	private Allele getWildCard(Allele x, Allele y) {
 		Allele result = null;
 		Set<Allele> set = new HashSet<Allele>();

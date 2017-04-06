@@ -1,13 +1,16 @@
-package modele.genome;
-
-import java.util.HashSet;
-import java.util.Set;
+package modele.genome.data;
 
 public enum Allele {
-	
+
 	A('A', 'a', false), C('C', 'c', false), T('T', 't', false), G('G', 'g', false), N('N', 'n', true), Y('Y', 'y',
 			true), K('K', 'k', true), M('M', 'm', true), S('S', 's', true), W('W', 'w', true), R('R', 'r',
 					true), B('B', 'b', true), D('D', 'd', true), H('H', 'h', true), V('V', 'v', true);
+
+	public static final Allele[] HOMOA = { Allele.A, Allele.A };
+	public static final Allele[] HOMOG = { Allele.G, Allele.G };
+	public static final Allele[] HOMOC = { Allele.C, Allele.C };
+	public static final Allele[] HOMOT = { Allele.T, Allele.T };
+	public static final Allele[] HETEROAG = { Allele.A, Allele.G };
 
 	private char primarySymbol = ' ';
 	private char secondarySymbol = ' ';
@@ -29,16 +32,6 @@ public enum Allele {
 
 	public boolean isWildCard() {
 		return this.wildCard;
-	}
-
-	private Set<Allele> convertToSet(Allele[] tab) {
-		Set<Allele> set = new HashSet<Allele>();
-
-		for (Allele a : tab) {
-			set.add(a);
-		}
-
-		return set;
 	}
 
 	@Override

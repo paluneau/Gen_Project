@@ -7,11 +7,11 @@ import java.util.Set;
 import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -23,6 +23,9 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Face;
+import modele.phenotype.data.EyeColor;
+import modele.phenotype.data.HairColor;
+import modele.phenotype.data.SkinColor;
 
 /*
  * TODO JAVADOC
@@ -47,14 +50,12 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/obj/face.obj";
+	private static final String URL = "/obj/cube.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
 	 */
 	private double mousePosX, mousePosY, mouseOldX, mouseOldY, mouseDeltaX, mouseDeltaY, modifier = 1.0;
-
-	public float criss = 0;
 
 	private ObjImporter reader = null;
 
@@ -64,12 +65,14 @@ public class EnvironmentThreeD {
 	private ToolsThreeD objGroup;
 	private Face face = null;
 
+	public EnvironmentThreeD(EyeColor initEyeColor, SkinColor initSkinColor, HairColor initHairColor) {
+		face = new Face(initEyeColor, initSkinColor, initHairColor);
+	}
+
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10);
 		objGroup = new ToolsThreeD();
-		face = new Face();
-		scene.setFill(Color.GREY);
-		handleControls(scene);
+		handleControls(root);
 		scene.setCamera(camera);
 		buildImporter();
 		buildCamera();
@@ -126,7 +129,6 @@ public class EnvironmentThreeD {
 	 * Méthode permettant d'importer les .obj et de les mettre dans notre scène
 	 * world
 	 */
-
 	private void buildObj(boolean firstBuild) {
 		Set<String> physionomyGroups = reader.getMeshes();
 		Map<String, MeshView> groupMeshes = new HashMap<>();
@@ -136,57 +138,35 @@ public class EnvironmentThreeD {
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
 		physionomyGroups.stream().forEach(s -> {
 			MeshView genomicPart = reader.buildMeshView(s);
-			// TODO Transparent stuff
-			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
-			ObservableFloatArray points3D = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			if (s.contains("Oeil gauche")) {
-				genomicPart.setMaterial(updateLEye(points3D, firstBuild));
-			}
-			if (s.contains("Oeil droit")) {
-				genomicPart.setMaterial(updateREye(points3D, firstBuild));
-			}
+			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
+			if (firstBuild)
+				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
+
+			points3DGroup = face.getPointsVisage().getPointsUpdater(s);
+			genomicPart.setMaterial(updateColor(s));
 			groupMeshes.put(s, genomicPart);
 		});
 
+		if (firstBuild)
+			face.getPointsVisage().findSiblings();
 		objGroup.getChildren().addAll(groupMeshes.values());
 		world.getChildren().add(objGroup);
 
 	}
 
-	private PhongMaterial updateLEye(ObservableFloatArray points, boolean firstBuild) {
-		if (firstBuild) {
-			getFace().getLEye().setIniPoints(createArrayCopy(points), points);
-		}
-
-		points = getFace().getLEye().getPointsUpdater();
-
+	private PhongMaterial updateColor(String group) {
 		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		if (group.contains("Oeil")) {
+			material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		} else {
+			material.setDiffuseColor(getFace().getSkinColor().getColor());
+		}
 		material.setSpecularColor(Color.BLACK);
 		return material;
-	}
-
-	private PhongMaterial updateREye(ObservableFloatArray points, boolean firstBuild) {
-		if (firstBuild) {
-			getFace().getREye().setIniPoints(createArrayCopy(points), points);
-		}
-
-		points = getFace().getREye().getPointsUpdater();
-
-		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(getFace().getREye().getCouleurYeux().getColor());
-		material.setSpecularColor(getFace().getREye().getCouleurYeux().getColor());
-		return material;
-	}
-
-	private ObservableFloatArray createArrayCopy(ObservableFloatArray original) {
-		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
-		pTemp.addAll(original);
-		return pTemp;
 	}
 
 	private void buildCamera() {
@@ -203,7 +183,7 @@ public class EnvironmentThreeD {
 		cameraX.rx.setAngle(CAMERA_INITIAL_X_ANGLE);
 	}
 
-	private void handleControls(SubScene pane) {
+	private void handleControls(Pane pane) {
 
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
@@ -244,6 +224,13 @@ public class EnvironmentThreeD {
 				double z = camera.getTranslateZ();
 				double newZ = z + me.getDeltaY() * MOUSE_WHEEL_SPEED * modifier;
 				camera.setTranslateZ(newZ);
+			}
+		});
+
+		// TODO contrôles du clavier
+		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent me) {
+				System.out.println("coq roti");
 			}
 		});
 	}
