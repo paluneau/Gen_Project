@@ -32,6 +32,7 @@ public interface Mapable<T, U> {
 		for (Mapable<T, U> g : tab) {
 			out.put(g.getKey(), g.getValue());
 		}
+		System.out.println(out);
 
 		return out;
 	}
