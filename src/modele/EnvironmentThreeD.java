@@ -10,6 +10,7 @@ import vue.MessageAlert;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -70,7 +71,7 @@ public class EnvironmentThreeD {
 	}
 
 	public SubScene buildWorld(Pane root, int width, int height) {
-		SubScene scene = new SubScene(world, width, height - 10);
+		SubScene scene = new SubScene(world, width, height - 10,true, SceneAntialiasing.BALANCED);
 		objGroup = new ToolsThreeD();
 		handleControls(root);
 		scene.setCamera(camera);
