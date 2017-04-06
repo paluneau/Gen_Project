@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlLoadingWindow">
+   <children>
+      <ProgressBar fx:id="progBar" layoutX="39.0" layoutY="82.0" prefHeight="18.0" prefWidth="323.0" progress="0.0" />
+      <Label layoutX="132.0" layoutY="42.0" text="Lecture de fichier FASTA..." />
+   </children>
+</AnchorPane>

@@ -1,11 +1,14 @@
 package modele.genome;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import modele.genome.data.Allele;
+import modele.genome.data.Wildcard;
+import utils.Mappable;
 
 public class SNP {
 	private String rs = null;
@@ -106,47 +109,17 @@ public class SNP {
 	 *            Nouvel allèle
 	 * @return Le caractère qui convient
 	 */
-	//TODO TROUVER UNE FACON MOINS BATARDE
 	private Allele getWildCard(Allele x, Allele y) {
-		Allele result = null;
-		Set<Allele> set = new HashSet<Allele>();
+		SortedSet<Allele> set = new TreeSet<>();
 		set.add(x);
 		set.add(y);
+		Map<SortedSet<Allele>, Allele> wildcards = Mappable.valuesAsMap(Wildcard::values);
+		return wildcards.get(set);
+	}
 
-		if (x.equals(y)) {
-			result = x;
-		} else if (set.contains(Allele.A) && set.contains(Allele.G)) {
-			result = Allele.R;
-		} else if (set.contains(Allele.C) && set.contains(Allele.T)) {
-			result = Allele.Y;
-		} else if (set.contains(Allele.G) && set.contains(Allele.T)) {
-			result = Allele.K;
-		} else if (set.contains(Allele.C) && set.contains(Allele.A)) {
-			result = Allele.M;
-		} else if (set.contains(Allele.C) && set.contains(Allele.G)) {
-			result = Allele.S;
-		} else if (set.contains(Allele.A) && set.contains(Allele.T)) {
-			result = Allele.W;
-		} else if ((set.contains(Allele.Y) && set.contains(Allele.G))
-				|| (set.contains(Allele.S) && set.contains(Allele.T))
-				|| (set.contains(Allele.K) && set.contains(Allele.C))) {
-			result = Allele.B;
-		} else if ((set.contains(Allele.R) && set.contains(Allele.T))
-				|| (set.contains(Allele.W) && set.contains(Allele.G))
-				|| (set.contains(Allele.K) && set.contains(Allele.A))) {
-			result = Allele.D;
-		} else if ((set.contains(Allele.M) && set.contains(Allele.T))
-				|| (set.contains(Allele.W) && set.contains(Allele.C))
-				|| (set.contains(Allele.Y) && set.contains(Allele.A))) {
-			result = Allele.H;
-		} else if ((set.contains(Allele.R) && set.contains(Allele.C))
-				|| (set.contains(Allele.M) && set.contains(Allele.G))
-				|| (set.contains(Allele.S) && set.contains(Allele.A))) {
-			result = Allele.V;
-		} else {
-			result = Allele.N;
-		}
-		return result;
+	@Override
+	public String toString() {
+		return this.getRS();
 	}
 
 }

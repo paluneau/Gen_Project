@@ -10,6 +10,7 @@ import vue.MessageAlert;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +24,7 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Face;
+import modele.phenotype.Hair;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
@@ -70,7 +72,7 @@ public class EnvironmentThreeD {
 	}
 
 	public SubScene buildWorld(Pane root, int width, int height) {
-		SubScene scene = new SubScene(world, width, height - 10);
+		SubScene scene = new SubScene(world, width, height - 10, true, SceneAntialiasing.BALANCED);
 		objGroup = new ToolsThreeD();
 		handleControls(root);
 		scene.setCamera(camera);
@@ -143,6 +145,12 @@ public class EnvironmentThreeD {
 
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
+			genomicPart.setMaterial(updateSkin());
+			if (s.contains("Cheveux")) {
+				Hair hair = getFace().getHair();
+				genomicPart.setMaterial(updateEye(points3DGroup, hair, firstBuild));
+			}
+
 			if (firstBuild)
 				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
 
@@ -165,6 +173,18 @@ public class EnvironmentThreeD {
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
+		material.setSpecularColor(Color.BLACK);
+		return material;
+	}
+	
+	private PhongMaterial updateEye(ObservableFloatArray points, Hair eye, boolean firstBuild) {
+		/*if (firstBuild) {
+			eye.setIniPoints(createArrayCopy(points), points);
+		}
+		points = eye.getPointsUpdater();*/
+
+		final PhongMaterial material = new PhongMaterial();
+		material.setDiffuseColor(eye.getCouleurCheveux().getColor());
 		material.setSpecularColor(Color.BLACK);
 		return material;
 	}
