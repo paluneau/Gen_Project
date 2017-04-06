@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import com.sun.jndi.url.dns.dnsURLContext;
 
 import exception.ConstructionException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -22,6 +24,7 @@ public class CtrlModeADN {
 
 	private DNACreator dNACreator = null;
 	private Face face = null;
+	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
 	@FXML
 	private Pane pane;
 
@@ -39,10 +42,10 @@ public class CtrlModeADN {
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
-		
+
 		if (directoryChooser.getFichierChoisi() != null) {
 			boolean flagError = (dNACreator == null) ? modeDNA() : false;
-			
+
 			if (!flagError) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
@@ -50,7 +53,7 @@ public class CtrlModeADN {
 				} catch (IOException e) {
 					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
-			
+
 			} else {
 				new MessageAlert("Échec de l'exportation");
 			}
@@ -69,6 +72,7 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
+			setLoadingWindowProperty(true);
 			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
@@ -105,5 +109,17 @@ public class CtrlModeADN {
 		new MessageAlert(message);
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
+	}
+
+	public BooleanProperty loadingWindowProperty() {
+		return loadingWindowProperty;
+	}
+
+	public void setLoadingWindowProperty(boolean val) {
+		this.loadingWindowProperty.set(val);
+	}
+
+	public boolean getLoadingWindowProperty() {
+		return this.loadingWindowProperty.get();
 	}
 }

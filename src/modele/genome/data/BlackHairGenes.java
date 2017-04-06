@@ -1,8 +1,8 @@
 package modele.genome.data;
 
-import utils.Mapable;
+import utils.Mappable;
 
-public enum BlackHairGenes implements Mapable<TargetSNPs, Allele[]> {
+public enum BlackHairGenes implements Mappable<TargetSNPs, Allele[]> {
 
 	SNP1(TargetSNPs.RS16891982, Allele.HOMOG), 
 	SNP2(TargetSNPs.RS12203592, Allele.HOMOC), 

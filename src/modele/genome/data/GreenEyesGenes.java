@@ -1,8 +1,8 @@
 package modele.genome.data;
 
-import utils.Mapable;
+import utils.Mappable;
 
-public enum GreenEyesGenes implements Mapable<TargetSNPs, Allele[]> {
+public enum GreenEyesGenes implements Mappable<TargetSNPs, Allele[]> {
 
 	// TODO revérifier les snps...
 	SNP1(TargetSNPs.RS12203592, Allele.HOMOT), 

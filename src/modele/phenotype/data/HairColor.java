@@ -5,7 +5,7 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 import modele.genome.data.Allele;
 import modele.genome.data.TargetSNPs;
-import utils.Mapable;
+import utils.Mappable;
 import modele.genome.data.BlondHairGenes;
 import modele.genome.data.BrownHairGenes;
 import modele.genome.data.BlackHairGenes;
@@ -13,10 +13,10 @@ import modele.genome.data.RedHairGenes;
 
 public enum HairColor {
 
-	BLOND(Color.YELLOW, "Blond", Mapable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.BROWN, "Brun",
-			Mapable.valuesAsMap(BrownHairGenes::values)), BLACK(Color.BLACK, "Noir",
-					Mapable.valuesAsMap(BlackHairGenes::values)), RED(Color.RED, "Roux",
-							Mapable.valuesAsMap(RedHairGenes::values));
+	BLOND(new Color(218/255, 188/255, 80/255, 1), "Blond", Mappable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.BROWN, "Brun",
+			Mappable.valuesAsMap(BrownHairGenes::values)), BLACK(Color.BLACK, "Noir",
+					Mappable.valuesAsMap(BlackHairGenes::values)), RED(new Color(173.0/255, 79.0/255, 9.0/255, 1), "Roux",
+							Mappable.valuesAsMap(RedHairGenes::values));
 
 	Map<TargetSNPs, Allele[]> genes = null;
 	Color color = null;

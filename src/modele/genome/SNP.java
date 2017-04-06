@@ -1,7 +1,6 @@
 package modele.genome;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -9,7 +8,7 @@ import java.util.TreeSet;
 
 import modele.genome.data.Allele;
 import modele.genome.data.Wildcard;
-import utils.Mapable;
+import utils.Mappable;
 
 public class SNP {
 	private String rs = null;
@@ -114,7 +113,7 @@ public class SNP {
 		SortedSet<Allele> set = new TreeSet<>();
 		set.add(x);
 		set.add(y);
-		Map<SortedSet<Allele>, Allele> wildcards = Mapable.valuesAsMap(Wildcard::values);
+		Map<SortedSet<Allele>, Allele> wildcards = Mappable.valuesAsMap(Wildcard::values);
 		return wildcards.get(set);
 	}
 

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import exception.ConstructionException;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import utils.FastaSequenceReader;
 
 /**
@@ -27,6 +29,7 @@ public class Chromosome {
 	private String name = null;
 	private List<String> wntdSNPs = null;
 	private static File altSrcFile = null;
+	
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -35,7 +38,6 @@ public class Chromosome {
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
 			this.snips = new HashMap<String, SNP>();
-			System.out.println(targetSNP);
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
@@ -112,4 +114,5 @@ public class Chromosome {
 	private String generatePath() {
 		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
+	
 }

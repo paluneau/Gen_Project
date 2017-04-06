@@ -3,9 +3,9 @@ package modele.genome.data;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import utils.Mapable;
+import utils.Mappable;
 
-public enum Wildcard implements Mapable<SortedSet<Allele>, Allele> {
+public enum Wildcard implements Mappable<SortedSet<Allele>, Allele> {
 	Y(Allele.Y, Allele.YREPLACE), K(Allele.K, Allele.KREPLACE), M(Allele.M, Allele.MREPLACE), S(Allele.S,
 			Allele.SREPLACE), W(Allele.W, Allele.WREPLACE), R(Allele.R, Allele.RREPLACE), B1(Allele.B,
 					Allele.B1REPLACE), B2(Allele.B, Allele.B2REPLACE), B3(Allele.B, Allele.B3REPLACE), D1(Allele.D,

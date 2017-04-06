@@ -1,8 +1,8 @@
 package modele.genome.data;
 
-import utils.Mapable;
+import utils.Mappable;
 
-public enum LightSkinGenes implements Mapable<TargetSNPs, Allele[]> {
+public enum LightSkinGenes implements Mappable<TargetSNPs, Allele[]> {
 	
 	SNP1(TargetSNPs.RS12913832, Allele.HOMOG), 
 	SNP2(TargetSNPs.RS1545397, Allele.HOMOT), 
