@@ -50,7 +50,7 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/obj/cube.obj";
+	private static final String URL = "/obj/face.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
