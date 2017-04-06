@@ -2,6 +2,7 @@ package app;
 
 import java.io.IOException;
 import controleur.Controller;
+import controleur.CtrlLoadingWindow;
 import controleur.CtrlModeADN;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -54,7 +55,7 @@ public class GenomicApplication extends Application {
 						CtrlModeADN ctrl = ((CtrlModeADN) loaderModeADN.getController());
 						ctrl.createFenetreModeADN(c.getEnvirnm().getFace());
 						c.setModeADN(false);
-						
+
 						ctrl.loadingWindowProperty().addListener(new ChangeListener<Boolean>() {
 
 							@Override
@@ -62,7 +63,8 @@ public class GenomicApplication extends Application {
 									Boolean newValue) {
 								if (new_val == true) {
 									try {
-										FXMLLoader loaderLoadingWindow = new FXMLLoader(getClass().getResource("/vue/LoadingWindow.fxml"));
+										FXMLLoader loaderLoadingWindow = new FXMLLoader(
+												getClass().getResource("/vue/LoadingWindow.fxml"));
 										AnchorPane bgPane = (AnchorPane) loaderLoadingWindow.load();
 										Stage stageLoadingWindow = new Stage();
 										Scene sceneLoadingWindow = new Scene(bgPane);
@@ -71,25 +73,22 @@ public class GenomicApplication extends Application {
 										stageLoadingWindow.setTitle("Lecture FASTA");
 										stageLoadingWindow.setResizable(false);
 										stageLoadingWindow.show();
-										
+										CtrlLoadingWindow ctrlLoad = (CtrlLoadingWindow) loaderLoadingWindow
+												.getController();
 									} catch (IOException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
-									
-									
-									
-									
-									
+
 									ctrl.setLoadingWindowProperty(false);
 								}
-								
+
 							}
 						});
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
+
 				}
 			}
 		});

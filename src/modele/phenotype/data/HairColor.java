@@ -13,9 +13,9 @@ import modele.genome.data.RedHairGenes;
 
 public enum HairColor {
 
-	BLOND(new Color(218/255, 188/255, 80/255, 1), "Blond", Mappable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.BROWN, "Brun",
+	BLOND(new Color(216.0/255, 190.0/255, 120.0/255, 1), "Blond", Mappable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.SADDLEBROWN, "Brun",
 			Mappable.valuesAsMap(BrownHairGenes::values)), BLACK(Color.BLACK, "Noir",
-					Mappable.valuesAsMap(BlackHairGenes::values)), RED(new Color(173.0/255, 79.0/255, 9.0/255, 1), "Roux",
+					Mappable.valuesAsMap(BlackHairGenes::values)), RED(new Color(217.0/255, 62.0/255, 20.0/255, 1), "Roux",
 							Mappable.valuesAsMap(RedHairGenes::values));
 
 	Map<TargetSNPs, Allele[]> genes = null;
