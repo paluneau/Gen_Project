@@ -24,13 +24,11 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Face;
-import modele.phenotype.Hair;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 /*
- * TODO JAVADOC
  * Classe créant une scène movable 3D avec un OBJ dedans
  */
 public class EnvironmentThreeD {
@@ -170,18 +168,6 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		material.setSpecularColor(Color.BLACK);
-		return material;
-	}
-
-	private PhongMaterial updateEye(ObservableFloatArray points, Hair eye, boolean firstBuild) {
-		/*
-		 * if (firstBuild) { eye.setIniPoints(createArrayCopy(points), points);
-		 * } points = eye.getPointsUpdater();
-		 */
-
-		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(eye.getCouleurCheveux().getColor());
 		material.setSpecularColor(Color.BLACK);
 		return material;
 	}

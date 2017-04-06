@@ -36,6 +36,9 @@ public class Points {
 		// updatePoints("face2", distance);
 	}
 
+	/**
+	 * TODO shorten this function
+	 */
 	public void findSiblings() {
 		for (int k = 0; k < points3DIni.values().size() - 1; k++) {
 			ObservableFloatArray e = (ObservableFloatArray) points3DIni.values().toArray()[k];
@@ -49,19 +52,21 @@ public class Points {
 							ObservableFloatArray q = FXCollections.observableFloatArray();
 							q.addAll(f.get(3 * j), f.get((3 * j) + 1), f.get((3 * j) + 2));
 							if (findIfEquals(p, q)) {
-								if (pointsSupp.containsKey(findKeyFromValueMap(e, points3DIni))) {
-									pointsIniSupp.get(findKeyFromValueMap(e, points3DIni)).addAll(createArrayCopy(q));
-									pointsSupp.get(findKeyFromValueMap(e, points3DIni)).addAll(q);
+								String t = findKeyFromValueMap(e, points3DIni);
+								if (pointsSupp.containsKey(t)) {
+									pointsIniSupp.get(t).addAll(createArrayCopy(q));
+									pointsSupp.get(t).addAll(q);
 								} else {
-									pointsIniSupp.put(findKeyFromValueMap(e, points3DIni), createArrayCopy(q));
-									pointsSupp.put(findKeyFromValueMap(e, points3DIni), q);
+									pointsIniSupp.put(t, createArrayCopy(q));
+									pointsSupp.put(t, q);
 								}
-								if (pointsSupp.containsKey(findKeyFromValueMap(f, points3DIni))) {
-									pointsIniSupp.get(findKeyFromValueMap(f, points3DIni)).addAll(createArrayCopy(p));
-									pointsSupp.get(findKeyFromValueMap(f, points3DIni)).addAll(p);
+								t = findKeyFromValueMap(f, points3DIni);
+								if (pointsSupp.containsKey(t)) {
+									pointsIniSupp.get(t).addAll(createArrayCopy(p));
+									pointsSupp.get(t).addAll(p);
 								} else {
-									pointsIniSupp.put(findKeyFromValueMap(f, points3DIni), createArrayCopy(p));
-									pointsSupp.put(findKeyFromValueMap(f, points3DIni), p);
+									pointsIniSupp.put(t, createArrayCopy(p));
+									pointsSupp.put(t, p);
 								}
 							}
 						}
@@ -72,13 +77,15 @@ public class Points {
 			}
 		}
 
-		/*
-		 * for (ObservableFloatArray sdk : pointsSupp.values()) {
-		 * System.out.println(findKeyFromValueMap(sdk, pointsSupp)); for (int i
-		 * = 0; i < sdk.size() / 3; i++) { System.out.println( "P : [" +
-		 * sdk.get(3 * i) + ", " + sdk.get((3 * i) + 1) + ", " + sdk.get((3 * i)
-		 * + 2) + "]"); } } System.out.println();
-		 */
+		for (ObservableFloatArray sdk : pointsSupp.values()) {
+			System.out.println(findKeyFromValueMap(sdk, pointsSupp));
+			for (int i = 0; i < sdk.size() / 3; i++) {
+				System.out.println(
+						"P : [" + sdk.get(3 * i) + ", " + sdk.get((3 * i) + 1) + ", " + sdk.get((3 * i) + 2) + "]");
+			}
+		}
+		System.out.println();
+
 	}
 
 	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
