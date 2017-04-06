@@ -174,4 +174,8 @@ public class CtrlModeADN {
 	public boolean getLoadingWindowProperty() {
 		return this.loadingWindowProperty.get();
 	}
+	
+	public DNACreator getdNACreator(){
+		return this.dNACreator;
+	}
 }

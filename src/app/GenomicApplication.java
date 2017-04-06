@@ -75,6 +75,7 @@ public class GenomicApplication extends Application {
 										stageLoadingWindow.show();
 										CtrlLoadingWindow ctrlLoad = (CtrlLoadingWindow) loaderLoadingWindow
 												.getController();
+										ctrlLoad.startLoading(ctrl.getdNACreator());
 									} catch (IOException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
