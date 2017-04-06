@@ -55,7 +55,7 @@ public class SNPTest {
 		rs123.setAllele(Allele.C);
 		assertEquals(rs123.getAllele(), Allele.Y);
 		assertEquals(rs123.getSeq(), "AAACTGG TTCTGCTGYG TTCGGCTGCTA AGCAAGGTAG");
-		
+	
 		rs456.setAllele(Allele.G);
 		assertEquals(rs456.getAllele(), Allele.S);
 		rs456.setAllele(Allele.A);

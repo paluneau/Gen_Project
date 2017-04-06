@@ -1,8 +1,11 @@
 package modele.genome.data;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import utils.Mapable;
 
-public enum Wildcard implements Mapable<Allele[], Allele> {
+public enum Wildcard implements Mapable<SortedSet<Allele>, Allele> {
 	Y(Allele.Y, Allele.YREPLACE), K(Allele.K, Allele.KREPLACE), M(Allele.M, Allele.MREPLACE), S(Allele.S,
 			Allele.SREPLACE), W(Allele.W, Allele.WREPLACE), R(Allele.R, Allele.RREPLACE), B1(Allele.B,
 					Allele.B1REPLACE), B2(Allele.B, Allele.B2REPLACE), B3(Allele.B, Allele.B3REPLACE), D1(Allele.D,
@@ -20,15 +23,19 @@ public enum Wildcard implements Mapable<Allele[], Allele> {
 	}
 
 	@Override
-	public Allele[] getKey() {
-		// TODO Auto-generated method stub
-		return null;
+	public SortedSet<Allele> getKey() {
+		SortedSet<Allele> out = new TreeSet<>();
+
+		for (Allele a : this.replacement) {
+			out.add(a);
+		}
+
+		return out;
 	}
 
 	@Override
 	public Allele getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return wildCard;
 	}
 
 }
