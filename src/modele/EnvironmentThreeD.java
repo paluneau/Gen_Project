@@ -7,7 +7,6 @@ import java.util.Set;
 import utils.ToolsThreeD;
 import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
 import javafx.scene.PerspectiveCamera;
@@ -24,7 +23,6 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import modele.phenotype.Eye;
 import modele.phenotype.Face;
 import modele.phenotype.Hair;
 import modele.phenotype.data.EyeColor;
@@ -49,7 +47,7 @@ public class EnvironmentThreeD {
 	private final ToolsThreeD cameraX = new ToolsThreeD(), cameraY = new ToolsThreeD(), cameraZ = new ToolsThreeD(),
 			axisGroup = new ToolsThreeD();
 
-	private static final double CAMERA_INITIAL_DISTANCE = -15, CAMERA_INITIAL_X_ANGLE = 70.0,
+	private static final double CAMERA_INITIAL_DISTANCE = -100, CAMERA_INITIAL_X_ANGLE = 70.0,
 			CAMERA_INITIAL_Y_ANGLE = 320.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
@@ -76,8 +74,6 @@ public class EnvironmentThreeD {
 	public SubScene buildWorld(Pane root, int width, int height) {
 		SubScene scene = new SubScene(world, width, height - 10, true, SceneAntialiasing.BALANCED);
 		objGroup = new ToolsThreeD();
-		// TODO pour qu'on voit le background on ne met pas de fill
-		// scene.setFill(Color.GREY);
 		handleControls(root);
 		scene.setCamera(camera);
 		buildImporter();
@@ -135,7 +131,6 @@ public class EnvironmentThreeD {
 	 * Méthode permettant d'importer les .obj et de les mettre dans notre scène
 	 * world
 	 */
-
 	private void buildObj(boolean firstBuild) {
 		Set<String> physionomyGroups = reader.getMeshes();
 		Map<String, MeshView> groupMeshes = new HashMap<>();
@@ -145,75 +140,50 @@ public class EnvironmentThreeD {
 		affineIni.prepend(new Rotate(90, Rotate.Z_AXIS));
 		physionomyGroups.stream().forEach(s -> {
 			MeshView genomicPart = reader.buildMeshView(s);
-			// TODO Transparent stuff
-			genomicPart.setStyle("-fx-opacity: 1;");
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
+
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			genomicPart.setMaterial(updateSkin());
-			if (s.contains("Cheveux")) {
-				Hair hair = getFace().getHair();
-				genomicPart.setMaterial(updateEye(points3DGroup, hair, firstBuild));
-			}
+			if (firstBuild)
+				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
 
-			if (s.contains("Oeil gauche")) {
-				Eye eye = getFace().getLEye();
-				genomicPart.setMaterial(updateEye(points3DGroup, eye, firstBuild));
-			}
-			if (s.contains("Oeil droit")) {
-				Eye eye = getFace().getREye();
-				genomicPart.setMaterial(updateEye(points3DGroup, eye, firstBuild));
-			}
-
+			points3DGroup = face.getPointsVisage().getPointsUpdater(s);
+			genomicPart.setMaterial(updateColor(s));
 			groupMeshes.put(s, genomicPart);
 		});
 
+		if (firstBuild)
+			face.getPointsVisage().findSiblings();
 		objGroup.getChildren().addAll(groupMeshes.values());
 		world.getChildren().add(objGroup);
 
 	}
 
-	/**
-	 * crée un matériel de la couleur de la peau
-	 * 
-	 * @return la matériel
-	 */
-	private PhongMaterial updateSkin() {
+	private PhongMaterial updateColor(String group) {
 		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(getFace().getSkinColor().getColor());
-		material.setSpecularColor(Color.BLACK);
-		return material;
-	}
-
-	private PhongMaterial updateEye(ObservableFloatArray points, Eye eye, boolean firstBuild) {
-		if (firstBuild) {
-			eye.setIniPoints(createArrayCopy(points), points);
+		if (group.contains("Oeil")) {
+			material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		} else if (group.contains("Cheveux")) {
+			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
+		} else {
+			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
-		points = eye.getPointsUpdater();
 
-		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(eye.getCouleurYeux().getColor());
 		material.setSpecularColor(Color.BLACK);
 		return material;
 	}
-	
+
 	private PhongMaterial updateEye(ObservableFloatArray points, Hair eye, boolean firstBuild) {
-		/*if (firstBuild) {
-			eye.setIniPoints(createArrayCopy(points), points);
-		}
-		points = eye.getPointsUpdater();*/
+		/*
+		 * if (firstBuild) { eye.setIniPoints(createArrayCopy(points), points);
+		 * } points = eye.getPointsUpdater();
+		 */
 
 		final PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(eye.getCouleurCheveux().getColor());
 		material.setSpecularColor(Color.BLACK);
 		return material;
-	}
-
-	private ObservableFloatArray createArrayCopy(ObservableFloatArray original) {
-		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
-		pTemp.addAll(original);
-		return pTemp;
 	}
 
 	private void buildCamera() {
