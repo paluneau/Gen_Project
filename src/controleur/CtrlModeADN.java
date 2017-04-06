@@ -32,33 +32,30 @@ public class CtrlModeADN {
 	@FXML
 	private Pane pane;
 
-	 @FXML
-	    private Pane pane;
+	@FXML
+	private ScrollPane scrollOreille;
 
-	    @FXML
-	    private ScrollPane scrollOreille;
+	@FXML
+	private ScrollPane scrollYeux;
 
-	    @FXML
-	    private ScrollPane scrollYeux;
+	@FXML
+	private ScrollPane scrollVisage;
 
-	    @FXML
-	    private ScrollPane scrollVisage;
+	@FXML
+	private ScrollPane scrollCheveux;
 
-	    @FXML
-	    private ScrollPane scrollCheveux;
+	@FXML
+	private ScrollPane scrollBouche;
 
-	    @FXML
-	    private ScrollPane scrollBouche;
+	@FXML
+	private ScrollPane scrollNez;
 
-	    @FXML
-	    private ScrollPane scrollNez;
+	@FXML
+	private ScrollPane scrollPeau;
 
-	    @FXML
-	    private ScrollPane scrollPeau;
+	@FXML
+	private ScrollPane scrollSourcils;
 
-	    @FXML
-	    private ScrollPane scrollSourcils;
-	    
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
 		modeDNA();
@@ -66,27 +63,23 @@ public class CtrlModeADN {
 		Label labelYeux = new Label();
 		scrollYeux.setContent(labelYeux);
 		face.getLEye().getCouleurYeux().getGenes().forEach((k, v) -> {
-			labelYeux.setText(labelYeux.getText() 
-					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
-					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
-					+ "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
+			labelYeux.setText(labelYeux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
+					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
 					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
 					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
-					+  "\n" + "\n");
+					+ "\n" + "\n");
 
 		});
 
 		Label labelCheveux = new Label();
 		scrollCheveux.setContent(labelCheveux);
 		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
-			
-			labelCheveux.setText(labelCheveux.getText()  
-					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
-					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
-					+ "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
+
+			labelCheveux.setText(labelCheveux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: "
+					+ v[0] + "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
 					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
 					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
-					+  "\n" + "\n");
+					+ "\n" + "\n");
 
 		});
 

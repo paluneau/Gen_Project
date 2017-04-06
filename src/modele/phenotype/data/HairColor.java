@@ -13,10 +13,12 @@ import modele.genome.data.RedHairGenes;
 
 public enum HairColor {
 
-	BLOND(new Color(218/255, 188/255, 80/255, 1), "Blond", Mappable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.BROWN, "Brun",
-			Mappable.valuesAsMap(BrownHairGenes::values)), BLACK(Color.BLACK, "Noir",
-					Mappable.valuesAsMap(BlackHairGenes::values)), RED(new Color(173.0/255, 79.0/255, 9.0/255, 1), "Roux",
-							Mappable.valuesAsMap(RedHairGenes::values));
+	BLOND(new Color(218.0 / 255, 188.0 / 255, 80.0 / 255, 1), "Blond",
+			Mappable.valuesAsMap(BlondHairGenes::values)), BROWN(Color.BROWN, "Brun",
+					Mappable.valuesAsMap(BrownHairGenes::values)), BLACK(Color.BLACK, "Noir",
+							Mappable.valuesAsMap(BlackHairGenes::values)), RED(
+									new Color(173.0 / 255, 79.0 / 255, 9.0 / 255, 1), "Roux",
+									Mappable.valuesAsMap(RedHairGenes::values));
 
 	Map<TargetSNPs, Allele[]> genes = null;
 	Color color = null;
@@ -34,10 +36,6 @@ public enum HairColor {
 
 	public String getName() {
 		return this.name;
-	}
-	
-	public Map<TargetSNPs, Allele[]> getGenes() {
-		return this.genes;
 	}
 
 	public Map<TargetSNPs, Allele[]> getGenes() {
