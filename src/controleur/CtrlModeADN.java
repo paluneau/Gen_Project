@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import com.sun.jndi.url.dns.dnsURLContext;
 
 import exception.ConstructionException;
 import javafx.beans.property.BooleanProperty;
@@ -13,11 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import modele.DNACreator;
-import modele.EnvironmentThreeD;
 import modele.genome.Chromosome;
 import modele.phenotype.Face;
 import utils.FastaExporter;
@@ -29,9 +25,7 @@ public class CtrlModeADN {
 	private DNACreator dNACreator = null;
 	private Face face = null;
 	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
-	@FXML
-	private Pane pane;
-
+	
 	 @FXML
 	    private Pane pane;
 
@@ -58,11 +52,11 @@ public class CtrlModeADN {
 
 	    @FXML
 	    private ScrollPane scrollSourcils;
-	    
+
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
 		modeDNA();
-
+		
 		Label labelYeux = new Label();
 		scrollYeux.setContent(labelYeux);
 		face.getLEye().getCouleurYeux().getGenes().forEach((k, v) -> {
@@ -70,8 +64,8 @@ public class CtrlModeADN {
 					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
 					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
 					+ "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
-					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
+					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs"+k.getId()).getSeq()
+					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs"+k.getId()).getSeq()
 					+  "\n" + "\n");
 
 		});
@@ -84,12 +78,26 @@ public class CtrlModeADN {
 					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
 					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
 					+ "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
-					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
+					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs"+k.getId()).getSeq()
+					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs"+k.getId()).getSeq()
 					+  "\n" + "\n");
 
 		});
+	
+		Label labelPeau = new Label();
+		scrollPeau.setContent(labelPeau);
+		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
+			
+			labelPeau.setText(labelPeau.getText()  
+					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
+					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
+					+ "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
+					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs"+k.getId()).getSeq()
+					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs"+k.getId()).getSeq()
+					+  "\n" + "\n");
 
+		});
+	
 	}
 
 	/**
@@ -101,10 +109,10 @@ public class CtrlModeADN {
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
-
+		
 		if (directoryChooser.getFichierChoisi() != null) {
 			boolean flagError = (dNACreator == null) ? modeDNA() : false;
-
+			
 			if (!flagError) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
@@ -112,7 +120,7 @@ public class CtrlModeADN {
 				} catch (IOException e) {
 					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
-
+			
 			} else {
 				new MessageAlert("Échec de l'exportation");
 			}
@@ -131,13 +139,13 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
-			setLoadingWindowProperty(true);
 			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
 			Chromosome.setAltSrcFile(newFolder);
 
 			try {
+				
 				dNACreator = new DNACreator(this.face);
 			} catch (IOException e1) {
 				new MessageAlert("Impossible de trouver le(s) fichier(s).");
@@ -169,7 +177,6 @@ public class CtrlModeADN {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
 	}
-
 	public BooleanProperty loadingWindowProperty() {
 		return loadingWindowProperty;
 	}
