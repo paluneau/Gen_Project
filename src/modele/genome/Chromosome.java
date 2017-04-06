@@ -5,11 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import exception.ConstructionException;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import utils.FastaSequenceReader;
 
 /**
@@ -21,13 +24,12 @@ import utils.FastaSequenceReader;
  */
 public class Chromosome {
 
-	// TODO vérifier si on ne peut pas changer snips en map...
-	private List<SNP> snips = null;
+	private Map<String, SNP> snips = null;
 	private String dataSrcPath = null;
 	private String name = null;
 	private List<String> wntdSNPs = null;
-	private File srcFile = null;
 	private static File altSrcFile = null;
+	
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -35,14 +37,14 @@ public class Chromosome {
 			this.name = name;
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
-			this.snips = new ArrayList<>();
+			this.snips = new HashMap<String, SNP>();
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
 		}
 	}
 
-	public List<SNP> getSnips() {
+	public Map<String, SNP> getSnips() {
 		return this.snips;
 	}
 
@@ -72,11 +74,11 @@ public class Chromosome {
 		} else {
 			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
+		
+		System.out.println(fsr.getSequences());
 
-		Map<String, String> sequences = fsr.getSequences();
-
-		sequences.forEach((desc, seq) -> {
-			snips.add(new SNP(desc, seq));
+		fsr.getSequences().forEach((desc, seq) -> {
+			snips.put(desc, new SNP(desc, seq));
 		});
 	}
 
@@ -87,17 +89,8 @@ public class Chromosome {
 	 *            le rs
 	 * @return le SNP
 	 */
-	// TODO vrm plus efficace si snips -> map
 	public SNP getSNPByRS(String rs) {
-		SNP snpID = null;
-
-		for (SNP snip : snips) {
-			if (snip.getRS().equals(rs)) {
-				snpID = snip;
-			}
-		}
-
-		return snpID;
+		return this.snips.get(rs);
 	}
 
 	/**
@@ -121,4 +114,5 @@ public class Chromosome {
 	private String generatePath() {
 		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
+	
 }

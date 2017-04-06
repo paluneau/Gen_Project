@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * @param <U>
  *            Type de la valeur
  */
-public interface Mapable<T, U> {
+public interface Mappable<T, U> {
 
 	/**
 	 * Génère la map avec une méthode Supplier qui lui donne une tableau
@@ -25,11 +25,11 @@ public interface Mapable<T, U> {
 	 *            le tableau d'objets
 	 * @return la map qui correspond auxclés et valeurs dans les objets
 	 */
-	public static <T, U> Map<T, U> valuesAsMap(Supplier<Mapable<T, U>[]> table) {
+	public static <T, U> Map<T, U> valuesAsMap(Supplier<Mappable<T, U>[]> table) {
 		Map<T, U> out = new HashMap<>();
-		Mapable<T, U>[] tab = table.get();
+		Mappable<T, U>[] tab = table.get();
 
-		for (Mapable<T, U> g : tab) {
+		for (Mappable<T, U> g : tab) {
 			out.put(g.getKey(), g.getValue());
 		}
 		System.out.println(out);

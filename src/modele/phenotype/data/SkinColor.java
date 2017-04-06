@@ -8,13 +8,13 @@ import modele.genome.data.LightSkinGenes;
 import modele.genome.data.MediumSkinGenes;
 import modele.genome.data.DarkSkinGenes;
 import modele.genome.data.TargetSNPs;
-import utils.Mapable;
+import utils.Mappable;
 
 public enum SkinColor {
 
-	LIGHT("Pâle", Color.BURLYWOOD, Mapable.valuesAsMap(LightSkinGenes::values)), MEDIUM("Medium", Color.PERU,
-			Mapable.valuesAsMap(MediumSkinGenes::values)), DARK("Foncée", Color.SADDLEBROWN,
-					Mapable.valuesAsMap(DarkSkinGenes::values));
+	LIGHT("Pâle", Color.BURLYWOOD, Mappable.valuesAsMap(LightSkinGenes::values)), MEDIUM("Medium", Color.PERU,
+			Mappable.valuesAsMap(MediumSkinGenes::values)), DARK("Foncée", Color.SADDLEBROWN,
+					Mappable.valuesAsMap(DarkSkinGenes::values));
 
 	private Color color = null;
 	private String name = null;

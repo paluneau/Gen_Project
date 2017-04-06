@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import exception.ConstructionException;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import modele.genome.data.TargetSNPs;
 
 public class DNA {
@@ -15,19 +17,20 @@ public class DNA {
 	private Set<String> chrSymbols = null;
 	private List<Chromosome> pair1 = null;
 	private List<Chromosome> pair2 = null;
+	private DoubleProperty readingProgressProperty = null;
 
 	public DNA(Set<String> chrSymbols) throws ConstructionException, IOException, URISyntaxException {
 		if (!chrSymbols.isEmpty()) {
 			this.chrSymbols = chrSymbols;
 			pair1 = new ArrayList<>();
 			pair2 = new ArrayList<>();
+			this.readingProgressProperty = new SimpleDoubleProperty(0);
 			createChr();
 		} else {
 			throw new ConstructionException("Aucun SNP ciblé.");
 		}
 
 	}
-	
 
 	public Set<String> getChrSymbols() {
 		return chrSymbols;
@@ -62,9 +65,12 @@ public class DNA {
 	 * @throws URISyntaxException
 	 */
 	private void createChr() throws ConstructionException, IOException, URISyntaxException {
+		double progress = 0;
 		for (String sym : chrSymbols) {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
+			progress += 1 / chrSymbols.size();
+			setReadingProgress(progress);
 		}
 
 	}
@@ -90,5 +96,20 @@ public class DNA {
 		return pair;
 	}
 
+	private void computeProgress() {
+
+	}
+
+	public DoubleProperty readingProgressProperty() {
+		return readingProgressProperty;
+	}
+
+	public double getReadingProgress() {
+		return readingProgressProperty.get();
+	}
+
+	public void setReadingProgress(double val) {
+		this.readingProgressProperty.set(val);
+	}
 
 }
