@@ -1,11 +1,12 @@
 package modele.genome.data;
 
-import utils.Mapable;
+import utils.Mappable;
 
-public enum BrownEyesGenes implements Mapable<TargetSNPs, Allele[]> {
+public enum BrownEyesGenes implements Mappable<TargetSNPs, Allele[]> {
 
-	SNP1(TargetSNPs.RS16891982, Allele.HOMOC), SNP2(TargetSNPs.RS6119471, Allele.HOMOG), SNP3(TargetSNPs.RS12913832,
-			Allele.HETEROAG);
+	SNP1(TargetSNPs.RS16891982, Allele.HOMOC), 
+	SNP2(TargetSNPs.RS6119471, Allele.HOMOG), 
+	SNP3(TargetSNPs.RS12913832,Allele.HETEROAG);
 
 	private TargetSNPs snp = null;
 	private Allele[] alleles = null;

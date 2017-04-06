@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import com.sun.jndi.url.dns.dnsURLContext;
 
 import exception.ConstructionException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,6 +28,9 @@ public class CtrlModeADN {
 
 	private DNACreator dNACreator = null;
 	private Face face = null;
+	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
+	@FXML
+	private Pane pane;
 
 	 @FXML
 	    private Pane pane;
@@ -126,6 +131,7 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
+			setLoadingWindowProperty(true);
 			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
@@ -162,5 +168,17 @@ public class CtrlModeADN {
 		new MessageAlert(message);
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
+	}
+
+	public BooleanProperty loadingWindowProperty() {
+		return loadingWindowProperty;
+	}
+
+	public void setLoadingWindowProperty(boolean val) {
+		this.loadingWindowProperty.set(val);
+	}
+
+	public boolean getLoadingWindowProperty() {
+		return this.loadingWindowProperty.get();
 	}
 }

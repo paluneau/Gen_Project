@@ -16,7 +16,6 @@ public class Hair {
 
 	public void setCouleurCheveux(HairColor couleurCheveux) {
 		this.couleurCheveux = couleurCheveux;
-		System.out.println(this.couleurCheveux);
 	}
 
 }

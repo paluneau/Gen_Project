@@ -8,13 +8,13 @@ import modele.genome.data.BlueEyesGenes;
 import modele.genome.data.BrownEyesGenes;
 import modele.genome.data.GreenEyesGenes;
 import modele.genome.data.TargetSNPs;
-import utils.Mapable;
+import utils.Mappable;
 
 public enum EyeColor {
 
-	BLUE("Bleu", Color.ROYALBLUE, Mapable.valuesAsMap(BlueEyesGenes::values)), GREEN("Vert", Color.FORESTGREEN,
-			Mapable.valuesAsMap(GreenEyesGenes::values)), BROWN("Brun", Color.SIENNA,
-					Mapable.valuesAsMap(BrownEyesGenes::values));
+	BLUE("Bleu", Color.ROYALBLUE, Mappable.valuesAsMap(BlueEyesGenes::values)), GREEN("Vert", Color.FORESTGREEN,
+			Mappable.valuesAsMap(GreenEyesGenes::values)), BROWN("Brun", Color.SIENNA,
+					Mappable.valuesAsMap(BrownEyesGenes::values));
 
 	private Color color = null;
 	private String name = null;

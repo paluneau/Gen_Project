@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -50,11 +51,45 @@ public class GenomicApplication extends Application {
 						stageModeADN.setScene(sceneModeADN);
 						stageModeADN.setResizable(false);
 						stageModeADN.show();
-						((CtrlModeADN) loaderModeADN.getController()).createFenetreModeADN(c.getEnvirnm().getFace());
+						CtrlModeADN ctrl = ((CtrlModeADN) loaderModeADN.getController());
+						ctrl.createFenetreModeADN(c.getEnvirnm().getFace());
 						c.setModeADN(false);
+						
+						ctrl.loadingWindowProperty().addListener(new ChangeListener<Boolean>() {
+
+							@Override
+							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+									Boolean newValue) {
+								if (new_val == true) {
+									try {
+										FXMLLoader loaderLoadingWindow = new FXMLLoader(getClass().getResource("/vue/LoadingWindow.fxml"));
+										AnchorPane bgPane = (AnchorPane) loaderLoadingWindow.load();
+										Stage stageLoadingWindow = new Stage();
+										Scene sceneLoadingWindow = new Scene(bgPane);
+										stageLoadingWindow.setScene(sceneLoadingWindow);
+										stageLoadingWindow.initModality(Modality.APPLICATION_MODAL);
+										stageLoadingWindow.setTitle("Lecture FASTA");
+										stageLoadingWindow.setResizable(false);
+										stageLoadingWindow.show();
+										
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									
+									
+									
+									
+									
+									ctrl.setLoadingWindowProperty(false);
+								}
+								
+							}
+						});
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					
 				}
 			}
 		});

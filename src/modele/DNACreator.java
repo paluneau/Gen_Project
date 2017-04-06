@@ -28,7 +28,6 @@ public class DNACreator {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
 			this.face = f;
-			System.out.println(this.face.getLEye().getCouleurYeux());
 			updateDNA();
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
@@ -55,6 +54,7 @@ public class DNACreator {
 		for (TargetSNPs t : tgt) {
 			chrSym.add(t.getChromosomeNbr());
 		}
+		System.out.println(chrSym);
 
 		return chrSym;
 	}
@@ -70,6 +70,12 @@ public class DNACreator {
 			int pos = 0;
 			TargetSNPs current = snp;
 			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
+				//TODO CALISS
+				System.out.println("TargetSNP: "+current.getId());
+				System.out.println("#Chr: "+chr.getName());
+				System.out.println("SNP lu: "+"rs" + current.getId());
+				System.out.println(chr.getSnips().keySet());
+				System.out.println(chr.getSnips().values());
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}
@@ -83,6 +89,7 @@ public class DNACreator {
 	public void updateDNA() {
 		setGenes(this.face.getLEye().getCouleurYeux().getGenes());
 		setGenes(this.face.getSkinColor().getGenes());
+		setGenes(this.face.getHair().getCouleurCheveux().getGenes());
 
 	}
 
