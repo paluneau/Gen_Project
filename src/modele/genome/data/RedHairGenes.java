@@ -3,10 +3,16 @@ package modele.genome.data;
 import utils.Mapable;
 
 public enum RedHairGenes implements Mapable<TargetSNPs, Allele[]> {
-	SNP1(TargetSNPs.RS1800407, Allele.HOMOC), SNP2(TargetSNPs.RS916977, Allele.HOMOC), SNP3(TargetSNPs.RS8039195,
-			Allele.HOMOT), SNP4(TargetSNPs.RS2228479, Allele.HOMOG), SNP5(TargetSNPs.RS11547464, Allele.HOMOG), SNP6(
-					TargetSNPs.RS1805007, Allele.HOMOC), SNP7(TargetSNPs.RS1805008, Allele.HOMOC), SNP8(
-							TargetSNPs.RS1805009, Allele.HOMOG), SNP9(TargetSNPs.RS2378249, Allele.HOMOA);
+	SNP1(TargetSNPs.RS1800407, Allele.HOMOC), 
+	SNP2(TargetSNPs.RS916977, Allele.HOMOC), 
+	SNP3(TargetSNPs.RS8039195,Allele.HOMOT), 
+	//SNP4(TargetSNPs.RS2228479, Allele.HOMOG), 
+	//SNP5(TargetSNPs.RS11547464, Allele.HOMOG), 
+	//SNP6(TargetSNPs.RS1805007, Allele.HOMOC), 
+	//SNP7(TargetSNPs.RS1805008, Allele.HOMOC), 
+    //SNP8(TargetSNPs.RS1805009, Allele.HOMOG), 
+	SNP9(TargetSNPs.RS2378249, Allele.HOMOA);
+	;
 
 	TargetSNPs snp = null;
 	Allele[] alleles = null;

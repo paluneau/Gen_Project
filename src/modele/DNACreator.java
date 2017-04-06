@@ -54,6 +54,7 @@ public class DNACreator {
 		for (TargetSNPs t : tgt) {
 			chrSym.add(t.getChromosomeNbr());
 		}
+		System.out.println(chrSym);
 
 		return chrSym;
 	}

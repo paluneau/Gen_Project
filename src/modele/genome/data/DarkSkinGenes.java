@@ -5,6 +5,7 @@ import utils.Mapable;
 public enum DarkSkinGenes implements Mapable<TargetSNPs, Allele[]> {
 
 	SNP1(TargetSNPs.RS6119471, Allele.HOMOG);
+	
 
 	private TargetSNPs snp = null;
 	private Allele[] alleles = null;

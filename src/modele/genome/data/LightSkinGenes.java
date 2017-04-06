@@ -4,8 +4,9 @@ import utils.Mapable;
 
 public enum LightSkinGenes implements Mapable<TargetSNPs, Allele[]> {
 	
-	SNP1(TargetSNPs.RS12913832, Allele.HOMOG), SNP2(TargetSNPs.RS1545397, Allele.HOMOT), SNP3(TargetSNPs.RS1426654,
-			Allele.HOMOA);
+	SNP1(TargetSNPs.RS12913832, Allele.HOMOG), 
+	SNP2(TargetSNPs.RS1545397, Allele.HOMOT), 
+	SNP3(TargetSNPs.RS1426654,Allele.HOMOA);
 	
 	private TargetSNPs snp = null;
 	private Allele[] alleles = null;

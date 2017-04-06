@@ -35,6 +35,7 @@ public class Chromosome {
 			this.wntdSNPs = targetSNP;
 			this.dataSrcPath = generatePath();
 			this.snips = new HashMap<String, SNP>();
+			System.out.println(targetSNP);
 			loadSNPs();
 		} else {
 			throw new ConstructionException("CHROMOSOME INVALIDE");
@@ -71,10 +72,10 @@ public class Chromosome {
 		} else {
 			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
+		
+		System.out.println(fsr.getSequences());
 
-		Map<String, String> sequences = fsr.getSequences();
-
-		sequences.forEach((desc, seq) -> {
+		fsr.getSequences().forEach((desc, seq) -> {
 			snips.put(desc, new SNP(desc, seq));
 		});
 	}

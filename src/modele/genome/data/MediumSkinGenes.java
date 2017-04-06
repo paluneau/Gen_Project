@@ -4,7 +4,9 @@ import utils.Mapable;
 
 public enum MediumSkinGenes implements Mapable<TargetSNPs, Allele[]> {
 
-	SNP1(TargetSNPs.RS6119471, Allele.HOMOG), SNP2(TargetSNPs.RS1545397, Allele.HOMOT), SNP3(TargetSNPs.RS1426654,
+	SNP1(TargetSNPs.RS6119471, Allele.HOMOG), 
+	SNP2(TargetSNPs.RS1545397, Allele.HOMOT), 
+	SNP3(TargetSNPs.RS1426654,
 			Allele.HOMOA);
 
 	private TargetSNPs snp = null;
