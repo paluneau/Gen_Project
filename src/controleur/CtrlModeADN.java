@@ -25,34 +25,45 @@ public class CtrlModeADN {
 	private DNACreator dNACreator = null;
 	private Face face = null;
 	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
+<<<<<<< HEAD
 	
 	 @FXML
 	    private Pane pane;
+=======
+	@FXML
+	private Pane pane;
 
-	    @FXML
-	    private ScrollPane scrollOreille;
+	@FXML
+	private ScrollPane scrollOreille;
+>>>>>>> refs/remotes/MisterDeenis/master
 
-	    @FXML
-	    private ScrollPane scrollYeux;
+	@FXML
+	private ScrollPane scrollYeux;
 
-	    @FXML
-	    private ScrollPane scrollVisage;
+	@FXML
+	private ScrollPane scrollVisage;
 
-	    @FXML
-	    private ScrollPane scrollCheveux;
+	@FXML
+	private ScrollPane scrollCheveux;
 
-	    @FXML
-	    private ScrollPane scrollBouche;
+	@FXML
+	private ScrollPane scrollBouche;
 
-	    @FXML
-	    private ScrollPane scrollNez;
+	@FXML
+	private ScrollPane scrollNez;
 
-	    @FXML
-	    private ScrollPane scrollPeau;
+	@FXML
+	private ScrollPane scrollPeau;
 
+	@FXML
+	private ScrollPane scrollSourcils;
+
+<<<<<<< HEAD
 	    @FXML
 	    private ScrollPane scrollSourcils;
 
+=======
+>>>>>>> refs/remotes/MisterDeenis/master
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
 		modeDNA();
@@ -60,6 +71,7 @@ public class CtrlModeADN {
 		Label labelYeux = new Label();
 		scrollYeux.setContent(labelYeux);
 		face.getLEye().getCouleurYeux().getGenes().forEach((k, v) -> {
+<<<<<<< HEAD
 			labelYeux.setText(labelYeux.getText() 
 					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
 					+ "Allèle: " + v[0] + "/" + v[1]  + "\n"
@@ -67,12 +79,20 @@ public class CtrlModeADN {
 					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs"+k.getId()).getSeq()
 					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs"+k.getId()).getSeq()
 					+  "\n" + "\n");
+=======
+			labelYeux.setText(labelYeux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
+					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
+					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
+					+ "\n" + "\n");
+>>>>>>> refs/remotes/MisterDeenis/master
 
 		});
 
 		Label labelCheveux = new Label();
 		scrollCheveux.setContent(labelCheveux);
 		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
+<<<<<<< HEAD
 			
 			labelCheveux.setText(labelCheveux.getText()  
 					+ "Chromosome: " + k.getChromosomeNbr() + "\n"
@@ -81,6 +101,14 @@ public class CtrlModeADN {
 					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs"+k.getId()).getSeq()
 					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs"+k.getId()).getSeq()
 					+  "\n" + "\n");
+=======
+
+			labelCheveux.setText(labelCheveux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: "
+					+ v[0] + "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
+					+ "Séquence " + v[0] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+					+ "Séquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
+					+ "\n" + "\n");
+>>>>>>> refs/remotes/MisterDeenis/master
 
 		});
 	

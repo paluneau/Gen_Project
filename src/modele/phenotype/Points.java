@@ -30,8 +30,8 @@ public class Points {
 	}
 
 	public void updateDistanceOeilNez(float distance) {
-		// updatePoints("Oeil gauche", -distance);
-		updatePoints("face1", distance);
+		updatePoints("Oeil gauche", -distance);
+		updatePoints("Oeil droit", distance);
 	}
 
 	public List<Float> findSiblings() {

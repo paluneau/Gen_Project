@@ -110,7 +110,7 @@ public class Controller {
 		sliderDistanceYeux.setMax(0.000000000001);
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
-		choiceBoxCouleurCheveux.setValue(HairColor.BLACK);
+		choiceBoxCouleurCheveux.setValue(HairColor.BLOND);
 	}
 
 	public void setModeADN(boolean val) {

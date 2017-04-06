@@ -47,7 +47,7 @@ public class EnvironmentThreeD {
 	private final ToolsThreeD cameraX = new ToolsThreeD(), cameraY = new ToolsThreeD(), cameraZ = new ToolsThreeD(),
 			axisGroup = new ToolsThreeD();
 
-	private static final double CAMERA_INITIAL_DISTANCE = -15, CAMERA_INITIAL_X_ANGLE = 70.0,
+	private static final double CAMERA_INITIAL_DISTANCE = -100, CAMERA_INITIAL_X_ANGLE = 70.0,
 			CAMERA_INITIAL_Y_ANGLE = 320.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
@@ -145,12 +145,6 @@ public class EnvironmentThreeD {
 
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			genomicPart.setMaterial(updateSkin());
-			if (s.contains("Cheveux")) {
-				Hair hair = getFace().getHair();
-				genomicPart.setMaterial(updateEye(points3DGroup, hair, firstBuild));
-			}
-
 			if (firstBuild)
 				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
 
@@ -170,18 +164,21 @@ public class EnvironmentThreeD {
 		final PhongMaterial material = new PhongMaterial();
 		if (group.contains("Oeil")) {
 			material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		} else if (group.contains("Cheveux")) {
+			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
+
 		material.setSpecularColor(Color.BLACK);
 		return material;
 	}
-	
+
 	private PhongMaterial updateEye(ObservableFloatArray points, Hair eye, boolean firstBuild) {
-		/*if (firstBuild) {
-			eye.setIniPoints(createArrayCopy(points), points);
-		}
-		points = eye.getPointsUpdater();*/
+		/*
+		 * if (firstBuild) { eye.setIniPoints(createArrayCopy(points), points);
+		 * } points = eye.getPointsUpdater();
+		 */
 
 		final PhongMaterial material = new PhongMaterial();
 		material.setDiffuseColor(eye.getCouleurCheveux().getColor());
