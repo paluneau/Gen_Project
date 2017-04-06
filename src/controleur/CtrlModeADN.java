@@ -139,6 +139,7 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
+			setLoadingWindowProperty(true);
 			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
