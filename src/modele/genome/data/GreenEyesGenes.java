@@ -4,7 +4,6 @@ import utils.Mappable;
 
 public enum GreenEyesGenes implements Mappable<TargetSNPs, Allele[]> {
 
-	// TODO revérifier les snps...
 	SNP1(TargetSNPs.RS12203592, Allele.HOMOT), 
 	SNP2(TargetSNPs.RS12913832, Allele.HOMOG), 
 	SNP3(TargetSNPs.RS16891982,Allele.HOMOC), 
