@@ -16,6 +16,7 @@ public class Face {
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
+	private Points pointsVisage = null;
 
 	private double hauteurVisage = 0;
 	private double largeurVisage = 0;
@@ -30,8 +31,9 @@ public class Face {
 		mouth = new Mouth();
 		nose = new Nose();
 		LSourcils = new Sourcils();
-		RSourcils = new Sourcils();
+		RSourcils = new Sourcils();	
 		this.skinColor = skinColor;
+		pointsVisage = new Points();
 	}
 
 	public Ear getLEar() {
@@ -68,8 +70,7 @@ public class Face {
 
 	public void setEyeDistance(float distance) {
 		this.distanceYeux = distance;
-		this.LEye.updateDistanceNez(-distanceYeux / 2);
-		this.REye.updateDistanceNez(distanceYeux / 2);
+		pointsVisage.updateDistanceOeilNez(distance);
 	}
 
 	public Hair getHair() {
@@ -134,5 +135,9 @@ public class Face {
 
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
+	}
+	
+	public Points getPointsVisage(){
+		return pointsVisage;
 	}
 }
