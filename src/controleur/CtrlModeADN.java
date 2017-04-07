@@ -10,6 +10,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
@@ -44,14 +46,19 @@ public class CtrlModeADN {
 		this.face = face;
 		modeDNA();
 
-		// TODO v/rifier que le dnaCreator != null !! sinon NullPointerEx
-		// TODO factoriser ça en 2 méthodes
-		createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
-		createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
-		createLabel(scrollPeau, face.getSkinColor().getGenes());
+		if (dNACreator != null) {
+			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
+			createLabel(scrollPeau, face.getSkinColor().getGenes());
+		} else {
+			createLabel(scrollCheveux);
+			createLabel(scrollYeux);
+			createLabel(scrollPeau);
+		}
 
 	}
 
+	// TODO afficher l'allèle réael ou la Wildcard??
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
 		map.forEach((k, v) -> {
@@ -66,6 +73,13 @@ public class CtrlModeADN {
 							+ "\n" + "\n");
 
 		});
+		pane.setContent(label);
+	}
+
+	// TODO Est-ce qu'on fait afficher quand même ce qu'on peut ?
+	private void createLabel(ScrollPane pane) {
+		Label label = new Label();
+		label.setText("Erreur de lecture");
 		pane.setContent(label);
 	}
 

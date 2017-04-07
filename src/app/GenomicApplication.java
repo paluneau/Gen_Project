@@ -77,7 +77,6 @@ public class GenomicApplication extends Application {
 												.getController();
 										ctrlLoad.startLoading(ctrl.getdNACreator());
 									} catch (IOException e) {
-										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 
