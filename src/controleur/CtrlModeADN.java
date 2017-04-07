@@ -3,17 +3,21 @@ package controleur;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
+import java.util.Map;
 import exception.ConstructionException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import modele.DNACreator;
 import modele.genome.Chromosome;
+import modele.genome.data.Allele;
+import modele.genome.data.TargetSNPs;
 import modele.phenotype.Face;
 import utils.FastaExporter;
 import vue.FichierChooser;
@@ -25,85 +29,70 @@ public class CtrlModeADN {
 	private Face face = null;
 	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
 
-	@FXML
+  @FXML
 	private Pane pane;
 
+
 	@FXML
-	private ScrollPane scrollOreille;
+	private Pane pane;
 
 	@FXML
 	private ScrollPane scrollYeux;
 
 	@FXML
-	private ScrollPane scrollVisage;
-
-	@FXML
 	private ScrollPane scrollCheveux;
 
 	@FXML
-	private ScrollPane scrollBouche;
-
-	@FXML
-	private ScrollPane scrollNez;
-
-	@FXML
 	private ScrollPane scrollPeau;
-
-	@FXML
-	private ScrollPane scrollSourcils;
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
 		modeDNA();
 
-		Label labelYeux = new Label();
-		scrollYeux.setContent(labelYeux);
-		face.getLEye().getCouleurYeux().getGenes().forEach((k, v) -> {
 
-			labelYeux.setText(labelYeux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
-					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
+		if (dNACreator != null) {
+			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
+			createLabel(scrollPeau, face.getSkinColor().getGenes());
+		} else {
+			createLabel(scrollCheveux);
+			createLabel(scrollYeux);
+			createLabel(scrollPeau);
+		}
 
-		});
 
-		Label labelCheveux = new Label();
-		scrollCheveux.setContent(labelCheveux);
-		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
+	}
 
-			labelCheveux.setText(labelCheveux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: "
-					+ v[0] + "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
+	// TODO afficher l'allèle réael ou la Wildcard??
+	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
+		Label label = new Label();
+		map.forEach((k, v) -> {
+			label.setText(
+					label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/" + v[1]
+							+ "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
+							+ v[0] + " :"
+							+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
+									.getSeq()
+							+ "\nSéquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
+									.getSnips().get("rs" + k.getId()).getSeq()
+							+ "\n" + "\n");
 
-		});
-
-		Label labelPeau = new Label();
-		scrollPeau.setContent(labelPeau);
-		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
-
-			labelPeau.setText(labelPeau.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
-					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
 
 		});
+		pane.setContent(label);
+	}
 
+	// TODO Est-ce qu'on fait afficher quand même ce qu'on peut ?
+	private void createLabel(ScrollPane pane) {
+		Label label = new Label();
+		label.setText("Erreur de lecture");
+		pane.setContent(label);
 	}
 
 	/**
 	 * Permet de choisir un fichier du répertoire afin d'enregistrer
 	 * l'exportation de l'ADN
-	 * 
+	 *
 	 * @param event
 	 */
 	@FXML
@@ -131,7 +120,7 @@ public class CtrlModeADN {
 	/**
 	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
 	 * fichiers à lire sont introuvables
-	 * 
+	 *
 	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
 	 *         tout est correct
 	 */
@@ -168,7 +157,7 @@ public class CtrlModeADN {
 
 	/**
 	 * Affiche une erreur et ouvre un DirectoryChooser
-	 * 
+	 *
 	 * @param message
 	 *            le message a afficher
 	 * @return le path du dossier sélectionné
@@ -190,8 +179,8 @@ public class CtrlModeADN {
 	public boolean getLoadingWindowProperty() {
 		return this.loadingWindowProperty.get();
 	}
-	
-	public DNACreator getdNACreator(){
+
+	public DNACreator getdNACreator() {
 		return this.dNACreator;
 	}
 }

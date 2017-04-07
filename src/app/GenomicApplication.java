@@ -56,7 +56,7 @@ public class GenomicApplication extends Application {
 						ctrl.createFenetreModeADN(c.getEnvirnm().getFace());
 						c.setModeADN(false);
 
-						ctrl.loadingWindowProperty().addListener(new ChangeListener<Boolean>() {
+						/*ctrl.loadingWindowProperty().addListener(new ChangeListener<Boolean>() {
 
 							@Override
 							public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
@@ -77,7 +77,6 @@ public class GenomicApplication extends Application {
 												.getController();
 										ctrlLoad.startLoading(ctrl.getdNACreator());
 									} catch (IOException e) {
-										// TODO Auto-generated catch block
 										e.printStackTrace();
 									}
 
@@ -85,11 +84,11 @@ public class GenomicApplication extends Application {
 								}
 
 							}
-						});
+						});*/
 					} catch (IOException e) {
 						e.printStackTrace();
-					}
 
+					}
 				}
 			}
 		});
