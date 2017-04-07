@@ -27,12 +27,8 @@ public class DNACreator {
 	public DNACreator(Face f) throws ConstructionException, IOException, URISyntaxException {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
-			if(dna!=null){
 				this.face = f;
 				updateDNA();
-			}else{
-				throw new IOException("Erreur de lecture");
-			}
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
 		}
