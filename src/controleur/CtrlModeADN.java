@@ -29,10 +29,6 @@ public class CtrlModeADN {
 	private Face face = null;
 	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
 
-  @FXML
-	private Pane pane;
-
-
 	@FXML
 	private Pane pane;
 
