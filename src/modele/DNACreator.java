@@ -15,7 +15,7 @@ import modele.phenotype.Face;
 /**
  * Classe qui va créer l'ADN selon le visage, donc affecter les variations
  * appropriées au génome
- * 
+ *
  * @author Les génies du génome
  *
  */
@@ -27,8 +27,12 @@ public class DNACreator {
 	public DNACreator(Face f) throws ConstructionException, IOException, URISyntaxException {
 		if (f != null) {
 			this.dna = new DNA(chrSymByTargets());
-			this.face = f;
-			updateDNA();
+			if(dna!=null){
+				this.face = f;
+				updateDNA();
+			}else{
+				throw new IOException("Erreur de lecture");
+			}
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
 		}
@@ -42,7 +46,7 @@ public class DNACreator {
 	/**
 	 * Retourne la liste des différents chromosomes à inspecter selon les snp à
 	 * trouver (le Set élimine les doublons)
-	 * 
+	 *
 	 * @param chrNbr
 	 *            le numero du chromosome
 	 * @return la liste des identifiants des SNPs
@@ -61,7 +65,7 @@ public class DNACreator {
 
 	/**
 	 * Affecte les bonnes variations sur l'ADN
-	 * 
+	 *
 	 * @param map
 	 *            contient comme clés les SNP et comme valeurs les alleles
 	 */
@@ -70,6 +74,7 @@ public class DNACreator {
 			int pos = 0;
 			TargetSNPs current = snp;
 			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
+				System.out.println(chr);
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}

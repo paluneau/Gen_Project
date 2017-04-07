@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * Cette classe lit un fichier fasta et ressort tous les SNPs utile et leur séquence
- * 
+ *
  * @author http://www.cs.utexas.edu/~mobios/cs329e/rosetta/src/FastaSequence.
  *         java M�J Les g�nies du g�nome
  */
@@ -29,7 +29,7 @@ public final class FastaSequenceReader {
 	 * @param file Le fichier � lire.
 	 * @throws IOException si le fichier est non-conforme
 	 */
-	void readSequenceFromFile(File file) throws IOException {
+	private void readSequenceFromFile(File file) throws IOException {
 		List<String> desc = new ArrayList<String>();
 		List<String> seq = new ArrayList<String>();
 		boolean read = false;
@@ -37,7 +37,7 @@ public final class FastaSequenceReader {
 		BufferedReader in = new BufferedReader(new FileReader(file));
 		StringBuffer buffer = new StringBuffer();
 		String line = in.readLine();
-		
+
 		// HEADER
 		if (line == null) {
 			throw new IOException(file.getName() + " is an empty file");
@@ -78,7 +78,7 @@ public final class FastaSequenceReader {
 
 	/**
 	 * Met les donn�es dans une structure de donn�e
-	 * 
+	 *
 	 * @param seq
 	 *            une liste de s�quences
 	 * @param desc

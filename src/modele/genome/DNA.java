@@ -39,7 +39,7 @@ public class DNA {
 	/**
 	 * Retourne la liste des identifiants de SNPs selon le chromosome dans
 	 * lequel ils se situent
-	 * 
+	 *
 	 * @param chrNbr
 	 *            le numero du chromosome
 	 * @return la liste des identifiants des SNPs
@@ -59,25 +59,22 @@ public class DNA {
 
 	/**
 	 * Instancie les chromosomes selon la liste de symboles des chromosomes
-	 * 
+	 *
 	 * @throws ConstructionException
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
 	private void createChr() throws ConstructionException, IOException, URISyntaxException {
-		double progress = 0;
 		for (String sym : chrSymbols) {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
-			progress += 1 / chrSymbols.size();
-			setReadingProgress(progress);
+			setReadingProgress(getReadingProgress() + (1.0 / chrSymbols.size()));
 		}
-
 	}
 
 	/**
 	 * Retourne un couple (tableau statique) de chromosome selon son symbole
-	 * 
+	 *
 	 * @return la liste de chaque paire de chromosome
 	 */
 	public Chromosome[] getChrPair(String symbol) {
