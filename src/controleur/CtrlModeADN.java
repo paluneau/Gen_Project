@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
-
 import exception.ConstructionException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -30,6 +29,10 @@ public class CtrlModeADN {
 	private Face face = null;
 	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
 
+  @FXML
+	private Pane pane;
+
+
 	@FXML
 	private Pane pane;
 
@@ -46,6 +49,7 @@ public class CtrlModeADN {
 		this.face = face;
 		modeDNA();
 
+
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
 			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
@@ -55,6 +59,7 @@ public class CtrlModeADN {
 			createLabel(scrollYeux);
 			createLabel(scrollPeau);
 		}
+
 
 	}
 
@@ -71,6 +76,7 @@ public class CtrlModeADN {
 							+ "\nSéquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
 									.getSnips().get("rs" + k.getId()).getSeq()
 							+ "\n" + "\n");
+
 
 		});
 		pane.setContent(label);
@@ -129,6 +135,7 @@ public class CtrlModeADN {
 			Chromosome.setAltSrcFile(newFolder);
 
 			try {
+
 				dNACreator = new DNACreator(this.face);
 			} catch (IOException e1) {
 				new MessageAlert("Impossible de trouver le(s) fichier(s).");

@@ -104,8 +104,8 @@ public class Controller {
 		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
 		 * sliderDistanceYeux.setValue(-2);
 		 */
-		sliderEcartYeux.setMin(-0.4);
-		sliderEcartYeux.setMax(0.4);
+		sliderEcartYeux.setMin(-2);
+		sliderEcartYeux.setMax(2);
 		sliderEcartYeux.setValue(0);
 		sliderDistanceYeux.setMax(0.000000000001);
 		choiceBoxYeux.setValue(EyeColor.BROWN);

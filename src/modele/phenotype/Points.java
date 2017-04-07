@@ -12,16 +12,16 @@ public class Points {
 
 	private Map<String, ObservableFloatArray> points3DIni = null;
 	private Map<String, ObservableFloatArray> points3DUpdater = null;
-	private Map<String, ObservableFloatArray> pointsSupp = null;
+	private Map<ObservableFloatArray, List<String>> pointsSupp = null;
 
 	public Points() {
 		points3DIni = new HashMap<String, ObservableFloatArray>();
 		points3DUpdater = new HashMap<String, ObservableFloatArray>();
-		pointsSupp = new HashMap<String, ObservableFloatArray>();
+		pointsSupp = new HashMap<ObservableFloatArray, List<String>>();
 	}
 
 	public void addIni3DPoints(String group, ObservableFloatArray points) {
-		points3DIni.put(group, createArrayCopy(points));
+		points3DIni.put(group, createAndConvertArray(points));
 		points3DUpdater.put(group, points);
 	}
 
@@ -30,57 +30,59 @@ public class Points {
 	}
 
 	public void updateDistanceOeilNez(float distance) {
-		updatePoints("Oeil gauche", -distance);
-		updatePoints("Oeil droit", distance);
+		// updatePoints("Oeil gauche", -distance);
+		// updatePoints("Oeil droit", distance);
+		updatePoints("face1", distance);
+		updatePoints("face2", distance);
 	}
 
-	public List<Float> findSiblings() {
-		/*
-		 * File fichierSave = new
-		 * File("C:/Users/1541254/Documents/GPV - ADN.txt"); PrintWriter printW
-		 * = null; try { printW = new PrintWriter(new FileWriter(fichierSave));
-		 * } catch (IOException e1) { e1.printStackTrace(); }
-		 */
-		for (ObservableFloatArray e : points3DIni.values()) {
-			for (ObservableFloatArray f : points3DIni.values()) {
-				if (!e.equals(f)) {
-					for (int i = 0; i < e.size() / 3; i++) {
-						ObservableFloatArray p = FXCollections.observableFloatArray();
-						p.addAll(e.get(3 * i), e.get((3 * i) + 1), e.get((3 * i) + 2));
-						// System.out.println("P : " + p.toString());
-						for (int j = 0; j < f.size() / 3; j++) {
-							ObservableFloatArray q = FXCollections.observableFloatArray();
-							q.addAll(f.get(3 * j), f.get((3 * j) + 1), f.get((3 * j) + 2));
-							// System.out.println("Q : " + q.toString());
+	/**
+	 * TODO shorten this function
+	 */
+	public void findSiblings() {
+		for (int k = 0; k < points3DIni.values().size() - 1; k++) {
+			ObservableFloatArray G1Points = (ObservableFloatArray) points3DIni.values().toArray()[k];
+			for (int l = k + 1; l < points3DIni.values().size(); l++) {
+				ObservableFloatArray G2Points = (ObservableFloatArray) points3DIni.values().toArray()[l];
 
-							if (findIfEquals(p, q)) {
-								List<ObservableFloatArray> points = new ArrayList<ObservableFloatArray>();
-								points.add(q);
-								points.add(createArrayCopy(q));
-								pointsSupp.put(findKeyFromValueMap(e, points3DIni), q);
-								points = new ArrayList<ObservableFloatArray>();
-								points.add(p);
-								points.add(createArrayCopy(p));
-								pointsSupp.put(findKeyFromValueMap(f, points3DIni), p);
+				if (!G1Points.equals(G2Points)) {
+					for (int i = 0; i < G1Points.size() / 3; i++) {
+
+						ObservableFloatArray pointG1 = FXCollections.observableFloatArray();
+						pointG1.addAll(G1Points.get(3 * i), G1Points.get((3 * i) + 1), G1Points.get((3 * i) + 2));
+
+						for (int j = 0; j < G2Points.size() / 3; j++) {
+
+							ObservableFloatArray pointsG2 = FXCollections.observableFloatArray();
+							pointsG2.addAll(G2Points.get(3 * j), G2Points.get((3 * j) + 1), G2Points.get((3 * j) + 2));
+							if (findIfEquals(pointG1, pointsG2)) {
+
+								String t = findKeyFromValueMap(G1Points);
+								String s = findKeyFromValueMap(G2Points);
+								List<String> groups = new ArrayList<String>(2);
+								groups.add(t);
+								groups.add(s);
+								pointsSupp.put(pointsG2, groups);
+
 							}
+
 						}
 
 					}
 				}
 
 			}
-			// printW.close();
-
 		}
-		for (ObservableFloatArray sdk : points3DIni.values()) {
-			System.out.println(findKeyFromValueMap(sdk, points3DIni));
+
+		for (ObservableFloatArray sdk : pointsSupp.keySet()) {
+			System.out.println(pointsSupp.get(sdk));
 			for (int i = 0; i < sdk.size() / 3; i++) {
 				System.out.println(
 						"P : [" + sdk.get(3 * i) + ", " + sdk.get((3 * i) + 1) + ", " + sdk.get((3 * i) + 2) + "]");
 			}
 		}
 		System.out.println();
-		return null;
+
 	}
 
 	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
@@ -93,14 +95,23 @@ public class Points {
 		return out;
 	}
 
-	// TODO remove map from parameters (there for test)
-	private String findKeyFromValueMap(ObservableFloatArray value, Map<String, ?> map) {
+	private String findKeyFromValueMap(ObservableFloatArray value) {
 		String out = "";
 		boolean notFound = true;
-		for (String e : map.keySet()) {
-			if (notFound && (value.equals(map.get(e)))) {
+		for (String e : points3DIni.keySet()) {
+			if (notFound && (value.equals(points3DIni.get(e)))) {
 				out = e;
 				notFound = false;
+			}
+		}
+		return out;
+	}
+
+	private List<ObservableFloatArray> findKeyFromValueMap(String value) {
+		List<ObservableFloatArray> out = new ArrayList<ObservableFloatArray>();
+		for (ObservableFloatArray e : pointsSupp.keySet()) {
+			if (pointsSupp.get(e).contains(value)) {
+				out.add(e);
 			}
 		}
 		return out;
@@ -115,17 +126,43 @@ public class Points {
 	 */
 	private void updatePoints(String group, float factor) {
 
-		ObservableFloatArray points = points3DUpdater.get(group);
+		/*ObservableFloatArray points = points3DUpdater.get(group);
 		for (int i = 0; i < points.size() / 3; i++) {
 			points.set(2 + (3 * i), points3DIni.get(group).get(2 + (3 * i)) + factor);
+		}*/
+
+		if (group.contains("face2")) {
+			List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(group);
+			for (ObservableFloatArray e : pointsCommun) {
+				List<String> groups = pointsSupp.get(e);
+				for (String f : groups) {
+					List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
+					for (Integer h : g) {
+						points3DUpdater.get(f).set(2 + (3 * h), e.get(2 + (3 * h)) - factor);
+					}
+
+				}
+
+				System.out.println("SUPP : " + pointsCommun.get(2));
+				System.out.println("PP : " + points3DUpdater.get(group).get(2));
+			}
 		}
-		ObservableFloatArray pointSup = pointsSupp.get(group);
-		for (int i = 0; i < pointSup.size() / 3; i++) {
-			pointSup.set(2 + (3 * i), pointSup.get(2 + (3 * i)) + factor);
-		}
+
 	}
 
-	private ObservableFloatArray createArrayCopy(ObservableFloatArray original) {
+	private List<Integer> findIndexOfValues(ObservableFloatArray values, ObservableFloatArray targets) {
+		List<Integer> out = new ArrayList<Integer>();
+		for (int i = 0; i < values.size(); i++) {
+			for (Float e : targets.toArray(null)) {
+				if (values.get(i) == e) {
+					out.add(i);
+				}
+			}
+		}
+		return out;
+	}
+
+	private ObservableFloatArray createAndConvertArray(ObservableFloatArray original) {
 		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
 		pTemp.addAll(original);
 		return pTemp;
