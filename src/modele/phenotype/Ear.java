@@ -3,7 +3,11 @@ package modele.phenotype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Ear {
+public class Ear extends BodyPart {
+
+	public Ear(String... groups) {
+		super(groups);
+	}
 
 	public DoubleProperty heightProperty = new SimpleDoubleProperty();
 

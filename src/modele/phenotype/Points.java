@@ -44,6 +44,12 @@ public class Points {
 		return points3DUpdater.get(group);
 	}
 
+	public void applyTranslation(BodyPart part, Point3D transformation) {
+		for (String group : part.getSubParts()) {
+			updatePoints(group, transformation);
+		}
+	}
+
 	public void updateDistanceOeilNez(float distance) {
 		Point3D deplacement = new Point3D(-distance, 0, 0);
 		updatePoints("Oeil gauche", deplacement);
@@ -85,14 +91,14 @@ public class Points {
 		updatePoints("Bouche", deplacement);
 
 	}
-	
-	public void updateNez(float hauteur){
+
+	public void updateNez(float hauteur) {
 		Point3D deplacement = new Point3D(0, hauteur, 0);
 		updatePoints("Nez", deplacement);
 		updatePoints("Bord narine", deplacement);
 		updatePoints("Narine", deplacement);
 	}
-	
+
 	public void updateSourcils(float distance) {
 		Point3D deplacement = new Point3D(-distance, 0, 0);
 		updatePoints("Sourcil gauche", deplacement);

@@ -3,7 +3,11 @@ package modele.phenotype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Nose {
+public class Nose extends BodyPart {
+
+	public Nose(String... groups) {
+		super(groups);
+	}
 
 	public double hauteurNez;
 	public DoubleProperty hauteurNezProp = new SimpleDoubleProperty();

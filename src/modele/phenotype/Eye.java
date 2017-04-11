@@ -2,16 +2,13 @@ package modele.phenotype;
 
 import modele.phenotype.data.EyeColor;
 
-public class Eye {
+public class Eye extends BodyPart {
 
 	private EyeColor color;
-	private float largeur = 0;
-	private float height = 0;
 
-	public Eye(EyeColor color, float largeur, float height) {
+	public Eye(EyeColor color, String... groups) {
+		super(groups);
 		this.color = color;
-		setLargeur(largeur);
-		setHeight(height);
 	}
 
 	public EyeColor getCouleurYeux() {
@@ -22,20 +19,5 @@ public class Eye {
 		this.color = eyeColor;
 	}
 
-	public float getLargeur() {
-		return this.largeur;
-	}
-
-	public void setLargeur(float distance) {
-		this.largeur = distance;
-	}
-
-	public float getHeight() {
-		return this.height;
-	}
-
-	public void setHeight(float height) {
-		this.height = height;
-	}
 
 }
