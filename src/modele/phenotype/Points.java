@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
+import javafx.geometry.Point3D;
 
 public class Points {
 
@@ -44,14 +45,60 @@ public class Points {
 	}
 
 	public void updateDistanceOeilNez(float distance) {
-		updatePoints("Oeil gauche", -distance);
-		updatePoints("Blanc oeil gauche", -distance);
-		updatePoints("Noir oeil gauche", -distance);
-		updatePoints("Couleur oeil gauche", -distance);
-		updatePoints("Oeil droit", distance);
-		updatePoints("Blanc oeil droit", distance);
-		updatePoints("Noir oeil droit", distance);
-		updatePoints("Couleur oeil droit", distance);
+		Point3D deplacement = new Point3D(-distance, 0, 0);
+		updatePoints("Oeil gauche", deplacement);
+		updatePoints("Blanc oeil gauche", deplacement);
+		updatePoints("Noir oeil gauche", deplacement);
+		updatePoints("Couleur oeil gauche", deplacement);
+
+		deplacement = new Point3D(distance, 0, 0);
+		updatePoints("Oeil droit", deplacement);
+		updatePoints("Blanc oeil droit", deplacement);
+		updatePoints("Noir oeil droit", deplacement);
+		updatePoints("Couleur oeil droit", deplacement);
+	}
+
+	/**
+	 * Ajuste la position des oreilles
+	 * 
+	 * @param distanceH
+	 *            la hauteur
+	 * @param distanceP
+	 *            la profondeur
+	 */
+	public void updatePositionOreille(float distanceH, float distanceP) {
+		Point3D deplacement = new Point3D(0, distanceH, -distanceP);
+		updatePoints("Oreille gauche", deplacement);
+		updatePoints("Oreille droite", deplacement);
+	}
+
+	/**
+	 * Ajuste la position et la dimension de la bouche
+	 * 
+	 * @param distanceH
+	 *            la hauteur
+	 * @param distanceP
+	 *            la profondeur
+	 */
+	public void updateBouche(float distanceH) {
+		Point3D deplacement = new Point3D(0, distanceH, 0);
+		updatePoints("Bouche", deplacement);
+
+	}
+	
+	public void updateNez(float hauteur){
+		Point3D deplacement = new Point3D(0, hauteur, 0);
+		updatePoints("Nez", deplacement);
+		updatePoints("Bord narine", deplacement);
+		updatePoints("Narine", deplacement);
+	}
+	
+	public void updateSourcils(float distance) {
+		Point3D deplacement = new Point3D(-distance, 0, 0);
+		updatePoints("Sourcil gauche", deplacement);
+
+		deplacement = new Point3D(distance, 0, 0);
+		updatePoints("Sourcil droit", deplacement);
 	}
 
 	/**
@@ -98,22 +145,21 @@ public class Points {
 	}
 
 	/**
-	 * TODO ajouter dimension en paramètre pour pouvoir bouger autrement
-	 * (peut-[etre un array des differents facteurs en XYZ (index = XYZ))
 	 * 
-	 * Update le point d'un group avec un facteur et une dimension.
+	 * Update le point d'un group selon un facteur dans chaque dimension.
 	 * 
 	 * @param group
-	 * @param factor
-	 *            - facteur de resizement
-	 * @param dimension
-	 *            X, Y ou Z
+	 *            le groupe à modifier
+	 * @param factors
+	 *            - un point 3D qui contient le facteur modificateur dans chaque
+	 *            dimension
 	 */
-	private void updatePoints(String group, float factor) {
-		int dimension = 2;
+	private void updatePoints(String group, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(group);
 		for (int i = 0; i < points.size() / 3; i++) {
-			points.set(dimension + (3 * i), points3DIni.get(group).get(dimension + (3 * i)) + factor);
+			points.set(2 + (3 * i), (float) (points3DIni.get(group).get(2 + (3 * i)) + factors.getX()));
+			points.set(0 + (3 * i), (float) (points3DIni.get(group).get(0 + (3 * i)) + factors.getY()));
+			points.set(1 + (3 * i), (float) (points3DIni.get(group).get(1 + (3 * i)) + factors.getZ()));
 		}
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(group);
 		for (ObservableFloatArray e : pointsCommun) {
@@ -121,7 +167,9 @@ public class Points {
 			for (String f : groups) {
 				List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
 				for (Integer h : g) {
-					points3DUpdater.get(f).set((3 * h) + dimension, e.get(dimension) + factor);
+					points3DUpdater.get(f).set((3 * h) + 2, (float) (e.get(2) + factors.getX()));
+					points3DUpdater.get(f).set((3 * h) + 0, (float) (e.get(0) + factors.getY()));
+					points3DUpdater.get(f).set((3 * h) + 1, (float) (e.get(1) + factors.getZ()));
 				}
 
 			}
