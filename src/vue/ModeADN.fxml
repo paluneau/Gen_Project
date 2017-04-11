@@ -21,7 +21,7 @@
       </MenuBar>
       <Accordion layoutY="27.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="446.0" prefWidth="384.0">
         <panes>
-          <TitledPane animated="false" text="Yeux" wrapText="true">
+          <TitledPane text="Yeux" wrapText="true">
             <content>
                   <ScrollPane fx:id="scrollYeux" prefHeight="245.0" prefWidth="382.0" />
             </content>

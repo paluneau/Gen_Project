@@ -5,7 +5,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Cette classe lit un fichier fasta et ressort tous les SNPs utile et leur séquence
+ * Cette classe lit un fichier fasta et ressort tous les SNPs utile et leur
+ * séquence
  *
  * @author http://www.cs.utexas.edu/~mobios/cs329e/rosetta/src/FastaSequence.
  *         java M�J Les g�nies du g�nome
@@ -25,9 +26,13 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Permet de lire les s�quences cibl�es dans un fichier au format FASTA standard
-	 * @param file Le fichier � lire.
-	 * @throws IOException si le fichier est non-conforme
+	 * Permet de lire les s�quences cibl�es dans un fichier au format FASTA
+	 * standard
+	 *
+	 * @param file
+	 *            Le fichier � lire.
+	 * @throws IOException
+	 *             si le fichier est non-conforme
 	 */
 	private void readSequenceFromFile(File file) throws IOException {
 		List<String> desc = new ArrayList<String>();
@@ -40,9 +45,11 @@ public final class FastaSequenceReader {
 
 		// HEADER
 		if (line == null) {
+			in.close();
 			throw new IOException(file.getName() + " is an empty file");
 		}
 		if (line.charAt(0) != '>') {
+			in.close();
 			throw new IOException("First line of " + file.getName() + " should start with '>'");
 		} else if (line.contains(targets.get(index))) {
 			desc.add(line);
@@ -55,7 +62,7 @@ public final class FastaSequenceReader {
 				&& (!targets.isEmpty() || seq.size() != desc.size()); line = in.readLine()) {
 			// LIGNE DE DESCRIPTION
 			if (line.length() > 0 && line.charAt(0) == '>' && line.contains(targets.get(index))) {
-				desc.add("rs"+targets.get(index));
+				desc.add("rs" + targets.get(index));
 				read = true;
 				targets.remove(index);
 				// LIGNE DE SEQUENCE
@@ -73,6 +80,7 @@ public final class FastaSequenceReader {
 
 		// CLOSING
 		storeData(seq, desc);
+		in.close();
 
 	}
 
@@ -96,6 +104,7 @@ public final class FastaSequenceReader {
 
 	/**
 	 * Cr�e la map qui contient les s�quences d'ADN et leur description
+	 *
 	 * @return la map
 	 */
 	private HashMap<String, String> createMap() {

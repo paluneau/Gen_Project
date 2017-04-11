@@ -3,10 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.junit.Before;
@@ -25,25 +23,6 @@ public class FastaSequenceReaderTest {
 		wntdSnps = new LinkedList<String>();
 
 	}
-
-	/*@Test
-	public void testReadSequenceTEST() {
-		wntdSnps.add("1545397");
-		try {
-			f = new File(getClass().getResource("/fasta/chr_15.fas").toURI());
-		} catch (URISyntaxException e1) {
-			System.out.println(e1.getMessage());
-		}
-
-		FastaSequenceReader fs = null;
-		try {
-			fs = new FastaSequenceReader(f, wntdSnps);
-		} catch (IOException e) {
-			fail();
-		}
-		System.out.println(fs.getSequences());
-
-	}*/
 
 	@Test
 	public void testReadSequenceFromFileFWD() {

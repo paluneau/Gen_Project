@@ -93,10 +93,6 @@ public class DNA {
 		return pair;
 	}
 
-	private void computeProgress() {
-
-	}
-
 	public DoubleProperty readingProgressProperty() {
 		return readingProgressProperty;
 	}
