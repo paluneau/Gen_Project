@@ -4,6 +4,7 @@ import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
+//TODO est-ce qu'on a besoin de toutes ces classes métiers là ?
 public class Face {
 
 	private Ear LEar = null;
@@ -31,7 +32,7 @@ public class Face {
 		mouth = new Mouth();
 		nose = new Nose();
 		LSourcils = new Sourcils();
-		RSourcils = new Sourcils();	
+		RSourcils = new Sourcils();
 		this.skinColor = skinColor;
 		pointsVisage = new Points();
 	}
@@ -71,6 +72,22 @@ public class Face {
 	public void setEyeDistance(float distance) {
 		this.distanceYeux = distance;
 		pointsVisage.updateDistanceOeilNez(distance);
+	}
+
+	public void setPositionOreilles(float hauteur, float profondeur) {
+		pointsVisage.updatePositionOreille(hauteur, profondeur);
+	}
+
+	public void setPositionBouche(float hauteur) {
+		pointsVisage.updateBouche(hauteur);
+	}
+
+	public void setPositionNez(float hauteur) {
+		pointsVisage.updateNez(hauteur);
+	}
+	
+	public void setPositionSourcils(float ecart) {
+		pointsVisage.updateSourcils(ecart);
 	}
 
 	public Hair getHair() {
@@ -136,8 +153,8 @@ public class Face {
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
 	}
-	
-	public Points getPointsVisage(){
+
+	public Points getPointsVisage() {
 		return pointsVisage;
 	}
 }

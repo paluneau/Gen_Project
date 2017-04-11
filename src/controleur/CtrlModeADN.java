@@ -43,7 +43,6 @@ public class CtrlModeADN {
 		this.face = face;
 		modeDNA();
 
-
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
 			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
@@ -54,23 +53,19 @@ public class CtrlModeADN {
 			createLabel(scrollPeau);
 		}
 
-
 	}
 
 	// TODO afficher l'allèle réael ou la Wildcard??
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
 		map.forEach((k, v) -> {
-			label.setText(
-					label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/" + v[1]
-							+ "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
-							+ v[0] + " :"
-							+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
-									.getSeq()
-							+ "\nSéquence " + v[1] + " :" + dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
-									.getSnips().get("rs" + k.getId()).getSeq()
-							+ "\n" + "\n");
-
+			label.setText(label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/"
+					+ v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
+					+ v[0] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\nSéquence " + v[1] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\n" + "\n");
 
 		});
 		pane.setContent(label);

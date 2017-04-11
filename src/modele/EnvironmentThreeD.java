@@ -105,9 +105,9 @@ public class EnvironmentThreeD {
 		blueMaterial.setDiffuseColor(Color.DARKBLUE);
 		blueMaterial.setSpecularColor(Color.BLUE);
 
-		final Box xAxis = new Box(8.0, 0.03, 0.03);
-		final Box yAxis = new Box(0.03, 8.0, 0.03);
-		final Box zAxis = new Box(0.03, 0.03, 8.0);
+		final Box xAxis = new Box(53.0, 0.2, 0.2);
+		final Box yAxis = new Box(0.2, 53.0, 0.2);
+		final Box zAxis = new Box(0.2, 0.2, 53.0);
 
 		xAxis.setMaterial(redMaterial);
 		yAxis.setMaterial(greenMaterial);
@@ -166,8 +166,11 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(Color.WHITE);
 		} else if (group.contains("Noir oeil")) {
 			material.setDiffuseColor(Color.BLACK);
-		} else if (group.contains("Cheveux")) {
+		} else if (group.contains("Cheveux") || group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
+			// TODO POUR REPÉRER UN GROUPE
+		} else if (group.contains("Bord narine")) {
+			material.setDiffuseColor(Color.BLUEVIOLET);
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
@@ -209,6 +212,7 @@ public class EnvironmentThreeD {
 				mousePosY = me.getSceneY();
 				mouseDeltaX = (mousePosX - mouseOldX);
 				mouseDeltaY = (mousePosY - mouseOldY);
+				modifier = 1.0;
 
 				if (me.isControlDown()) {
 					modifier = CONTROL_MULTIPLIER;

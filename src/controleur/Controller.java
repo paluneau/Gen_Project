@@ -21,40 +21,7 @@ import modele.phenotype.data.SkinColor;
 public class Controller {
 
 	@FXML
-	private Slider sliderHauteurVisage;
-
-	@FXML
-	private Slider sliderDistanceYeux;
-
-	@FXML
-	private Slider sliderDistanceSourcils;
-
-	@FXML
-	private Slider sliderFinesseBouche;
-
-	@FXML
-	private Slider sliderLargeurVisage;
-
-	@FXML
-	private Slider sliderHauteurYeux;
-
-	@FXML
-	private Slider sliderHauteurSourcils;
-
-	@FXML
-	private Slider sliderHauteurBouche;
-
-	@FXML
-	private Slider sliderGrosseurOreilles;
-
-	@FXML
-	private Slider sliderHauteurOreilles;
-
-	@FXML
-	private Slider sliderGrosseurNez;
-
-	@FXML
-	private Slider sliderHauteurNez;
+	private ChoiceBox<EyeColor> choiceBoxYeux;
 
 	@FXML
 	private Slider sliderEcartYeux;
@@ -63,16 +30,28 @@ public class Controller {
 	private ChoiceBox<HairColor> choiceBoxCouleurCheveux;
 
 	@FXML
-	private ChoiceBox<EyeColor> choiceBoxYeux;
-
-	@FXML
 	private ChoiceBox<SkinColor> choiceBoxSkin;
 
 	@FXML
-	private Pane pane3D;
+	private Slider sliderProfondeurOreilles;
+
+	@FXML
+	private Slider sliderHauteurOreilles;
+
+	@FXML
+	private Slider sliderHauteurBouche;
+	
+	@FXML
+	private Slider sliderHauteurNez;
+	
+    @FXML
+    private Slider sliderEcartSourcils;
 
 	@FXML
 	private CheckMenuItem muteButton;
+
+	@FXML
+	private Pane pane3D;
 
 	private EnvironmentThreeD envirnm = null;
 	private MusicPlayer player = null;
@@ -96,18 +75,26 @@ public class Controller {
 	/**
 	 * Détermine les valeurs initiales des contrôles
 	 */
+	//TODO Mettre sa dans le FXML
 	private void setSlidersValue() {
-		/*
-		 * sliderHauteurVisage.setMin(-3); sliderHauteurVisage.setMax(3);
-		 * sliderHauteurVisage.setValue(2); sliderLargeurVisage.setMin(-3);
-		 * sliderLargeurVisage.setMax(3); sliderLargeurVisage.setValue(2);
-		 * sliderDistanceYeux.setMin(-3); sliderDistanceYeux.setMax(3);
-		 * sliderDistanceYeux.setValue(-2);
-		 */
-		sliderEcartYeux.setMin(-2);
-		sliderEcartYeux.setMax(2);
-		sliderEcartYeux.setValue(0);
-		sliderDistanceYeux.setMax(0.000000000001);
+		sliderEcartYeux.setMin(-1.0);
+		sliderEcartYeux.setMax(2.0);
+		sliderEcartYeux.setValue(0.5);
+		sliderHauteurOreilles.setMin(-2.0);
+		sliderHauteurOreilles.setMax(2.0);
+		sliderHauteurOreilles.setValue(0);
+		sliderProfondeurOreilles.setMin(-2.0);
+		sliderProfondeurOreilles.setMax(2.0);
+		sliderProfondeurOreilles.setValue(0);
+		sliderHauteurBouche.setMin(-1.0);
+		sliderHauteurBouche.setMax(1.0);
+		sliderHauteurBouche.setValue(0);
+		sliderHauteurNez.setMin(-1.0);
+		sliderHauteurNez.setMax(1.0);
+		sliderHauteurNez.setValue(0);
+		sliderEcartSourcils.setMin(-1.0);
+		sliderEcartSourcils.setMax(1.0);
+		sliderEcartSourcils.setValue(0);
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
 		choiceBoxCouleurCheveux.setValue(HairColor.BLOND);
@@ -185,6 +172,42 @@ public class Controller {
 			}
 		});
 
+		sliderHauteurOreilles.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionOreilles(new_val.floatValue(),
+						(float) sliderProfondeurOreilles.getValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderProfondeurOreilles.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionOreilles((float) sliderHauteurOreilles.getValue(), new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderHauteurBouche.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionBouche(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderHauteurNez.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionNez(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderEcartSourcils.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionSourcils(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
 		choiceBoxCouleurCheveux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<HairColor>() {
 			public void changed(ObservableValue<? extends HairColor> ov, HairColor old_val, HairColor new_val) {
 				envirnm.getFace().getHair().setCouleurCheveux(new_val);
@@ -192,70 +215,6 @@ public class Controller {
 			}
 		});
 
-	}
-
-	public Slider getSliderHauteurVisage() {
-		return sliderHauteurVisage;
-	}
-
-	public void setSliderHauteurVisage(Slider sliderHauteurVisage) {
-		this.sliderHauteurVisage = sliderHauteurVisage;
-	}
-
-	public Slider getSliderDistanceYeux() {
-		return sliderDistanceYeux;
-	}
-
-	public void setSliderDistanceYeux(Slider sliderDistanceYeux) {
-		this.sliderDistanceYeux = sliderDistanceYeux;
-	}
-
-	public Slider getSliderDistanceSourcils() {
-		return sliderDistanceSourcils;
-	}
-
-	public void setSliderDistanceSourcils(Slider sliderDistanceSourcils) {
-		this.sliderDistanceSourcils = sliderDistanceSourcils;
-	}
-
-	public Slider getSliderFinesseBouche() {
-		return sliderFinesseBouche;
-	}
-
-	public void setSliderFinesseBouche(Slider sliderFinesseBouche) {
-		this.sliderFinesseBouche = sliderFinesseBouche;
-	}
-
-	public Slider getSliderLargeurVisage() {
-		return sliderLargeurVisage;
-	}
-
-	public void setSliderLargeurVisage(Slider sliderLargeurVisage) {
-		this.sliderLargeurVisage = sliderLargeurVisage;
-	}
-
-	public Slider getSliderHauteurYeux() {
-		return sliderHauteurYeux;
-	}
-
-	public void setSliderHauteurYeux(Slider sliderHauteurYeux) {
-		this.sliderHauteurYeux = sliderHauteurYeux;
-	}
-
-	public Slider getSliderHauteurSourcils() {
-		return sliderHauteurSourcils;
-	}
-
-	public void setSliderHauteurSourcils(Slider sliderHauteurSourcils) {
-		this.sliderHauteurSourcils = sliderHauteurSourcils;
-	}
-
-	public Slider getSliderHauteurBouche() {
-		return sliderHauteurBouche;
-	}
-
-	public void setSliderHauteurBouche(Slider sliderHauteurBouche) {
-		this.sliderHauteurBouche = sliderHauteurBouche;
 	}
 
 	public MusicPlayer getPlayer() {
