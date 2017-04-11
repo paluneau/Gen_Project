@@ -3,7 +3,11 @@ package modele.phenotype;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Mouth {
+public class Mouth extends BodyPart {
+
+	public Mouth(String... groups) {
+		super(groups);
+	}
 
 	public double finesseBouche;
 	public DoubleProperty finesseBoucheProp = new SimpleDoubleProperty();

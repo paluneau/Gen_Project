@@ -1,5 +1,6 @@
 package modele.phenotype;
 
+import javafx.geometry.Point3D;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
@@ -26,8 +27,8 @@ public class Face {
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new Ear();
 		REar = new Ear();
-		LEye = new Eye(eyeColor, 0, 0);
-		REye = new Eye(eyeColor, 0, 0);
+		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
+		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
 		hair = new Hair(hairColor);
 		mouth = new Mouth();
 		nose = new Nose();
@@ -71,7 +72,8 @@ public class Face {
 
 	public void setEyeDistance(float distance) {
 		this.distanceYeux = distance;
-		pointsVisage.updateDistanceOeilNez(distance);
+		pointsVisage.applyTranslation(LEye, new Point3D(-distance, 0, 0));
+		pointsVisage.applyTranslation(REye, new Point3D(distance, 0, 0));
 	}
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
@@ -85,7 +87,7 @@ public class Face {
 	public void setPositionNez(float hauteur) {
 		pointsVisage.updateNez(hauteur);
 	}
-	
+
 	public void setPositionSourcils(float ecart) {
 		pointsVisage.updateSourcils(ecart);
 	}
