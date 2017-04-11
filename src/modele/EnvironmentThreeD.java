@@ -160,15 +160,19 @@ public class EnvironmentThreeD {
 
 	private PhongMaterial updateColor(String group) {
 		final PhongMaterial material = new PhongMaterial();
-		if (group.contains("Oeil")) {
+		if (group.contains("Couleur oeil")) {
 			material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		} else if (group.contains("Blanc oeil")) {
+			material.setDiffuseColor(Color.WHITE);
+		} else if (group.contains("Noir oeil")) {
+			material.setDiffuseColor(Color.BLACK);
 		} else if (group.contains("Cheveux")) {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		material.setSpecularColor(Color.BLACK);
+		material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 

@@ -45,7 +45,13 @@ public class Points {
 
 	public void updateDistanceOeilNez(float distance) {
 		updatePoints("Oeil gauche", -distance);
+		updatePoints("Blanc oeil gauche", -distance);
+		updatePoints("Noir oeil gauche", -distance);
+		updatePoints("Couleur oeil gauche", -distance);
 		updatePoints("Oeil droit", distance);
+		updatePoints("Blanc oeil droit", distance);
+		updatePoints("Noir oeil droit", distance);
+		updatePoints("Couleur oeil droit", distance);
 	}
 
 	/**
