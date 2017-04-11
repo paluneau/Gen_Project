@@ -10,8 +10,22 @@ import javafx.collections.ObservableFloatArray;
 
 public class Points {
 
+	/**
+	 * Une map avec comme clé les différents group et comme value les points 3D
+	 * de référence de ces groupes, loader une seule fois au début du programme.
+	 */
 	private Map<String, ObservableFloatArray> points3DIni = null;
+	/**
+	 * Une map avec comme clé les différents group et comme value les points 3D
+	 * de ces groupes, qu'on utilise et qu'on rafraichît durant la vie de l'app.
+	 * C'est elle qui est modifiée pour faire des changements dans la vue.
+	 */
 	private Map<String, ObservableFloatArray> points3DUpdater = null;
+	/**
+	 * Une map avec comme clé un point commun entre deux groupes et comme value
+	 * une liste de ces deux groupes. Utilisée pour bouger les points communs
+	 * entre différents groupes lorsqu'il y a un changement sur ceux-ci.
+	 */
 	private Map<ObservableFloatArray, List<String>> pointsSupp = null;
 
 	public Points() {
@@ -30,14 +44,21 @@ public class Points {
 	}
 
 	public void updateDistanceOeilNez(float distance) {
-		// updatePoints("Oeil gauche", -distance);
-		// updatePoints("Oeil droit", distance);
-		updatePoints("face1", distance);
-		updatePoints("face2", distance);
+		updatePoints("Oeil gauche", -distance);
+		updatePoints("Blanc oeil gauche", -distance);
+		updatePoints("Noir oeil gauche", -distance);
+		updatePoints("Couleur oeil gauche", -distance);
+		updatePoints("Oeil droit", distance);
+		updatePoints("Blanc oeil droit", distance);
+		updatePoints("Noir oeil droit", distance);
+		updatePoints("Couleur oeil droit", distance);
 	}
 
 	/**
-	 * TODO shorten this function
+	 * TODO shorten this function && put comments
+	 * 
+	 * Trouve les différents points communs entre chaque groupe et les mets dans
+	 * la map pointsSupp.
 	 */
 	public void findSiblings() {
 		for (int k = 0; k < points3DIni.values().size() - 1; k++) {
@@ -74,17 +95,48 @@ public class Points {
 			}
 		}
 
-		for (ObservableFloatArray sdk : pointsSupp.keySet()) {
-			System.out.println(pointsSupp.get(sdk));
-			for (int i = 0; i < sdk.size() / 3; i++) {
-				System.out.println(
-						"P : [" + sdk.get(3 * i) + ", " + sdk.get((3 * i) + 1) + ", " + sdk.get((3 * i) + 2) + "]");
-			}
+	}
+
+	/**
+	 * TODO ajouter dimension en paramètre pour pouvoir bouger autrement
+	 * (peut-[etre un array des differents facteurs en XYZ (index = XYZ))
+	 * 
+	 * Update le point d'un group avec un facteur et une dimension.
+	 * 
+	 * @param group
+	 * @param factor
+	 *            - facteur de resizement
+	 * @param dimension
+	 *            X, Y ou Z
+	 */
+	private void updatePoints(String group, float factor) {
+		int dimension = 2;
+		ObservableFloatArray points = points3DUpdater.get(group);
+		for (int i = 0; i < points.size() / 3; i++) {
+			points.set(dimension + (3 * i), points3DIni.get(group).get(dimension + (3 * i)) + factor);
 		}
-		System.out.println();
+		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(group);
+		for (ObservableFloatArray e : pointsCommun) {
+			List<String> groups = pointsSupp.get(e);
+			for (String f : groups) {
+				List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
+				for (Integer h : g) {
+					points3DUpdater.get(f).set((3 * h) + dimension, e.get(dimension) + factor);
+				}
+
+			}
+
+		}
 
 	}
 
+	/**
+	 * Détermine si les valeurs de deux array sont égales.
+	 * 
+	 * @param p
+	 * @param q
+	 * @return vrai ou faux dépendamment si les array sont pareiles.
+	 */
 	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
 		boolean out = true;
 		for (int i = 0; (i < p.size()) && (i < q.size()); i++) {
@@ -95,22 +147,36 @@ public class Points {
 		return out;
 	}
 
-	private String findKeyFromValueMap(ObservableFloatArray value) {
-		String out = "";
+	/**
+	 * Trouve la valeur du groupe dans points3DIni à l'aide de points.
+	 * 
+	 * @param points
+	 *            - un array de points
+	 * @return la valeur texte du groupe
+	 */
+	private String findKeyFromValueMap(ObservableFloatArray points) {
+		String group = "";
 		boolean notFound = true;
 		for (String e : points3DIni.keySet()) {
-			if (notFound && (value.equals(points3DIni.get(e)))) {
-				out = e;
+			if (notFound && (points.equals(points3DIni.get(e)))) {
+				group = e;
 				notFound = false;
 			}
 		}
-		return out;
+		return group;
 	}
 
-	private List<ObservableFloatArray> findKeyFromValueMap(String value) {
+	/**
+	 * Retourne les différents points communs avec d'autres groupes de ce
+	 * "group". Utilise la map pointsSupp.
+	 * 
+	 * @param group
+	 * @return une liste des différents points communs
+	 */
+	private List<ObservableFloatArray> findKeyFromValueMap(String group) {
 		List<ObservableFloatArray> out = new ArrayList<ObservableFloatArray>();
 		for (ObservableFloatArray e : pointsSupp.keySet()) {
-			if (pointsSupp.get(e).contains(value)) {
+			if (pointsSupp.get(e).contains(group)) {
 				out.add(e);
 			}
 		}
@@ -118,43 +184,21 @@ public class Points {
 	}
 
 	/**
+	 * Trouve les indexs des points de l'array "targets" dans l'array "values",
+	 * si les points de l'array "targets" sont dans "values.
 	 * 
-	 * @param group
-	 * @param factor
-	 * @param dimension
-	 *            X, Y ou Z
+	 * @param values
+	 *            - array recherché
+	 * @param targets
+	 *            - array des points à trouver
+	 * @return liste des indexs de values
 	 */
-	private void updatePoints(String group, float factor) {
-
-		/*ObservableFloatArray points = points3DUpdater.get(group);
-		for (int i = 0; i < points.size() / 3; i++) {
-			points.set(2 + (3 * i), points3DIni.get(group).get(2 + (3 * i)) + factor);
-		}*/
-
-		if (group.contains("face2")) {
-			List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(group);
-			for (ObservableFloatArray e : pointsCommun) {
-				List<String> groups = pointsSupp.get(e);
-				for (String f : groups) {
-					List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
-					for (Integer h : g) {
-						points3DUpdater.get(f).set(2 + (3 * h), e.get(2 + (3 * h)) - factor);
-					}
-
-				}
-
-				System.out.println("SUPP : " + pointsCommun.get(2));
-				System.out.println("PP : " + points3DUpdater.get(group).get(2));
-			}
-		}
-
-	}
-
 	private List<Integer> findIndexOfValues(ObservableFloatArray values, ObservableFloatArray targets) {
 		List<Integer> out = new ArrayList<Integer>();
-		for (int i = 0; i < values.size(); i++) {
-			for (Float e : targets.toArray(null)) {
-				if (values.get(i) == e) {
+		for (int i = 0; i < values.size() / 3; i++) {
+			for (int j = 0; j < targets.size() / 3; j++) {
+				if ((values.get(3 * i) == targets.get(3 * j)) && (values.get((3 * i) + 1) == targets.get((3 * j) + 1))
+						&& (values.get((3 * i) + 2) == targets.get((3 * j) + 2))) {
 					out.add(i);
 				}
 			}

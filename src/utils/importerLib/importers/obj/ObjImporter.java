@@ -124,7 +124,6 @@ public class ObjImporter {
         return materials.get(key);
     }
 
-    //FIXME Le problème de matériel est ici (MeshView et CullFace)
     public MeshView buildMeshView(String key) {
         MeshView meshView = new MeshView();
         meshView.setId(key);
