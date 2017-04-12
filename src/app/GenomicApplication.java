@@ -2,14 +2,12 @@ package app;
 
 import java.io.IOException;
 import controleur.Controller;
-import controleur.CtrlLoadingWindow;
 import controleur.CtrlModeADN;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;

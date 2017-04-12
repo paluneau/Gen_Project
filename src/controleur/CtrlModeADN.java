@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 import exception.ConstructionException;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -47,6 +50,9 @@ public class CtrlModeADN {
 		modeDNA();
 	}
 
+	/**
+	 * Insère les labels au bon endroit et avec les bonnes données.
+	 */
 	private void buildWindow() {
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
@@ -59,6 +65,14 @@ public class CtrlModeADN {
 		}
 	}
 
+	/**
+	 * Créé un label avec les infos sur les SNP
+	 * 
+	 * @param pane
+	 *            dans quel pane mettre le label
+	 * @param map
+	 *            la map qui contient des infos de snp
+	 */
 	// TODO afficher l'allèle réael ou la Wildcard??
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
@@ -75,6 +89,12 @@ public class CtrlModeADN {
 		pane.setContent(label);
 	}
 
+	/**
+	 * Créé un label par défaut
+	 * 
+	 * @param pane
+	 *            la pane qui contient le label
+	 */
 	// TODO Est-ce qu'on fait afficher quand même ce qu'on peut ?
 	private void createLabel(ScrollPane pane) {
 		Label label = new Label();
@@ -119,31 +139,8 @@ public class CtrlModeADN {
 	 */
 	public boolean modeDNA() {
 		boolean flagError = false;
-
-		try {
-			dNACreator = new DNACreator(this.face);
-		} catch (IOException e) {
-			File newFolder = alertAndChooseFile(e.getMessage());
-			Chromosome.setAltSrcFile(newFolder);
-
-			try {
-
-				dNACreator = new DNACreator(this.face);
-			} catch (IOException e1) {
-				new MessageAlert("Impossible de trouver le(s) fichier(s).");
-				flagError = true;
-			} catch (ConstructionException e1) {
-				new MessageAlert(e1.getMessage());
-			} catch (URISyntaxException e1) {
-				new MessageAlert(e1.getMessage());
-			}
-
-		} catch (ConstructionException e) {
-			new MessageAlert(e.getMessage());
-		} catch (URISyntaxException e) {
-			new MessageAlert(e.getMessage());
-		}
-
+		Service<Void> service = createThread();
+		service.start();
 		buildWindow();
 
 		return flagError;
@@ -165,4 +162,96 @@ public class CtrlModeADN {
 	public DNACreator getdNACreator() {
 		return this.dNACreator;
 	}
+
+	private Service<Void> createThread() {
+		Service<Void> thread = new Service<Void>() {
+
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+
+					@Override
+					protected Void call() throws Exception {
+						System.out.println("PUTAMADRE");
+
+						
+
+						} catch (ConstructionException e) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									new MessageAlert(e.getMessage());
+								}
+							});
+						} catch (URISyntaxException e) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									new MessageAlert(e.getMessage());
+								}
+							});
+						}
+
+						return null;
+					}
+
+				};
+			}
+
+		};
+
+	return thread;
 }
+
+private class ReaderThread extends Service<Void> {
+
+	private DNACreator dNACreator = null;
+	private Face face = null;
+
+	private ReaderThread(DNACreator dc, Face face) {
+
+	}
+
+	@Override
+		protected Task<Void> createTask() {
+			return new Task<Void>(){
+
+				@Override
+				protected Void call() throws Exception {
+					try {
+						dNACreator = new DNACreator(face);
+						System.out.println("PUTAMADRE #2");
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+
+						
+								File newFolder = alertAndChooseFile(e.getMessage());
+								Chromosome.setAltSrcFile(newFolder);
+
+						try {
+
+							dNACreator = new DNACreator(face);
+						} catch (IOException e1) {
+							
+
+							// flagError = true;
+						} catch (ConstructionException e1) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									new MessageAlert(e.getMessage());
+								}
+							});
+						} catch (URISyntaxException e1) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									new MessageAlert(e.getMessage());
+								}
+							});
+						return null;
+}
+
+};}
+
+}}
