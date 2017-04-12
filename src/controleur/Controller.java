@@ -40,12 +40,12 @@ public class Controller {
 
 	@FXML
 	private Slider sliderHauteurBouche;
-	
+
 	@FXML
 	private Slider sliderHauteurNez;
-	
-    @FXML
-    private Slider sliderEcartSourcils;
+
+	@FXML
+	private Slider sliderEcartSourcils;
 
 	@FXML
 	private CheckMenuItem muteButton;
@@ -75,7 +75,7 @@ public class Controller {
 	/**
 	 * Détermine les valeurs initiales des contrôles
 	 */
-	//TODO Mettre sa dans le FXML
+	// TODO Mettre sa dans le FXML
 	private void setSlidersValue() {
 		sliderEcartYeux.setMin(-1.0);
 		sliderEcartYeux.setMax(2.0);
@@ -193,14 +193,14 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderHauteurNez.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionNez(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderEcartSourcils.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionSourcils(new_val.floatValue());
@@ -211,6 +211,8 @@ public class Controller {
 		choiceBoxCouleurCheveux.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<HairColor>() {
 			public void changed(ObservableValue<? extends HairColor> ov, HairColor old_val, HairColor new_val) {
 				envirnm.getFace().getHair().setCouleurCheveux(new_val);
+				envirnm.getFace().getRSourcils().setColor(new_val);
+				envirnm.getFace().getLSourcils().setColor(new_val);
 				envirnm.changementWorld();
 			}
 		});

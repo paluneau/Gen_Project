@@ -2,11 +2,12 @@ package modele.phenotype;
 
 import modele.phenotype.data.HairColor;
 
-public class Hair {
+public class Hair extends BodyPart {
 
 	public HairColor couleurCheveux;
 
-	public Hair(HairColor hc) {
+	public Hair(HairColor hc, String... groups) {
+		super(groups);
 		setCouleurCheveux(hc);
 	}
 

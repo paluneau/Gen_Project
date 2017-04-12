@@ -69,6 +69,7 @@ public class DNA {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
 			setReadingProgress(getReadingProgress() + (1.0 / chrSymbols.size()));
+			System.out.println("Reading progress: " + getReadingProgress());
 		}
 	}
 

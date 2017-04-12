@@ -54,7 +54,6 @@ public class DNACreator {
 		for (TargetSNPs t : tgt) {
 			chrSym.add(t.getChromosomeNbr());
 		}
-		System.out.println(chrSym);
 
 		return chrSym;
 	}
@@ -70,7 +69,6 @@ public class DNACreator {
 			int pos = 0;
 			TargetSNPs current = snp;
 			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
-				System.out.println(chr);
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}

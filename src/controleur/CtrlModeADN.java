@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import modele.DNACreator;
@@ -25,7 +26,6 @@ public class CtrlModeADN {
 
 	private DNACreator dNACreator = null;
 	private Face face = null;
-	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
 
 	@FXML
 	private Pane pane;
@@ -39,10 +39,15 @@ public class CtrlModeADN {
 	@FXML
 	private ScrollPane scrollPeau;
 
+	@FXML
+	private ProgressBar readingProgress;
+
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
 		modeDNA();
+	}
 
+	private void buildWindow() {
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
 			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
@@ -52,7 +57,6 @@ public class CtrlModeADN {
 			createLabel(scrollYeux);
 			createLabel(scrollPeau);
 		}
-
 	}
 
 	// TODO afficher l'allèle réael ou la Wildcard??
@@ -117,7 +121,6 @@ public class CtrlModeADN {
 		boolean flagError = false;
 
 		try {
-			setLoadingWindowProperty(true);
 			dNACreator = new DNACreator(this.face);
 		} catch (IOException e) {
 			File newFolder = alertAndChooseFile(e.getMessage());
@@ -141,6 +144,8 @@ public class CtrlModeADN {
 			new MessageAlert(e.getMessage());
 		}
 
+		buildWindow();
+
 		return flagError;
 	}
 
@@ -155,18 +160,6 @@ public class CtrlModeADN {
 		new MessageAlert(message);
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
-	}
-
-	public BooleanProperty loadingWindowProperty() {
-		return loadingWindowProperty;
-	}
-
-	public void setLoadingWindowProperty(boolean val) {
-		this.loadingWindowProperty.set(val);
-	}
-
-	public boolean getLoadingWindowProperty() {
-		return this.loadingWindowProperty.get();
 	}
 
 	public DNACreator getdNACreator() {

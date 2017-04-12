@@ -94,10 +94,6 @@ public class SNP {
 			this.allele = getWildCard(Allele.valueOf(Character.toString(courant)),
 					Allele.valueOf(Character.toString(latest)));
 			char[] letters = getSeq().toCharArray();
-			System.out.println("SNP: " + this);
-			System.out.println("old:" + courant);
-			System.out.println("new:" + latest);
-			System.out.println("old+new: " + getAllele());
 			letters[getVarPos()] = getAllele().getPrimarySymbol();
 			this.seq = new String(letters);
 		}

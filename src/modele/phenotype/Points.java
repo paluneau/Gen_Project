@@ -44,67 +44,18 @@ public class Points {
 		return points3DUpdater.get(group);
 	}
 
+	/**
+	 * Permet d'appliquer une translation sur une des composantes du visage
+	 * 
+	 * @param part
+	 *            la partie du visage
+	 * @param transformation
+	 *            les paraqmètres de la transformation (x, y ,z)
+	 */
 	public void applyTranslation(BodyPart part, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePoints(group, transformation);
+			updatePointsTranslation(group, transformation);
 		}
-	}
-
-	public void updateDistanceOeilNez(float distance) {
-		Point3D deplacement = new Point3D(-distance, 0, 0);
-		updatePoints("Oeil gauche", deplacement);
-		updatePoints("Blanc oeil gauche", deplacement);
-		updatePoints("Noir oeil gauche", deplacement);
-		updatePoints("Couleur oeil gauche", deplacement);
-
-		deplacement = new Point3D(distance, 0, 0);
-		updatePoints("Oeil droit", deplacement);
-		updatePoints("Blanc oeil droit", deplacement);
-		updatePoints("Noir oeil droit", deplacement);
-		updatePoints("Couleur oeil droit", deplacement);
-	}
-
-	/**
-	 * Ajuste la position des oreilles
-	 * 
-	 * @param distanceH
-	 *            la hauteur
-	 * @param distanceP
-	 *            la profondeur
-	 */
-	public void updatePositionOreille(float distanceH, float distanceP) {
-		Point3D deplacement = new Point3D(0, distanceH, -distanceP);
-		updatePoints("Oreille gauche", deplacement);
-		updatePoints("Oreille droite", deplacement);
-	}
-
-	/**
-	 * Ajuste la position et la dimension de la bouche
-	 * 
-	 * @param distanceH
-	 *            la hauteur
-	 * @param distanceP
-	 *            la profondeur
-	 */
-	public void updateBouche(float distanceH) {
-		Point3D deplacement = new Point3D(0, distanceH, 0);
-		updatePoints("Bouche", deplacement);
-
-	}
-
-	public void updateNez(float hauteur) {
-		Point3D deplacement = new Point3D(0, hauteur, 0);
-		updatePoints("Nez", deplacement);
-		updatePoints("Bord narine", deplacement);
-		updatePoints("Narine", deplacement);
-	}
-
-	public void updateSourcils(float distance) {
-		Point3D deplacement = new Point3D(-distance, 0, 0);
-		updatePoints("Sourcil gauche", deplacement);
-
-		deplacement = new Point3D(distance, 0, 0);
-		updatePoints("Sourcil droit", deplacement);
 	}
 
 	/**
@@ -160,7 +111,7 @@ public class Points {
 	 *            - un point 3D qui contient le facteur modificateur dans chaque
 	 *            dimension
 	 */
-	private void updatePoints(String group, Point3D factors) {
+	private void updatePointsTranslation(String group, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(group);
 		for (int i = 0; i < points.size() / 3; i++) {
 			points.set(2 + (3 * i), (float) (points3DIni.get(group).get(2 + (3 * i)) + factors.getX()));

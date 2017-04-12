@@ -2,7 +2,7 @@ package modele.phenotype;
 
 import java.util.ArrayList;
 
-public abstract class BodyPart {
+public class BodyPart {
 
 	private ArrayList<String> subParts = null;
 
