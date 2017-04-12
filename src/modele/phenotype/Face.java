@@ -78,6 +78,7 @@ public class Face {
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
 		pointsVisage.applyTranslation(LEar, new Point3D(0, hauteur, profondeur));
+		pointsVisage.applyTranslation(REar, new Point3D(0, hauteur, profondeur));
 	}
 
 	public void setPositionBouche(float hauteur) {

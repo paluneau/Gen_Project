@@ -57,7 +57,6 @@ public class Chromosome {
 	 *             si la syntaxe du path est invalide
 	 */
 	public void loadSNPs() throws IOException, URISyntaxException {
-
 		FastaSequenceReader fsr = null;
 
 		if (getClass().getResource("/fasta" + dataSrcPath) == null) {
@@ -70,8 +69,6 @@ public class Chromosome {
 		} else {
 			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
-
-		System.out.println(fsr.getSequences());
 
 		fsr.getSequences().forEach((desc, seq) -> {
 			snips.put(desc, new SNP(desc, seq));

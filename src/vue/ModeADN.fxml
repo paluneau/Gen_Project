@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlModeADN">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlModeADN">
    <children>
       <MenuBar layoutY="2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="384.0">
         <menus>
@@ -19,24 +23,34 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Accordion layoutY="27.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="446.0" prefWidth="384.0">
-        <panes>
-          <TitledPane text="Yeux" wrapText="true">
-            <content>
-                  <ScrollPane fx:id="scrollYeux" prefHeight="245.0" prefWidth="382.0" />
-            </content>
-          </TitledPane>
-            <TitledPane animated="false" text="Cheveux" wrapText="true">
-               <content>
-                  <ScrollPane fx:id="scrollCheveux" prefHeight="200.0" prefWidth="200.0" />
-               </content>
-            </TitledPane>
-            <TitledPane animated="false" text="Peau" wrapText="true">
-               <content>
-                  <ScrollPane fx:id="scrollPeau" prefHeight="200.0" prefWidth="200.0" />
-               </content>
-            </TitledPane>
-        </panes>
-      </Accordion>
+      <SplitPane dividerPositions="0.8606194690265486" layoutY="27.0" orientation="VERTICAL">
+         <items>
+            <Accordion maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="446.0" prefWidth="384.0">
+              <panes>
+                <TitledPane text="Yeux" wrapText="true">
+                  <content>
+                        <ScrollPane fx:id="scrollYeux" prefHeight="245.0" prefWidth="382.0" />
+                  </content>
+                </TitledPane>
+                  <TitledPane animated="false" text="Cheveux" wrapText="true">
+                     <content>
+                        <ScrollPane fx:id="scrollCheveux" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Peau" wrapText="true">
+                     <content>
+                        <ScrollPane fx:id="scrollPeau" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </TitledPane>
+              </panes>
+            </Accordion>
+            <AnchorPane>
+               <children>
+                  <ProgressBar fx:id="readingProgress" layoutX="92.0" layoutY="21.0" prefWidth="200.0" progress="0.0" />
+                  <Label fx:id="labelLoading" alignment="CENTER" layoutX="145.0" layoutY="6.0" text="Lecture en cours..." textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+         </items>
+      </SplitPane>
    </children>
 </Pane>

@@ -54,7 +54,7 @@ public class Points {
 	 */
 	public void applyTranslation(BodyPart part, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePoints(group, transformation);
+			updatePointsTranslation(group, transformation);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class Points {
 	 *            - un point 3D qui contient le facteur modificateur dans chaque
 	 *            dimension
 	 */
-	private void updatePoints(String group, Point3D factors) {
+	private void updatePointsTranslation(String group, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(group);
 		for (int i = 0; i < points.size() / 3; i++) {
 			points.set(2 + (3 * i), (float) (points3DIni.get(group).get(2 + (3 * i)) + factors.getX()));
