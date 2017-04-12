@@ -12,12 +12,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlModeADN">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="384.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.CtrlModeADN">
    <children>
       <MenuBar layoutY="2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="384.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Exporter">
+          <Menu mnemonicParsing="false" text="Fichier">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#modeDNA" text="Générer ADN" />
               <MenuItem mnemonicParsing="false" onAction="#ouvrirDirectoryChooser" text="Exporter ADN" />
             </items>
           </Menu>
@@ -44,10 +45,10 @@
                   </TitledPane>
               </panes>
             </Accordion>
-            <AnchorPane>
+            <AnchorPane minHeight="30.0">
                <children>
-                  <ProgressBar fx:id="readingProgress" layoutX="92.0" layoutY="21.0" prefWidth="200.0" progress="0.0" />
-                  <Label fx:id="labelLoading" alignment="CENTER" layoutX="145.0" layoutY="6.0" text="Lecture en cours..." textAlignment="CENTER" />
+                  <ProgressBar fx:id="readingProgress" layoutX="92.0" layoutY="24.0" prefWidth="200.0" progress="0.0" />
+                  <Label fx:id="labelLoading" alignment="CENTER" layoutX="142.0" layoutY="6.0" text="Statut de la lecture" textAlignment="CENTER" />
                </children>
             </AnchorPane>
          </items>

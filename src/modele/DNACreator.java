@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import javafx.beans.property.DoubleProperty;
 import exception.ConstructionException;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
@@ -23,12 +25,15 @@ public class DNACreator {
 
 	private DNA dna = null;
 	private Face face = null;
+	private DoubleProperty readingProgressProperty = null;
 
-	public DNACreator(Face f) throws ConstructionException, IOException, URISyntaxException {
+	public DNACreator(Face f, DoubleProperty progress)
+			throws ConstructionException, IOException, URISyntaxException {
 		if (f != null) {
-			this.dna = new DNA(chrSymByTargets());
-				this.face = f;
-				updateDNA();
+			this.readingProgressProperty = progress;
+			this.dna = new DNA(chrSymByTargets(), progress);
+			this.face = f;
+			updateDNA();
 		} else {
 			throw new ConstructionException("VISAGE INEXISTANT");
 		}
@@ -37,6 +42,18 @@ public class DNACreator {
 
 	public DNA getDna() {
 		return dna;
+	}
+
+	public DoubleProperty readingProgressProperty() {
+		return readingProgressProperty;
+	}
+
+	public double getReadingProgress() {
+		return readingProgressProperty.get();
+	}
+
+	public void setReadingProgress(double val) {
+		this.readingProgressProperty.set(val);
 	}
 
 	/**
@@ -68,7 +85,8 @@ public class DNACreator {
 		map.forEach((snp, alleles) -> {
 			int pos = 0;
 			TargetSNPs current = snp;
-			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
+			for (Chromosome chr : getDna().getChrPair(
+					current.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}

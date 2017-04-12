@@ -95,7 +95,7 @@ public class Chromosome {
 	 */
 	public static void setAltSrcFile(File newFile) {
 		Chromosome.altSrcFile = newFile;
-		;
+		System.out.println("ALT:" +altSrcFile);
 	}
 
 	/**

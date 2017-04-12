@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
+
 import exception.ConstructionException;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -27,9 +28,6 @@ import vue.MessageAlert;
 
 public class CtrlModeADN {
 
-	private DNACreator dNACreator = null;
-	private Face face = null;
-
 	@FXML
 	private Pane pane;
 
@@ -45,9 +43,28 @@ public class CtrlModeADN {
 	@FXML
 	private ProgressBar readingProgress;
 
+	private DoubleProperty readingProgressProperty = null;
+	private DNACreator dNACreator = null;
+	private Face face = null;
+	private Service<Void> thread = null;
+
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
+		this.readingProgressProperty = new SimpleDoubleProperty(0);
+		readingProgress.progressProperty().bind(readingProgressProperty);
 		modeDNA();
+	}
+
+	public DoubleProperty readingProgressProperty() {
+		return readingProgressProperty;
+	}
+
+	public double getReadingProgress() {
+		return readingProgressProperty.get();
+	}
+
+	public void setReadingProgress(double val) {
+		this.readingProgressProperty.set(val);
 	}
 
 	/**
@@ -56,7 +73,8 @@ public class CtrlModeADN {
 	private void buildWindow() {
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
-			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux()
+					.getGenes());
 			createLabel(scrollPeau, face.getSkinColor().getGenes());
 		} else {
 			createLabel(scrollCheveux);
@@ -73,17 +91,37 @@ public class CtrlModeADN {
 	 * @param map
 	 *            la map qui contient des infos de snp
 	 */
-	// TODO afficher l'allèle réael ou la Wildcard??
+	// TODO snp en gras
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
 		map.forEach((k, v) -> {
-			label.setText(label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/"
-					+ v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
-					+ v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\nSéquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
+			label.setText(label.getText()
+					+ "Chromosome: "
+					+ k.getChromosomeNbr()
+					+ "\n"
+					+ "Allèle: "
+					+ v[0]
+					+ "/"
+					+ v[1]
+					+ "\n"
+					+ "Gène:  "
+					+ k.getGene()
+					+ "\n"
+					+ "RS: "
+					+ "rs"
+					+ k.getId()
+					+ "\n"
+					+ "Séquence "
+					+ v[0]
+					+ " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
+							.getSnips().get("rs" + k.getId()).getSeq()
+					+ "\nSéquence "
+					+ v[1]
+					+ " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
+							.getSnips().get("rs" + k.getId()).getSeq() + "\n"
+					+ "\n");
 
 		});
 		pane.setContent(label);
@@ -95,11 +133,11 @@ public class CtrlModeADN {
 	 * @param pane
 	 *            la pane qui contient le label
 	 */
-	// TODO Est-ce qu'on fait afficher quand même ce qu'on peut ?
 	private void createLabel(ScrollPane pane) {
 		Label label = new Label();
-		label.setText("Erreur de lecture");
+		label.setText("Erreur de lecture. Veuillez générer l'ADN");
 		pane.setContent(label);
+
 	}
 
 	/**
@@ -110,7 +148,8 @@ public class CtrlModeADN {
 	 */
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
+				.getWindow());
 
 		if (directoryChooser.getFichierChoisi() != null) {
 			boolean flagError = (dNACreator == null) ? modeDNA() : false;
@@ -118,9 +157,11 @@ public class CtrlModeADN {
 			if (!flagError) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
-							directoryChooser.getFichierChoisi().getAbsolutePath());
+							directoryChooser.getFichierChoisi()
+									.getAbsolutePath());
 				} catch (IOException e) {
-					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
+					new MessageAlert(
+							"Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
 
 			} else {
@@ -137,12 +178,12 @@ public class CtrlModeADN {
 	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
 	 *         tout est correct
 	 */
+	// TODO régler flagError
+	@FXML
 	public boolean modeDNA() {
 		boolean flagError = false;
-		Service<Void> service = createThread();
-		service.start();
-		buildWindow();
-
+		this.thread = new ReaderThread();
+		thread.start();
 		return flagError;
 	}
 
@@ -155,103 +196,83 @@ public class CtrlModeADN {
 	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
+				.getWindow());
 		return directoryChooser.getFichierChoisi();
+
 	}
 
 	public DNACreator getdNACreator() {
 		return this.dNACreator;
 	}
 
-	private Service<Void> createThread() {
-		Service<Void> thread = new Service<Void>() {
+	/**
+	 * Permet de lire les fichiers dans un htread parallèle au thread principal
+	 * de l'application
+	 * 
+	 * @author Les géniesdu génome
+	 *
+	 */
+	// TODO le thread n'arrete pas ...
+	class ReaderThread extends Service<Void> {
 
-			@Override
-			protected Task<Void> createTask() {
-				return new Task<Void>() {
+		private ReaderThread() {
 
-					@Override
-					protected Void call() throws Exception {
-						System.out.println("PUTAMADRE");
+		}
 
-						
+		private Runnable createThreadMessage(String message) {
+			return new Runnable() {
 
-						} catch (ConstructionException e) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									new MessageAlert(e.getMessage());
-								}
-							});
-						} catch (URISyntaxException e) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									new MessageAlert(e.getMessage());
-								}
-							});
-						}
+				@Override
+				public void run() {
+					new MessageAlert(message);
+				}
+			};
+		}
 
-						return null;
-					}
+		private Runnable createThreadFileChooser(String message) {
+			return new Runnable() {
 
-				};
+				@Override
+				public void run() {
+					File newFolder = alertAndChooseFile(message);
+					Chromosome.setAltSrcFile(newFolder);
+				}
+			};
+		}
+
+		private void manageFileReading() {
+			try {
+				dNACreator = new DNACreator(face, readingProgressProperty);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadFileChooser(e.getMessage()));
+			} catch (ConstructionException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadMessage(e.getMessage()));
+			} catch (URISyntaxException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadMessage(e.getMessage()));
 			}
+		}
 
-		};
-
-	return thread;
-}
-
-private class ReaderThread extends Service<Void> {
-
-	private DNACreator dNACreator = null;
-	private Face face = null;
-
-	private ReaderThread(DNACreator dc, Face face) {
-
-	}
-
-	@Override
+		@Override
 		protected Task<Void> createTask() {
-			return new Task<Void>(){
+			return new Task<Void>() {
 
 				@Override
 				protected Void call() throws Exception {
-					try {
-						dNACreator = new DNACreator(face);
-						System.out.println("PUTAMADRE #2");
-					} catch (IOException e) {
-						System.out.println(e.getMessage());
+					manageFileReading();
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							buildWindow();
+						}
+					});
 
-						
-								File newFolder = alertAndChooseFile(e.getMessage());
-								Chromosome.setAltSrcFile(newFolder);
-
-						try {
-
-							dNACreator = new DNACreator(face);
-						} catch (IOException e1) {
-							
-
-							// flagError = true;
-						} catch (ConstructionException e1) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									new MessageAlert(e.getMessage());
-								}
-							});
-						} catch (URISyntaxException e1) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									new MessageAlert(e.getMessage());
-								}
-							});
-						return null;
+					return null;
+				}
+			};
+		}
+	}
 }
-
-};}
-
-}}

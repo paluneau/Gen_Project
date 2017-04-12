@@ -237,7 +237,7 @@ public class EnvironmentThreeD {
 			}
 		});
 
-		// TODO contrôles du clavier
+		//TODO controles clavier
 		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent me) {
 				System.out.println("coq roti");
