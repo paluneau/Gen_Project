@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.beans.property.SimpleDoubleProperty;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,10 +20,11 @@ public class DNATest {
 
 	@Before
 	public void setUp() throws Exception {
-		Chromosome.setAltSrcFile(new File(getClass().getResource("/tests").toURI()));
+		Chromosome.setAltSrcFile(new File(getClass().getResource("/tests")
+				.toURI()));
 		Set<String> symbols = new HashSet<>();
 		symbols.add("15");
-		d1 = new DNA(symbols);
+		d1 = new DNA(symbols, new SimpleDoubleProperty(0));
 	}
 
 	@Test

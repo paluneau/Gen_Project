@@ -19,12 +19,13 @@ public class DNA {
 	private List<Chromosome> pair2 = null;
 	private DoubleProperty readingProgressProperty = null;
 
-	public DNA(Set<String> chrSymbols) throws ConstructionException, IOException, URISyntaxException {
+	public DNA(Set<String> chrSymbols, DoubleProperty progress)
+			throws ConstructionException, IOException, URISyntaxException {
 		if (!chrSymbols.isEmpty()) {
 			this.chrSymbols = chrSymbols;
 			pair1 = new ArrayList<>();
 			pair2 = new ArrayList<>();
-			this.readingProgressProperty = new SimpleDoubleProperty(0);
+			this.readingProgressProperty = progress;
 			createChr();
 		} else {
 			throw new ConstructionException("Aucun SNP ciblé.");
@@ -64,7 +65,8 @@ public class DNA {
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	private void createChr() throws ConstructionException, IOException, URISyntaxException {
+	private void createChr() throws ConstructionException, IOException,
+			URISyntaxException {
 		for (String sym : chrSymbols) {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
