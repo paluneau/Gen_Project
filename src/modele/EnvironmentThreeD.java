@@ -166,11 +166,10 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(Color.WHITE);
 		} else if (group.contains("Noir oeil")) {
 			material.setDiffuseColor(Color.BLACK);
-		} else if (group.contains("Cheveux") || group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
+		} else if (group.contains("Cheveux")) {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
-			// TODO POUR REPÉRER UN GROUPE
-		} else if (group.contains("Bord narine")) {
-			material.setDiffuseColor(Color.BLUEVIOLET);
+		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
+			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
