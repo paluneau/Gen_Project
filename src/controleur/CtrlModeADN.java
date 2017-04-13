@@ -7,7 +7,9 @@ import java.util.Map;
 
 import exception.ConstructionException;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -47,7 +49,8 @@ public class CtrlModeADN {
 	private DNACreator dNACreator = null;
 	private Face face = null;
 	private Service<Void> thread = null;
-	private boolean flagError = false;
+
+	private BooleanProperty arreterThread = new SimpleBooleanProperty(true);
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
@@ -68,14 +71,22 @@ public class CtrlModeADN {
 		this.readingProgressProperty.set(val);
 	}
 
+	public BooleanProperty getArreterThread() {
+		return arreterThread;
+	}
+
+	public void setArreterThread(Boolean arreterThread) {
+		this.arreterThread.set(arreterThread);
+		;
+	}
+
 	/**
 	 * Insère les labels au bon endroit et avec les bonnes données.
 	 */
 	private void buildWindow() {
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
-			createLabel(scrollCheveux, face.getHair().getCouleurCheveux()
-					.getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
 			createLabel(scrollPeau, face.getSkinColor().getGenes());
 		} else {
 			createLabel(scrollCheveux);
@@ -96,33 +107,13 @@ public class CtrlModeADN {
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
 		map.forEach((k, v) -> {
-			label.setText(label.getText()
-					+ "Chromosome: "
-					+ k.getChromosomeNbr()
-					+ "\n"
-					+ "Allèle: "
-					+ v[0]
-					+ "/"
-					+ v[1]
-					+ "\n"
-					+ "Gène:  "
-					+ k.getGene()
-					+ "\n"
-					+ "RS: "
-					+ "rs"
-					+ k.getId()
-					+ "\n"
-					+ "Séquence "
-					+ v[0]
-					+ " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
-							.getSnips().get("rs" + k.getId()).getSeq()
-					+ "\nSéquence "
-					+ v[1]
-					+ " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
-							.getSnips().get("rs" + k.getId()).getSeq() + "\n"
-					+ "\n");
+			label.setText(label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/"
+					+ v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
+					+ v[0] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\nSéquence " + v[1] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\n" + "\n");
 
 		});
 		pane.setContent(label);
@@ -147,22 +138,18 @@ public class CtrlModeADN {
 	 *
 	 * @param event
 	 */
-	// TODO régler flagError car NullPointer si dNaCreator == null
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
-				.getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 
 		if (directoryChooser.getFichierChoisi() != null) {
 
-			if (!flagError) {
+			if (dNACreator != null) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
-							directoryChooser.getFichierChoisi()
-									.getAbsolutePath());
+							directoryChooser.getFichierChoisi().getAbsolutePath());
 				} catch (IOException e) {
-					new MessageAlert(
-							"Erreur lors de l'écriture du fichier. Échec de l'exportation.");
+					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
 
 			} else {
@@ -191,8 +178,7 @@ public class CtrlModeADN {
 	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
-				.getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
 
 	}
@@ -208,7 +194,6 @@ public class CtrlModeADN {
 	 * @author Les géniesdu génome
 	 *
 	 */
-	// TODO le thread n'arrête pas ...
 	class ReaderThread extends Service<Void> {
 
 		private Runnable createThreadMessage(String message) {
@@ -234,7 +219,7 @@ public class CtrlModeADN {
 
 		private void manageFileReading() {
 			try {
-				dNACreator = new DNACreator(face, readingProgressProperty);
+				dNACreator = new DNACreator(face, readingProgressProperty, arreterThread);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadFileChooser(e.getMessage()));

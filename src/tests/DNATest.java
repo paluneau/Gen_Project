@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import org.junit.Before;
@@ -24,7 +25,7 @@ public class DNATest {
 				.toURI()));
 		Set<String> symbols = new HashSet<>();
 		symbols.add("15");
-		d1 = new DNA(symbols, new SimpleDoubleProperty(0));
+		d1 = new DNA(symbols, new SimpleDoubleProperty(0), new SimpleBooleanProperty(true));
 	}
 
 	@Test

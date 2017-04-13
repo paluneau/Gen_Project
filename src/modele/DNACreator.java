@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import exception.ConstructionException;
 import modele.genome.Chromosome;
@@ -26,11 +27,13 @@ public class DNACreator {
 	private DNA dna = null;
 	private Face face = null;
 	private DoubleProperty readingProgressProperty = null;
-
-	public DNACreator(Face f, DoubleProperty progress) throws ConstructionException, IOException, URISyntaxException {
+	
+	public DNACreator(Face f, DoubleProperty progress, BooleanProperty booleanp)
+			throws ConstructionException, IOException, URISyntaxException {
+    
 		if (f != null) {
 			this.readingProgressProperty = progress;
-			this.dna = new DNA(chrSymByTargets(), progress);
+			this.dna = new DNA(chrSymByTargets(), progress, booleanp);
 			this.face = f;
 			updateDNA();
 		} else {

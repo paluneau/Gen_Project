@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
       <SplitPane orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
@@ -27,7 +27,7 @@
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Couleur des Yeux" />
                               <ChoiceBox fx:id="choiceBoxYeux" layoutX="9.0" layoutY="32.0" prefHeight="25.0" prefWidth="102.0" />
-                              <Slider fx:id="sliderEcartYeux" layoutX="170.0" layoutY="37.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Slider fx:id="sliderEcartYeux" layoutX="170.0" layoutY="37.0" max="2.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" value="0.5" />
                               <Label layoutX="171.0" layoutY="14.0" styleClass="controlLabel" text="Écart entre les yeux" />
                            </children></AnchorPane>
                   </content>
@@ -55,9 +55,9 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="13.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur des oreilles" />
-                              <Slider fx:id="sliderHauteurOreilles" layoutX="11.0" layoutY="38.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                              <Slider fx:id="sliderHauteurOreilles" layoutX="11.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
                               <Label layoutX="170.0" layoutY="14.0" styleClass="controlLabel" text="Profondeur des oreilles" />
-                              <Slider fx:id="sliderProfondeurOreilles" layoutX="176.0" layoutY="38.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                              <Slider fx:id="sliderProfondeurOreilles" layoutX="176.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -67,7 +67,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur de la bouche" />
-                              <Slider fx:id="sliderHauteurBouche" layoutX="16.0" layoutY="31.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Slider fx:id="sliderHauteurBouche" layoutX="16.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -77,7 +77,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="23.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur du nez" />
-                              <Slider fx:id="sliderHauteurNez" layoutX="9.0" layoutY="31.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Slider fx:id="sliderHauteurNez" layoutX="9.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -87,7 +87,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Écart entre les sourcils" />
-                              <Slider fx:id="sliderEcartSourcils" layoutX="18.0" layoutY="31.0" prefHeight="5.0" prefWidth="114.0" />
+                              <Slider fx:id="sliderEcartSourcils" layoutX="18.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
                            </children>
                         </AnchorPane>
                     </content>
