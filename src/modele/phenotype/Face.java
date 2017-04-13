@@ -17,7 +17,7 @@ public class Face {
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
-	private Points pointsVisage = null;
+	private TransformationPoints pointsVisage = null;
 
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new BodyPart("Oreille gauche");
@@ -32,7 +32,7 @@ public class Face {
 		LSourcils = new Sourcils(hairColor, "Sourcil gauche");
 		RSourcils = new Sourcils(hairColor, "Sourcil droit");
 		this.skinColor = skinColor;
-		pointsVisage = new Points();
+		pointsVisage = new TransformationPoints();
 	}
 
 	public BodyPart getLEar() {
@@ -140,7 +140,7 @@ public class Face {
 		this.skinColor = skinColor;
 	}
 
-	public Points getPointsVisage() {
+	public TransformationPoints getPointsVisage() {
 		return pointsVisage;
 	}
 }
