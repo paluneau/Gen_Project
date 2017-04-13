@@ -6,6 +6,7 @@ import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 //TODO est-ce qu'on a besoin de toutes ces classes métiers là ? On pourrait mettre celles qui sont non-spécifiques comme BodyPart
+//TODO est-ce qu'on applique les valeurs numériques des sliders au modèle et pas seulement aux points ?
 public class Face {
 
 	private Ear LEar = null;
@@ -27,8 +28,10 @@ public class Face {
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new Ear("Oreille gauche");
 		REar = new Ear("Oreille droite");
-		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
-		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
+		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche",
+				"Noir oeil gauche", "Couleur oeil gauche");
+		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit",
+				"Noir oeil droit", "Couleur oeil droit");
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new Mouth("Bouche");
 		nose = new Nose("Bord narine", "Narine", "Nez");
@@ -77,8 +80,10 @@ public class Face {
 	}
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
-		pointsVisage.applyTranslation(LEar, new Point3D(0, hauteur, profondeur));
-		pointsVisage.applyTranslation(REar, new Point3D(0, hauteur, profondeur));
+		pointsVisage
+				.applyTranslation(LEar, new Point3D(0, hauteur, profondeur));
+		pointsVisage
+				.applyTranslation(REar, new Point3D(0, hauteur, profondeur));
 	}
 
 	public void setPositionBouche(float hauteur) {

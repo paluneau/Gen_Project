@@ -47,6 +47,7 @@ public class CtrlModeADN {
 	private DNACreator dNACreator = null;
 	private Face face = null;
 	private Service<Void> thread = null;
+	private boolean flagError = false;
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
@@ -146,13 +147,13 @@ public class CtrlModeADN {
 	 *
 	 * @param event
 	 */
+	// TODO régler flagError car NullPointer si dNaCrerator == null
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
 				.getWindow());
 
 		if (directoryChooser.getFichierChoisi() != null) {
-			boolean flagError = (dNACreator == null) ? modeDNA() : false;
 
 			if (!flagError) {
 				try {
@@ -178,13 +179,10 @@ public class CtrlModeADN {
 	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
 	 *         tout est correct
 	 */
-	// TODO régler flagError
 	@FXML
-	public boolean modeDNA() {
-		boolean flagError = false;
+	public void modeDNA() {
 		this.thread = new ReaderThread();
 		thread.start();
-		return flagError;
 	}
 
 	/**
@@ -215,10 +213,6 @@ public class CtrlModeADN {
 	 */
 	// TODO le thread n'arrete pas ...
 	class ReaderThread extends Service<Void> {
-
-		private ReaderThread() {
-
-		}
 
 		private Runnable createThreadMessage(String message) {
 			return new Runnable() {

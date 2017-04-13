@@ -2,7 +2,6 @@ package vue;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Modality;
 
 public class MessageAlert {
 
