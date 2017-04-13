@@ -9,7 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 
-public class Points {
+public class TransformationPoints {
 
 	/**
 	 * Une map avec comme clé les différents group et comme value les points 3D
@@ -29,7 +29,7 @@ public class Points {
 	 */
 	private Map<ObservableFloatArray, List<String>> pointsSupp = null;
 
-	public Points() {
+	public TransformationPoints() {
 		points3DIni = new HashMap<String, ObservableFloatArray>();
 		points3DUpdater = new HashMap<String, ObservableFloatArray>();
 		pointsSupp = new HashMap<ObservableFloatArray, List<String>>();
