@@ -7,7 +7,9 @@ import java.util.Map;
 
 import exception.ConstructionException;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -48,6 +50,9 @@ public class CtrlModeADN {
 	private Face face = null;
 	private Service<Void> thread = null;
 	private boolean flagError = false;
+	
+	private BooleanProperty arreterThread = new SimpleBooleanProperty(true);
+	
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
@@ -66,6 +71,16 @@ public class CtrlModeADN {
 
 	public void setReadingProgress(double val) {
 		this.readingProgressProperty.set(val);
+	}
+	
+	
+
+	public BooleanProperty getArreterThread() {
+		return arreterThread;
+	}
+
+	public void setArreterThread(Boolean arreterThread) {
+		this.arreterThread.set(arreterThread);;
 	}
 
 	/**
@@ -211,7 +226,6 @@ public class CtrlModeADN {
 	 * @author Les géniesdu génome
 	 *
 	 */
-	// TODO le thread n'arrete pas ...
 	class ReaderThread extends Service<Void> {
 
 		private Runnable createThreadMessage(String message) {
@@ -237,7 +251,7 @@ public class CtrlModeADN {
 
 		private void manageFileReading() {
 			try {
-				dNACreator = new DNACreator(face, readingProgressProperty);
+				dNACreator = new DNACreator(face, readingProgressProperty, arreterThread);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadFileChooser(e.getMessage()));

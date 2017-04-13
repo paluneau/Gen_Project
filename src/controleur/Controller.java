@@ -75,26 +75,8 @@ public class Controller {
 	/**
 	 * Détermine les valeurs initiales des contrôles
 	 */
-	// TODO Mettre sa dans le FXML
 	private void setSlidersValue() {
-		sliderEcartYeux.setMin(-1.0);
-		sliderEcartYeux.setMax(2.0);
-		sliderEcartYeux.setValue(0.5);
-		sliderHauteurOreilles.setMin(-2.0);
-		sliderHauteurOreilles.setMax(2.0);
-		sliderHauteurOreilles.setValue(0);
-		sliderProfondeurOreilles.setMin(-2.0);
-		sliderProfondeurOreilles.setMax(2.0);
-		sliderProfondeurOreilles.setValue(0);
-		sliderHauteurBouche.setMin(-1.0);
-		sliderHauteurBouche.setMax(1.0);
-		sliderHauteurBouche.setValue(0);
-		sliderHauteurNez.setMin(-1.0);
-		sliderHauteurNez.setMax(1.0);
-		sliderHauteurNez.setValue(0);
-		sliderEcartSourcils.setMin(-1.0);
-		sliderEcartSourcils.setMax(1.0);
-		sliderEcartSourcils.setValue(0);
+
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
 		choiceBoxCouleurCheveux.setValue(HairColor.BLOND);
