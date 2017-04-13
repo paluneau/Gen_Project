@@ -75,7 +75,7 @@ public class Controller {
 	/**
 	 * Détermine les valeurs initiales des contrôles
 	 */
-	// TODO Mettre sa dans le FXML
+	// TODO Mettre ça dans le FXML
 	private void setSlidersValue() {
 		sliderEcartYeux.setMin(-1.0);
 		sliderEcartYeux.setMax(2.0);

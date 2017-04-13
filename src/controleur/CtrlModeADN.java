@@ -85,7 +85,7 @@ public class CtrlModeADN {
 	}
 
 	/**
-	 * Créé un label avec les infos sur les SNP
+	 * Crée un label avec les infos sur les SNP
 	 * 
 	 * @param pane
 	 *            dans quel pane mettre le label
@@ -129,14 +129,14 @@ public class CtrlModeADN {
 	}
 
 	/**
-	 * Créé un label par défaut
+	 * Crée un label par défaut
 	 * 
 	 * @param pane
 	 *            la pane qui contient le label
 	 */
 	private void createLabel(ScrollPane pane) {
 		Label label = new Label();
-		label.setText("Erreur de lecture. Veuillez générer l'ADN");
+		label.setText("Erreur de lecture. Veuillez générer l'ADN avant qu'on l'affiche.");
 		pane.setContent(label);
 
 	}
@@ -147,7 +147,7 @@ public class CtrlModeADN {
 	 *
 	 * @param event
 	 */
-	// TODO régler flagError car NullPointer si dNaCrerator == null
+	// TODO régler flagError car NullPointer si dNaCreator == null
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
 		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
@@ -162,22 +162,19 @@ public class CtrlModeADN {
 									.getAbsolutePath());
 				} catch (IOException e) {
 					new MessageAlert(
-							"Erreur lors de l'écriture du fichier. Échec de l'exportation");
+							"Erreur lors de l'écriture du fichier. Échec de l'exportation.");
 				}
 
 			} else {
-				new MessageAlert("Échec de l'exportation");
+				new MessageAlert("Échec de l'exportation.");
 			}
 
 		}
 	}
 
 	/**
-	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
+	 * Crée l'adn selon la face en mémoire et gère les exceptions si les
 	 * fichiers à lire sont introuvables
-	 *
-	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
-	 *         tout est correct
 	 */
 	@FXML
 	public void modeDNA() {
@@ -189,7 +186,7 @@ public class CtrlModeADN {
 	 * Affiche une erreur et ouvre un DirectoryChooser
 	 *
 	 * @param message
-	 *            le message a afficher
+	 *            le message à afficher
 	 * @return le path du dossier sélectionné
 	 */
 	private File alertAndChooseFile(String message) {
@@ -205,13 +202,13 @@ public class CtrlModeADN {
 	}
 
 	/**
-	 * Permet de lire les fichiers dans un htread parallèle au thread principal
+	 * Permet de lire les fichiers dans un thread parallèle au thread principal
 	 * de l'application
 	 * 
 	 * @author Les géniesdu génome
 	 *
 	 */
-	// TODO le thread n'arrete pas ...
+	// TODO le thread n'arrête pas ...
 	class ReaderThread extends Service<Void> {
 
 		private Runnable createThreadMessage(String message) {

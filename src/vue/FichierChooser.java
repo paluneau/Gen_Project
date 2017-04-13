@@ -4,6 +4,13 @@ import java.io.File;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
+//TODO JCB c'est-tu vraiment ça la description de la classe??
+/**
+ * Classe qui permet de choisir le fichier de destination
+ * 
+ * @author Les génies du génome
+ *
+ */
 public class FichierChooser {
 
 	private File fichierChoisi = null;

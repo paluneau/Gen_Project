@@ -3,19 +3,19 @@ package utils;
 import java.util.List;
 
 /**
- * M�thodes qui peuvent servir � travailler sur des listes
+ * Méthodes qui peuvent servir à travailler sur des listes
  * 
- * @author Les g�nies du g�nome
+ * @author Les génies du génome
  *
  */
 public class ListTools {
 
 	/**
-	 * Met la liste en ordre d�croissant et ajoute le "rs" devant chaque valeur
+	 * Met la liste en ordre décroissant et ajoute le "rs" devant chaque valeur
 	 * 
 	 * @param list
-	 *            la liste � formatter
-	 * @return la liste formatt�e
+	 *            la liste à formatter
+	 * @return la liste formattée
 	 */
 	public static List<String> formatList(List<String> list) {
 		List<String> temp = reverseList(sortList(list), 0, list.size() - 1);
@@ -26,11 +26,11 @@ public class ListTools {
 	}
 
 	/**
-	 * Ordonne une liste en ordre d�croissant (identifiants de snp)
+	 * Ordonne une liste en ordre décroissant (identifiants de snp)
 	 * 
 	 * @param list
-	 *            la liste a ordonner
-	 * @return la liste en ordre d�croissant
+	 *            la liste à ordonner
+	 * @return la liste en ordre décroissant
 	 */
 	public static List<String> sortList(List<String> list) {
 		try {
@@ -50,15 +50,15 @@ public class ListTools {
 	}
 
 	/**
-	 * Inverse une liste de fa�on r�scursive
+	 * Inverse une liste de façon récursive
 	 * 
 	 * @param list
-	 *            la liste � inverser
+	 *            la liste à inverser
 	 * @param startIndex
-	 *            index de d�part (0)
+	 *            index de départ (0)
 	 * @param endIndex
 	 *            index de fin(taille de la liste - 1)
-	 * @return la liste invers�e
+	 * @return la liste inversée
 	 */
 	public static List<String> reverseList(List<String> list, int startIndex, int endIndex) {
 
@@ -71,14 +71,14 @@ public class ListTools {
 	}
 
 	/**
-	 * Inverse la position de 2 �l�ments d'une liste
+	 * Inverse la position de 2 éléments d'une liste
 	 * 
 	 * @param list
-	 *            la liste � modifier
+	 *            la liste à modifier
 	 * @param indexA
 	 *            index du premier item
 	 * @param indexB
-	 *            index du deuxieme item
+	 *            index du deuxième item
 	 * @return
 	 */
 	public static List<String> switchItems(List<String> list, int indexA, int indexB) {

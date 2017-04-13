@@ -72,7 +72,7 @@ public class GenomicApplication extends Application {
 
 									@Override
 									public void handle(WindowEvent arg0) {
-										// TODO propery boolean ?
+										// TODO property boolean ?
 									}
 								});
 
@@ -83,7 +83,6 @@ public class GenomicApplication extends Application {
 				}
 			}
 		});
-
 	}
 
 	public void stop() {

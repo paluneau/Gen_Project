@@ -27,8 +27,7 @@ public class DNACreator {
 	private Face face = null;
 	private DoubleProperty readingProgressProperty = null;
 
-	public DNACreator(Face f, DoubleProperty progress)
-			throws ConstructionException, IOException, URISyntaxException {
+	public DNACreator(Face f, DoubleProperty progress) throws ConstructionException, IOException, URISyntaxException {
 		if (f != null) {
 			this.readingProgressProperty = progress;
 			this.dna = new DNA(chrSymByTargets(), progress);
@@ -61,7 +60,7 @@ public class DNACreator {
 	 * trouver (le Set élimine les doublons)
 	 *
 	 * @param chrNbr
-	 *            le numero du chromosome
+	 *            le numéro du chromosome
 	 * @return la liste des identifiants des SNPs
 	 */
 	private Set<String> chrSymByTargets() {
@@ -79,14 +78,13 @@ public class DNACreator {
 	 * Affecte les bonnes variations sur l'ADN
 	 *
 	 * @param map
-	 *            contient comme clés les SNP et comme valeurs les alleles
+	 *            contient comme clés les SNP et comme valeurs les allèles
 	 */
 	private void setGenes(Map<TargetSNPs, Allele[]> map) {
 		map.forEach((snp, alleles) -> {
 			int pos = 0;
 			TargetSNPs current = snp;
-			for (Chromosome chr : getDna().getChrPair(
-					current.getChromosomeNbr())) {
+			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}
@@ -101,7 +99,6 @@ public class DNACreator {
 		setGenes(this.face.getLEye().getCouleurYeux().getGenes());
 		setGenes(this.face.getSkinColor().getGenes());
 		setGenes(this.face.getHair().getCouleurCheveux().getGenes());
-
 	}
 
 }
