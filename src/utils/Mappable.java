@@ -18,12 +18,12 @@ import java.util.function.Supplier;
 public interface Mappable<T, U> {
 
 	/**
-	 * Génère la map avec une méthode Supplier qui lui donne une tableau
+	 * Génère la map avec une méthode Supplier qui lui donne un tableau
 	 * statique d'objets
 	 * 
 	 * @param table
 	 *            le tableau d'objets
-	 * @return la map qui correspond auxclés et valeurs dans les objets
+	 * @return la map qui correspond aux clés et valeurs dans les objets
 	 */
 	public static <T, U> Map<T, U> valuesAsMap(Supplier<Mappable<T, U>[]> table) {
 		Map<T, U> out = new HashMap<>();
@@ -44,7 +44,7 @@ public interface Mappable<T, U> {
 	abstract T getKey();
 
 	/**
-	 * Retoourne la valeur de l'objet mapable
+	 * Retourne la valeur de l'objet mapable
 	 * 
 	 * @return la valeur à utiliser dans la création de la map
 	 */

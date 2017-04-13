@@ -7,7 +7,9 @@ import java.util.Map;
 
 import exception.ConstructionException;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -47,7 +49,8 @@ public class CtrlModeADN {
 	private DNACreator dNACreator = null;
 	private Face face = null;
 	private Service<Void> thread = null;
-	private boolean flagError = false;
+
+	private BooleanProperty arreterThread = new SimpleBooleanProperty(true);
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
@@ -68,14 +71,22 @@ public class CtrlModeADN {
 		this.readingProgressProperty.set(val);
 	}
 
+	public BooleanProperty getArreterThread() {
+		return arreterThread;
+	}
+
+	public void setArreterThread(Boolean arreterThread) {
+		this.arreterThread.set(arreterThread);
+		;
+	}
+
 	/**
 	 * Insère les labels au bon endroit et avec les bonnes données.
 	 */
 	private void buildWindow() {
 		if (dNACreator != null) {
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
-			createLabel(scrollCheveux, face.getHair().getCouleurCheveux()
-					.getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
 			createLabel(scrollPeau, face.getSkinColor().getGenes());
 		} else {
 			createLabel(scrollCheveux);
@@ -85,7 +96,7 @@ public class CtrlModeADN {
 	}
 
 	/**
-	 * Créé un label avec les infos sur les SNP
+	 * Crée un label avec les infos sur les SNP
 	 * 
 	 * @param pane
 	 *            dans quel pane mettre le label
@@ -96,47 +107,27 @@ public class CtrlModeADN {
 	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
 		Label label = new Label();
 		map.forEach((k, v) -> {
-			label.setText(label.getText()
-					+ "Chromosome: "
-					+ k.getChromosomeNbr()
-					+ "\n"
-					+ "Allèle: "
-					+ v[0]
-					+ "/"
-					+ v[1]
-					+ "\n"
-					+ "Gène:  "
-					+ k.getGene()
-					+ "\n"
-					+ "RS: "
-					+ "rs"
-					+ k.getId()
-					+ "\n"
-					+ "Séquence "
-					+ v[0]
-					+ " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
-							.getSnips().get("rs" + k.getId()).getSeq()
-					+ "\nSéquence "
-					+ v[1]
-					+ " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
-							.getSnips().get("rs" + k.getId()).getSeq() + "\n"
-					+ "\n");
+			label.setText(label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/"
+					+ v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
+					+ v[0] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\nSéquence " + v[1] + " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
+					+ "\n" + "\n");
 
 		});
 		pane.setContent(label);
 	}
 
 	/**
-	 * Créé un label par défaut
+	 * Crée un label par défaut
 	 * 
 	 * @param pane
 	 *            la pane qui contient le label
 	 */
 	private void createLabel(ScrollPane pane) {
 		Label label = new Label();
-		label.setText("Erreur de lecture. Veuillez générer l'ADN");
+		label.setText("Erreur de lecture. Veuillez générer l'ADN avant qu'on l'affiche.");
 		pane.setContent(label);
 
 	}
@@ -147,37 +138,30 @@ public class CtrlModeADN {
 	 *
 	 * @param event
 	 */
-	// TODO régler flagError car NullPointer si dNaCrerator == null
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
-				.getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 
 		if (directoryChooser.getFichierChoisi() != null) {
 
-			if (!flagError) {
+			if (dNACreator != null) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
-							directoryChooser.getFichierChoisi()
-									.getAbsolutePath());
+							directoryChooser.getFichierChoisi().getAbsolutePath());
 				} catch (IOException e) {
-					new MessageAlert(
-							"Erreur lors de l'écriture du fichier. Échec de l'exportation");
+					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
 
 			} else {
-				new MessageAlert("Échec de l'exportation");
+				new MessageAlert("Échec de l'exportation.");
 			}
 
 		}
 	}
 
 	/**
-	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
+	 * Crée l'adn selon la face en mémoire et gère les exceptions si les
 	 * fichiers à lire sont introuvables
-	 *
-	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
-	 *         tout est correct
 	 */
 	@FXML
 	public void modeDNA() {
@@ -189,13 +173,12 @@ public class CtrlModeADN {
 	 * Affiche une erreur et ouvre un DirectoryChooser
 	 *
 	 * @param message
-	 *            le message a afficher
+	 *            le message à afficher
 	 * @return le path du dossier sélectionné
 	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
-				.getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
 		return directoryChooser.getFichierChoisi();
 
 	}
@@ -205,13 +188,12 @@ public class CtrlModeADN {
 	}
 
 	/**
-	 * Permet de lire les fichiers dans un htread parallèle au thread principal
+	 * Permet de lire les fichiers dans un thread parallèle au thread principal
 	 * de l'application
 	 * 
 	 * @author Les géniesdu génome
 	 *
 	 */
-	// TODO le thread n'arrete pas ...
 	class ReaderThread extends Service<Void> {
 
 		private Runnable createThreadMessage(String message) {
@@ -237,7 +219,7 @@ public class CtrlModeADN {
 
 		private void manageFileReading() {
 			try {
-				dNACreator = new DNACreator(face, readingProgressProperty);
+				dNACreator = new DNACreator(face, readingProgressProperty, arreterThread);
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadFileChooser(e.getMessage()));

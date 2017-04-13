@@ -8,6 +8,12 @@ import modele.genome.Chromosome;
 import modele.genome.DNA;
 import modele.genome.SNP;
 
+/**
+ * Classe pour exporter l'ADN en un fichier .fasta
+ * 
+ * @author Les génies du génome
+ *
+ */
 public class FastaExporter {
 
 	public static void sauvegarder(DNA adn, String path) throws IOException {
