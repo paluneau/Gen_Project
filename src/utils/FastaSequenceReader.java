@@ -5,11 +5,11 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Cette classe lit un fichier fasta et ressort tous les SNPs utile et leur
- * séquence
+ * Cette classe lit un fichier fasta et ressort tous les SNPs utiles et leurs
+ * séquences
  *
  * @author http://www.cs.utexas.edu/~mobios/cs329e/rosetta/src/FastaSequence.
- *         java M�J Les g�nies du g�nome
+ *         java MÀJ Les génies du génome
  */
 
 public final class FastaSequenceReader {
@@ -26,11 +26,11 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Permet de lire les s�quences cibl�es dans un fichier au format FASTA
+	 * Permet de lire les séquences ciblées dans un fichier au format FASTA
 	 * standard
 	 *
 	 * @param file
-	 *            Le fichier � lire.
+	 *            Le fichier à lire.
 	 * @throws IOException
 	 *             si le fichier est non-conforme
 	 */
@@ -65,7 +65,7 @@ public final class FastaSequenceReader {
 				desc.add("rs" + targets.get(index));
 				read = true;
 				targets.remove(index);
-				// LIGNE DE SEQUENCE
+				// LIGNE DE SÉQUENCE
 			} else if (read) {
 				buffer.append(line.trim());
 			}
@@ -85,12 +85,12 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Met les donn�es dans une structure de donn�e
+	 * Met les données dans une structure de données
 	 *
 	 * @param seq
-	 *            une liste de s�quences
+	 *            une liste de séquences
 	 * @param desc
-	 *            une liste de description de s�quences
+	 *            une liste de description de séquences
 	 */
 	private void storeData(List<String> seq, List<String> desc) {
 		description = new String[desc.size()];
@@ -103,7 +103,7 @@ public final class FastaSequenceReader {
 	}
 
 	/**
-	 * Cr�e la map qui contient les s�quences d'ADN et leur description
+	 * Crée la map qui contient les séquences d'ADN et leurs descriptions
 	 *
 	 * @return la map
 	 */

@@ -72,8 +72,7 @@ public class GenomicApplication extends Application {
 								.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 									@Override
-									public void handle(WindowEvent arg0) {
-										
+									public void handle(WindowEvent arg0) {	
 									ctrl.setArreterThread(false);
 									}
 								});
@@ -85,7 +84,6 @@ public class GenomicApplication extends Application {
 				}
 			}
 		});
-
 	}
 
 	public void stop() {

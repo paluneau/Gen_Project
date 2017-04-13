@@ -76,7 +76,6 @@ public class Controller {
 	 * Détermine les valeurs initiales des contrôles
 	 */
 	private void setSlidersValue() {
-
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
 		choiceBoxCouleurCheveux.setValue(HairColor.BLOND);
