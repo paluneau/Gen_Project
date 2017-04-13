@@ -76,11 +76,11 @@ public class Chromosome {
 	}
 
 	/**
-	 * Retourne un SNP selon son RS (son numero rsXXXXX)
+	 * Retourne un SNP selon son RS (son numéro rsXXXXX)
 	 *
 	 * @param rs
-	 *            le rs
-	 * @return le SNP
+	 *            le rs recherché
+	 * @return le SNP cible
 	 */
 	public SNP getSNPByRS(String rs) {
 		return this.snips.get(rs);
@@ -99,10 +99,10 @@ public class Chromosome {
 	}
 
 	/**
-	 * Cr�e le chemin d'acc�s pour atteindre le fichier li� au chromosome *
+	 * Crée le chemin d'accès pour atteindre le fichier lié au chromosome *
 	 * Format: chr_*.fas
 	 *
-	 * @return le chemin d'acc�s
+	 * @return le chemin d'accès
 	 */
 	private String generatePath() {
 		return "/chr_" + getName().toUpperCase() + ".fas";

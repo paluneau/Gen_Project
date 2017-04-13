@@ -70,7 +70,8 @@ public class SNP {
 
 	/**
 	 * Utilise la séquence modèle pour créer la "vraie" séquence en intégrant
-	 * l'allèle du SNP.
+	 * l'allèle du SNP (remplace les lettres génériques par les lettres
+	 * spécifiques).
 	 */
 	private void applyAlleleOnSeq() {
 		List<Character> chrAllele = getAlleleChars();

@@ -5,6 +5,7 @@ import java.io.IOException;
 import controleur.Controller;
 import controleur.CtrlModeADN;
 import javafx.application.Application;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -71,8 +72,8 @@ public class GenomicApplication extends Application {
 								.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 									@Override
-									public void handle(WindowEvent arg0) {
-										// TODO propery boolean ?
+									public void handle(WindowEvent arg0) {	
+									ctrl.setArreterThread(false);
 									}
 								});
 
@@ -83,7 +84,6 @@ public class GenomicApplication extends Application {
 				}
 			}
 		});
-
 	}
 
 	public void stop() {

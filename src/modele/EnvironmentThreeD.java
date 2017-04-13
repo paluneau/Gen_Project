@@ -49,7 +49,7 @@ public class EnvironmentThreeD {
 			CAMERA_INITIAL_Y_ANGLE = 320.0;
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
-	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.02, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
+	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.15, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
 	private static final String URL = "/obj/face.obj";
 
 	/**
@@ -93,6 +93,7 @@ public class EnvironmentThreeD {
 	}
 
 	private void buildAxes() {
+		//TODO Dumper ça avant la remise de fin (méthode au complet)
 		final PhongMaterial redMaterial = new PhongMaterial();
 		redMaterial.setDiffuseColor(Color.DARKRED);
 		redMaterial.setSpecularColor(Color.RED);
@@ -104,7 +105,7 @@ public class EnvironmentThreeD {
 		final PhongMaterial blueMaterial = new PhongMaterial();
 		blueMaterial.setDiffuseColor(Color.DARKBLUE);
 		blueMaterial.setSpecularColor(Color.BLUE);
-
+		
 		final Box xAxis = new Box(53.0, 0.2, 0.2);
 		final Box yAxis = new Box(0.2, 53.0, 0.2);
 		final Box zAxis = new Box(0.2, 0.2, 53.0);
@@ -237,10 +238,10 @@ public class EnvironmentThreeD {
 			}
 		});
 
-		//TODO controles clavier
+		//TODO contrôles clavier
 		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent me) {
-				System.out.println("coq roti");
+				System.out.println("coq roti parce que c'est sérieux en maudit");
 			}
 		});
 	}

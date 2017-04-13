@@ -50,18 +50,23 @@ public class TransformationPoints {
 	 * @param part
 	 *            la partie du visage
 	 * @param transformation
-	 *            les paraqmètres de la transformation (x, y ,z)
+	 *            les paramètres de la transformation (x, y ,z)
 	 */
 	public void applyTranslation(BodyPart part, Point3D transformation) {
 		for (String group : part.getSubParts()) {
 			updatePointsTranslation(group, transformation);
 		}
 	}
+	
+	// TODO JCB la réfléchir, la faire pis pas mal toutte là
+	public void applyRotation(Point3D pointTourner, Point3D pointCentre, String axe, float degres) {
+		
+	}
 
 	/**
 	 * TODO shorten this function && put comments
-	 * 
-	 * Trouve les différents points communs entre chaque groupe et les mets dans
+	 * TODO JCB quossé ça cette ligne-là? ^^^^
+	 * Trouve les différents points communs entre chaque groupe et les met dans
 	 * la map pointsSupp.
 	 */
 	public void findSiblings() {
@@ -103,7 +108,7 @@ public class TransformationPoints {
 
 	/**
 	 * 
-	 * Update le point d'un group selon un facteur dans chaque dimension.
+	 * Update le point d'un groupe selon un facteur dans chaque dimension.
 	 * 
 	 * @param group
 	 *            le groupe à modifier
@@ -140,7 +145,7 @@ public class TransformationPoints {
 	 * 
 	 * @param p
 	 * @param q
-	 * @return vrai ou faux dépendamment si les array sont pareiles.
+	 * @return vrai ou faux dépendamment si les array sont pareils.
 	 */
 	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
 		boolean out = true;
@@ -189,14 +194,14 @@ public class TransformationPoints {
 	}
 
 	/**
-	 * Trouve les indexs des points de l'array "targets" dans l'array "values",
+	 * Trouve les index des points de l'array "targets" dans l'array "values",
 	 * si les points de l'array "targets" sont dans "values.
 	 * 
 	 * @param values
 	 *            - array recherché
 	 * @param targets
 	 *            - array des points à trouver
-	 * @return liste des indexs de values
+	 * @return liste des index de values
 	 */
 	private List<Integer> findIndexOfValues(ObservableFloatArray values, ObservableFloatArray targets) {
 		List<Integer> out = new ArrayList<Integer>();

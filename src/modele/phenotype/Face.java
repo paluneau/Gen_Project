@@ -5,55 +5,49 @@ import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
-//TODO est-ce qu'on a besoin de toutes ces classes métiers là ? On pourrait mettre celles qui sont non-spécifiques comme BodyPart
-//TODO est-ce qu'on applique les valeurs numériques des sliders au modèle et pas seulement aux points ?
 public class Face {
 
-	private Ear LEar = null;
-	private Ear REar = null;
+	private BodyPart LEar = null;
+	private BodyPart REar = null;
 	private Eye LEye = null;
 	private Eye REye = null;
 	private Hair hair = null;
-	private Mouth mouth = null;
-	private Nose nose = null;
+	private BodyPart mouth = null;
+	private BodyPart nose = null;
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
 	private TransformationPoints pointsVisage = null;
 
-	private double hauteurVisage = 0;
-	private double largeurVisage = 0;
-	private float distanceYeux = 0;
-
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
-		LEar = new Ear("Oreille gauche");
-		REar = new Ear("Oreille droite");
+		LEar = new BodyPart("Oreille gauche");
+		REar = new BodyPart("Oreille droite");
 		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche",
 				"Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit",
 				"Noir oeil droit", "Couleur oeil droit");
 		hair = new Hair(hairColor, "Cheveux");
-		mouth = new Mouth("Bouche");
-		nose = new Nose("Bord narine", "Narine", "Nez");
+		mouth = new BodyPart("Bouche");
+		nose = new BodyPart("Bord narine", "Narine", "Nez");
 		LSourcils = new Sourcils(hairColor, "Sourcil gauche");
 		RSourcils = new Sourcils(hairColor, "Sourcil droit");
 		this.skinColor = skinColor;
 		pointsVisage = new TransformationPoints();
 	}
 
-	public Ear getLEar() {
+	public BodyPart getLEar() {
 		return LEar;
 	}
 
-	public void setLEar(Ear ear) {
+	public void setLEar(BodyPart ear) {
 		this.LEar = ear;
 	}
 
-	public Ear getREar() {
+	public BodyPart getREar() {
 		return REar;
 	}
 
-	public void setREar(Ear ear) {
+	public void setREar(BodyPart ear) {
 		this.REar = ear;
 	}
 
@@ -74,7 +68,6 @@ public class Face {
 	}
 
 	public void setEyeDistance(float distance) {
-		this.distanceYeux = distance;
 		pointsVisage.applyTranslation(LEye, new Point3D(-distance, 0, 0));
 		pointsVisage.applyTranslation(REye, new Point3D(distance, 0, 0));
 	}
@@ -107,19 +100,19 @@ public class Face {
 		this.hair = hair;
 	}
 
-	public Mouth getMouth() {
+	public BodyPart getMouth() {
 		return mouth;
 	}
 
-	public void setMouth(Mouth mouth) {
+	public void setMouth(BodyPart mouth) {
 		this.mouth = mouth;
 	}
 
-	public Nose getNose() {
+	public BodyPart getNose() {
 		return nose;
 	}
 
-	public void setNose(Nose nose) {
+	public void setNose(BodyPart nose) {
 		this.nose = nose;
 	}
 
@@ -137,22 +130,6 @@ public class Face {
 
 	public void setRSourcils(Sourcils sourcils) {
 		this.RSourcils = sourcils;
-	}
-
-	public double getHauteurVisage() {
-		return hauteurVisage;
-	}
-
-	public void setHauteurVisage(double hauteurVisage) {
-		this.hauteurVisage = hauteurVisage;
-	}
-
-	public double getLargeurVisage() {
-		return largeurVisage;
-	}
-
-	public void setLargeurVisage(double largeurVisage) {
-		this.largeurVisage = largeurVisage;
 	}
 
 	public SkinColor getSkinColor() {
