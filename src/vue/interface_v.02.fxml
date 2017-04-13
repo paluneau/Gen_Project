@@ -8,18 +8,16 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
+      <SplitPane orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
             <Accordion prefHeight="81.0" prefWidth="307.0">
               <panes>
@@ -34,7 +32,7 @@
                            </children></AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane text="Cheveux:">
+                <TitledPane text="Cheveux :">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -52,99 +50,50 @@
                            </children></AnchorPane>
                   </content>
                 </TitledPane>
+                  <TitledPane animated="false" text="Oreilles :">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="13.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur des oreilles" />
+                              <Slider fx:id="sliderHauteurOreilles" layoutX="11.0" layoutY="38.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                              <Label layoutX="170.0" layoutY="14.0" styleClass="controlLabel" text="Profondeur des oreilles" />
+                              <Slider fx:id="sliderProfondeurOreilles" layoutX="176.0" layoutY="38.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Bouche : ">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur de la bouche" />
+                              <Slider fx:id="sliderHauteurBouche" layoutX="16.0" layoutY="31.0" prefHeight="14.0" prefWidth="111.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Nez :">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="23.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur du nez" />
+                              <Slider fx:id="sliderHauteurNez" layoutX="9.0" layoutY="31.0" prefHeight="14.0" prefWidth="111.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Sourcils :">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Écart entre les sourcils" />
+                              <Slider fx:id="sliderEcartSourcils" layoutX="18.0" layoutY="31.0" prefHeight="5.0" prefWidth="114.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
               </panes>
             </Accordion>
-            <ScrollPane hbarPolicy="NEVER" prefHeight="440.0" prefWidth="307.0" vbarPolicy="ALWAYS">
-               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="314.0">
-                     <children>
-                        <Label layoutX="14.0" layoutY="6.0" text="Modificateurs en finesse du visage" underline="true">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurVisage" layoutX="14.0" layoutY="61.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="14.0" layoutY="40.0" styleClass="controlLabel" text="Hauteur du visage">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderDistanceYeux" layoutX="14.0" layoutY="113.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="14.0" layoutY="92.0" styleClass="controlLabel" text="Distance entre les yeux">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderDistanceSourcils" layoutX="14.0" layoutY="219.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="14.0" layoutY="198.0" styleClass="controlLabel" text="Distance entre les sourcils">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderFinesseBouche" layoutX="14.0" layoutY="272.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="12.0" layoutY="251.0" styleClass="controlLabel" text="Finesse de la bouche">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderLargeurVisage" layoutX="171.0" layoutY="61.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="171.0" layoutY="40.0" styleClass="controlLabel" text="Largeur du visage">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurYeux" layoutX="171.0" layoutY="113.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="171.0" layoutY="92.0" styleClass="controlLabel" text="Hauteur des yeux">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurSourcils" layoutX="175.0" layoutY="219.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="173.0" layoutY="198.0" styleClass="controlLabel" text="Hauteur des sourcils">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurBouche" layoutX="175.0" layoutY="272.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="175.0" layoutY="251.0" styleClass="controlLabel" text="Hauteur de la bouche">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderGrosseurOreilles" layoutX="14.0" layoutY="327.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="18.0" layoutY="306.0" prefHeight="17.0" prefWidth="122.0" styleClass="controlLabel" text="Grosseur des oreilles">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurOreilles" layoutX="175.0" layoutY="327.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="175.0" layoutY="306.0" styleClass="controlLabel" text="Hauteur des oreilles">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderGrosseurNez" layoutX="14.0" layoutY="377.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="18.0" layoutY="356.0" styleClass="controlLabel" text="Grosseur du nez">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Slider fx:id="sliderHauteurNez" layoutX="175.0" layoutY="377.0" prefHeight="14.0" prefWidth="111.0" />
-                        <Label layoutX="175.0" layoutY="356.0" styleClass="controlLabel" text="Hauteur du nez">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="13.0" layoutY="402.0" styleClass="controlLabel" text="Longueur des Cheveux">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <ChoiceBox fx:id="choiceBoxLongueurCheveux" layoutX="16.0" layoutY="425.0" prefHeight="25.0" prefWidth="102.0" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </ScrollPane>
         </items>
       </SplitPane>
    </right>

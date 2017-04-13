@@ -3,17 +3,24 @@ package controleur;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import exception.ConstructionException;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import modele.DNACreator;
 import modele.genome.Chromosome;
+import modele.genome.data.Allele;
+import modele.genome.data.TargetSNPs;
 import modele.phenotype.Face;
 import utils.FastaExporter;
 import vue.FichierChooser;
@@ -21,104 +28,141 @@ import vue.MessageAlert;
 
 public class CtrlModeADN {
 
-	private DNACreator dNACreator = null;
-	private Face face = null;
-	private BooleanProperty loadingWindowProperty = new SimpleBooleanProperty(false);
-
 	@FXML
 	private Pane pane;
-
-	@FXML
-	private ScrollPane scrollOreille;
 
 	@FXML
 	private ScrollPane scrollYeux;
 
 	@FXML
-	private ScrollPane scrollVisage;
-
-	@FXML
 	private ScrollPane scrollCheveux;
-
-	@FXML
-	private ScrollPane scrollBouche;
-
-	@FXML
-	private ScrollPane scrollNez;
 
 	@FXML
 	private ScrollPane scrollPeau;
 
 	@FXML
-	private ScrollPane scrollSourcils;
+	private ProgressBar readingProgress;
+
+	private DoubleProperty readingProgressProperty = null;
+	private DNACreator dNACreator = null;
+	private Face face = null;
+	private Service<Void> thread = null;
+	private boolean flagError = false;
 
 	public void createFenetreModeADN(Face face) {
 		this.face = face;
+		this.readingProgressProperty = new SimpleDoubleProperty(0);
+		readingProgress.progressProperty().bind(readingProgressProperty);
 		modeDNA();
+	}
 
-		Label labelYeux = new Label();
-		scrollYeux.setContent(labelYeux);
-		face.getLEye().getCouleurYeux().getGenes().forEach((k, v) -> {
+	public DoubleProperty readingProgressProperty() {
+		return readingProgressProperty;
+	}
 
-			labelYeux.setText(labelYeux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
-					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
+	public double getReadingProgress() {
+		return readingProgressProperty.get();
+	}
+
+	public void setReadingProgress(double val) {
+		this.readingProgressProperty.set(val);
+	}
+
+	/**
+	 * Insère les labels au bon endroit et avec les bonnes données.
+	 */
+	private void buildWindow() {
+		if (dNACreator != null) {
+			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
+			createLabel(scrollCheveux, face.getHair().getCouleurCheveux()
+					.getGenes());
+			createLabel(scrollPeau, face.getSkinColor().getGenes());
+		} else {
+			createLabel(scrollCheveux);
+			createLabel(scrollYeux);
+			createLabel(scrollPeau);
+		}
+	}
+
+	/**
+	 * Créé un label avec les infos sur les SNP
+	 * 
+	 * @param pane
+	 *            dans quel pane mettre le label
+	 * @param map
+	 *            la map qui contient des infos de snp
+	 */
+	// TODO snp en gras
+	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
+		Label label = new Label();
+		map.forEach((k, v) -> {
+			label.setText(label.getText()
+					+ "Chromosome: "
+					+ k.getChromosomeNbr()
+					+ "\n"
+					+ "Allèle: "
+					+ v[0]
+					+ "/"
+					+ v[1]
+					+ "\n"
+					+ "Gène:  "
+					+ k.getGene()
+					+ "\n"
+					+ "RS: "
+					+ "rs"
+					+ k.getId()
+					+ "\n"
+					+ "Séquence "
+					+ v[0]
+					+ " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
+							.getSnips().get("rs" + k.getId()).getSeq()
+					+ "\nSéquence "
+					+ v[1]
+					+ " :"
+					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1]
+							.getSnips().get("rs" + k.getId()).getSeq() + "\n"
+					+ "\n");
 
 		});
+		pane.setContent(label);
+	}
 
-		Label labelCheveux = new Label();
-		scrollCheveux.setContent(labelCheveux);
-		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
-
-			labelCheveux.setText(labelCheveux.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: "
-					+ v[0] + "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
-
-		});
-
-		Label labelPeau = new Label();
-		scrollPeau.setContent(labelPeau);
-		face.getHair().getCouleurCheveux().getGenes().forEach((k, v) -> {
-
-			labelPeau.setText(labelPeau.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0]
-					+ "/" + v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n"
-					+ "Séquence " + v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "Séquence " + v[1] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\n" + "\n");
-
-		});
+	/**
+	 * Créé un label par défaut
+	 * 
+	 * @param pane
+	 *            la pane qui contient le label
+	 */
+	private void createLabel(ScrollPane pane) {
+		Label label = new Label();
+		label.setText("Erreur de lecture. Veuillez générer l'ADN");
+		pane.setContent(label);
 
 	}
 
 	/**
 	 * Permet de choisir un fichier du répertoire afin d'enregistrer
 	 * l'exportation de l'ADN
-	 * 
+	 *
 	 * @param event
 	 */
+	// TODO régler flagError car NullPointer si dNaCrerator == null
 	@FXML
 	public void ouvrirDirectoryChooser(ActionEvent event) {
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
+				.getWindow());
 
 		if (directoryChooser.getFichierChoisi() != null) {
-			boolean flagError = (dNACreator == null) ? modeDNA() : false;
 
 			if (!flagError) {
 				try {
 					FastaExporter.sauvegarder(dNACreator.getDna(),
-							directoryChooser.getFichierChoisi().getAbsolutePath());
+							directoryChooser.getFichierChoisi()
+									.getAbsolutePath());
 				} catch (IOException e) {
-					new MessageAlert("Erreur lors de l'écriture du fichier. Échec de l'exportation");
+					new MessageAlert(
+							"Erreur lors de l'écriture du fichier. Échec de l'exportation");
 				}
 
 			} else {
@@ -131,67 +175,98 @@ public class CtrlModeADN {
 	/**
 	 * Créer l'adn selon la face en mémoire et gère les exceptions si les
 	 * fichiers à lire sont introuvables
-	 * 
+	 *
 	 * @return Vrai s'il y a eu une erreur qui empêche la construction, faux si
 	 *         tout est correct
 	 */
-	public boolean modeDNA() {
-		boolean flagError = false;
-
-		try {
-			setLoadingWindowProperty(true);
-			dNACreator = new DNACreator(this.face);
-		} catch (IOException e) {
-			File newFolder = alertAndChooseFile(e.getMessage());
-			Chromosome.setAltSrcFile(newFolder);
-
-			try {
-
-				dNACreator = new DNACreator(this.face);
-			} catch (IOException e1) {
-				new MessageAlert("Impossible de trouver le(s) fichier(s).");
-				flagError = true;
-			} catch (ConstructionException e1) {
-				new MessageAlert(e1.getMessage());
-			} catch (URISyntaxException e1) {
-				new MessageAlert(e1.getMessage());
-			}
-
-		} catch (ConstructionException e) {
-			new MessageAlert(e.getMessage());
-		} catch (URISyntaxException e) {
-			new MessageAlert(e.getMessage());
-		}
-
-		return flagError;
+	@FXML
+	public void modeDNA() {
+		this.thread = new ReaderThread();
+		thread.start();
 	}
 
 	/**
 	 * Affiche une erreur et ouvre un DirectoryChooser
-	 * 
+	 *
 	 * @param message
 	 *            le message a afficher
 	 * @return le path du dossier sélectionné
 	 */
 	private File alertAndChooseFile(String message) {
 		new MessageAlert(message);
-		FichierChooser directoryChooser = new FichierChooser(pane.getScene().getWindow());
+		FichierChooser directoryChooser = new FichierChooser(pane.getScene()
+				.getWindow());
 		return directoryChooser.getFichierChoisi();
+
 	}
 
-	public BooleanProperty loadingWindowProperty() {
-		return loadingWindowProperty;
-	}
-
-	public void setLoadingWindowProperty(boolean val) {
-		this.loadingWindowProperty.set(val);
-	}
-
-	public boolean getLoadingWindowProperty() {
-		return this.loadingWindowProperty.get();
-	}
-	
-	public DNACreator getdNACreator(){
+	public DNACreator getdNACreator() {
 		return this.dNACreator;
+	}
+
+	/**
+	 * Permet de lire les fichiers dans un htread parallèle au thread principal
+	 * de l'application
+	 * 
+	 * @author Les géniesdu génome
+	 *
+	 */
+	// TODO le thread n'arrete pas ...
+	class ReaderThread extends Service<Void> {
+
+		private Runnable createThreadMessage(String message) {
+			return new Runnable() {
+
+				@Override
+				public void run() {
+					new MessageAlert(message);
+				}
+			};
+		}
+
+		private Runnable createThreadFileChooser(String message) {
+			return new Runnable() {
+
+				@Override
+				public void run() {
+					File newFolder = alertAndChooseFile(message);
+					Chromosome.setAltSrcFile(newFolder);
+				}
+			};
+		}
+
+		private void manageFileReading() {
+			try {
+				dNACreator = new DNACreator(face, readingProgressProperty);
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadFileChooser(e.getMessage()));
+			} catch (ConstructionException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadMessage(e.getMessage()));
+			} catch (URISyntaxException e) {
+				System.out.println(e.getMessage());
+				Platform.runLater(createThreadMessage(e.getMessage()));
+			}
+		}
+
+		@Override
+		protected Task<Void> createTask() {
+			return new Task<Void>() {
+
+				@Override
+				protected Void call() throws Exception {
+					manageFileReading();
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							buildWindow();
+						}
+					});
+
+					return null;
+				}
+			};
+		}
 	}
 }

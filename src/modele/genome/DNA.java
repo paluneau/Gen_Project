@@ -9,7 +9,6 @@ import java.util.Set;
 
 import exception.ConstructionException;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import modele.genome.data.TargetSNPs;
 
 public class DNA {
@@ -19,12 +18,13 @@ public class DNA {
 	private List<Chromosome> pair2 = null;
 	private DoubleProperty readingProgressProperty = null;
 
-	public DNA(Set<String> chrSymbols) throws ConstructionException, IOException, URISyntaxException {
+	public DNA(Set<String> chrSymbols, DoubleProperty progress)
+			throws ConstructionException, IOException, URISyntaxException {
 		if (!chrSymbols.isEmpty()) {
 			this.chrSymbols = chrSymbols;
 			pair1 = new ArrayList<>();
 			pair2 = new ArrayList<>();
-			this.readingProgressProperty = new SimpleDoubleProperty(0);
+			this.readingProgressProperty = progress;
 			createChr();
 		} else {
 			throw new ConstructionException("Aucun SNP ciblé.");
@@ -39,7 +39,7 @@ public class DNA {
 	/**
 	 * Retourne la liste des identifiants de SNPs selon le chromosome dans
 	 * lequel ils se situent
-	 * 
+	 *
 	 * @param chrNbr
 	 *            le numero du chromosome
 	 * @return la liste des identifiants des SNPs
@@ -59,25 +59,24 @@ public class DNA {
 
 	/**
 	 * Instancie les chromosomes selon la liste de symboles des chromosomes
-	 * 
+	 *
 	 * @throws ConstructionException
 	 * @throws IOException
 	 * @throws URISyntaxException
 	 */
-	private void createChr() throws ConstructionException, IOException, URISyntaxException {
-		double progress = 0;
+	private void createChr() throws ConstructionException, IOException,
+			URISyntaxException {
 		for (String sym : chrSymbols) {
 			pair1.add(new Chromosome(sym, targetIDByChr(sym)));
 			pair2.add(new Chromosome(sym, targetIDByChr(sym)));
-			progress += 1 / chrSymbols.size();
-			setReadingProgress(progress);
+			setReadingProgress(getReadingProgress() + (1.0 / chrSymbols.size()));
+			System.out.println("Reading progress: " + getReadingProgress());
 		}
-
 	}
 
 	/**
 	 * Retourne un couple (tableau statique) de chromosome selon son symbole
-	 * 
+	 *
 	 * @return la liste de chaque paire de chromosome
 	 */
 	public Chromosome[] getChrPair(String symbol) {
@@ -94,10 +93,6 @@ public class DNA {
 		}
 
 		return pair;
-	}
-
-	private void computeProgress() {
-
 	}
 
 	public DoubleProperty readingProgressProperty() {

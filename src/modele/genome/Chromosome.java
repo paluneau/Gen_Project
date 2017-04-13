@@ -4,21 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import exception.ConstructionException;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import utils.FastaSequenceReader;
 
 /**
  * Classe représentant un chromosome, elle va lire dans les fichiers FASTA par
  * chromosome pour ensuite affecter les séquences aux bons SNPs
- * 
+ *
  * @author Les génies du génome
  *
  */
@@ -29,7 +25,7 @@ public class Chromosome {
 	private String name = null;
 	private List<String> wntdSNPs = null;
 	private static File altSrcFile = null;
-	
+
 
 	public Chromosome(String name, List<String> targetSNP)
 			throws ConstructionException, IOException, URISyntaxException {
@@ -54,14 +50,13 @@ public class Chromosome {
 
 	/**
 	 * Permet de charger les données des fichiers de SNP
-	 * 
+	 *
 	 * @throws IOException
 	 *             si le fichier est introuvable
 	 * @throws URISyntaxException
 	 *             si la syntaxe du path est invalide
 	 */
 	public void loadSNPs() throws IOException, URISyntaxException {
-
 		FastaSequenceReader fsr = null;
 
 		if (getClass().getResource("/fasta" + dataSrcPath) == null) {
@@ -74,8 +69,6 @@ public class Chromosome {
 		} else {
 			fsr = new FastaSequenceReader(new File(getClass().getResource("/fasta" + dataSrcPath).toURI()), wntdSNPs);
 		}
-		
-		System.out.println(fsr.getSequences());
 
 		fsr.getSequences().forEach((desc, seq) -> {
 			snips.put(desc, new SNP(desc, seq));
@@ -84,7 +77,7 @@ public class Chromosome {
 
 	/**
 	 * Retourne un SNP selon son RS (son numero rsXXXXX)
-	 * 
+	 *
 	 * @param rs
 	 *            le rs
 	 * @return le SNP
@@ -96,23 +89,23 @@ public class Chromosome {
 	/**
 	 * Définit un chemin d'accès alternatif vers un autre répertoire si jamais
 	 * les fichiers sont introuvables dans les ressources
-	 * 
+	 *
 	 * @param newFile
 	 *            le répertoire où les fichiers FASTA sont localisés
 	 */
 	public static void setAltSrcFile(File newFile) {
 		Chromosome.altSrcFile = newFile;
-		;
+		System.out.println("ALT:" +altSrcFile);
 	}
 
 	/**
 	 * Cr�e le chemin d'acc�s pour atteindre le fichier li� au chromosome *
 	 * Format: chr_*.fas
-	 * 
+	 *
 	 * @return le chemin d'acc�s
 	 */
 	private String generatePath() {
 		return "/chr_" + getName().toUpperCase() + ".fas";
 	}
-	
+
 }

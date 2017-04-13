@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import javafx.beans.property.DoubleProperty;
 import exception.ConstructionException;
 import modele.genome.Chromosome;
 import modele.genome.DNA;
@@ -15,7 +17,7 @@ import modele.phenotype.Face;
 /**
  * Classe qui va créer l'ADN selon le visage, donc affecter les variations
  * appropriées au génome
- * 
+ *
  * @author Les génies du génome
  *
  */
@@ -23,10 +25,13 @@ public class DNACreator {
 
 	private DNA dna = null;
 	private Face face = null;
+	private DoubleProperty readingProgressProperty = null;
 
-	public DNACreator(Face f) throws ConstructionException, IOException, URISyntaxException {
+	public DNACreator(Face f, DoubleProperty progress)
+			throws ConstructionException, IOException, URISyntaxException {
 		if (f != null) {
-			this.dna = new DNA(chrSymByTargets());
+			this.readingProgressProperty = progress;
+			this.dna = new DNA(chrSymByTargets(), progress);
 			this.face = f;
 			updateDNA();
 		} else {
@@ -39,10 +44,22 @@ public class DNACreator {
 		return dna;
 	}
 
+	public DoubleProperty readingProgressProperty() {
+		return readingProgressProperty;
+	}
+
+	public double getReadingProgress() {
+		return readingProgressProperty.get();
+	}
+
+	public void setReadingProgress(double val) {
+		this.readingProgressProperty.set(val);
+	}
+
 	/**
 	 * Retourne la liste des différents chromosomes à inspecter selon les snp à
 	 * trouver (le Set élimine les doublons)
-	 * 
+	 *
 	 * @param chrNbr
 	 *            le numero du chromosome
 	 * @return la liste des identifiants des SNPs
@@ -54,14 +71,13 @@ public class DNACreator {
 		for (TargetSNPs t : tgt) {
 			chrSym.add(t.getChromosomeNbr());
 		}
-		System.out.println(chrSym);
 
 		return chrSym;
 	}
 
 	/**
 	 * Affecte les bonnes variations sur l'ADN
-	 * 
+	 *
 	 * @param map
 	 *            contient comme clés les SNP et comme valeurs les alleles
 	 */
@@ -69,7 +85,8 @@ public class DNACreator {
 		map.forEach((snp, alleles) -> {
 			int pos = 0;
 			TargetSNPs current = snp;
-			for (Chromosome chr : getDna().getChrPair(current.getChromosomeNbr())) {
+			for (Chromosome chr : getDna().getChrPair(
+					current.getChromosomeNbr())) {
 				chr.getSNPByRS("rs" + current.getId()).setAllele(alleles[pos]);
 				pos++;
 			}

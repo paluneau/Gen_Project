@@ -1,9 +1,12 @@
 package modele.phenotype;
 
+import javafx.geometry.Point3D;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
+//TODO est-ce qu'on a besoin de toutes ces classes métiers là ? On pourrait mettre celles qui sont non-spécifiques comme BodyPart
+//TODO est-ce qu'on applique les valeurs numériques des sliders au modèle et pas seulement aux points ?
 public class Face {
 
 	private Ear LEar = null;
@@ -23,15 +26,17 @@ public class Face {
 	private float distanceYeux = 0;
 
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
-		LEar = new Ear();
-		REar = new Ear();
-		LEye = new Eye(eyeColor, 0, 0);
-		REye = new Eye(eyeColor, 0, 0);
-		hair = new Hair(hairColor);
-		mouth = new Mouth();
-		nose = new Nose();
-		LSourcils = new Sourcils();
-		RSourcils = new Sourcils();	
+		LEar = new Ear("Oreille gauche");
+		REar = new Ear("Oreille droite");
+		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche",
+				"Noir oeil gauche", "Couleur oeil gauche");
+		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit",
+				"Noir oeil droit", "Couleur oeil droit");
+		hair = new Hair(hairColor, "Cheveux");
+		mouth = new Mouth("Bouche");
+		nose = new Nose("Bord narine", "Narine", "Nez");
+		LSourcils = new Sourcils(hairColor, "Sourcil gauche");
+		RSourcils = new Sourcils(hairColor, "Sourcil droit");
 		this.skinColor = skinColor;
 		pointsVisage = new Points();
 	}
@@ -70,7 +75,28 @@ public class Face {
 
 	public void setEyeDistance(float distance) {
 		this.distanceYeux = distance;
-		pointsVisage.updateDistanceOeilNez(distance);
+		pointsVisage.applyTranslation(LEye, new Point3D(-distance, 0, 0));
+		pointsVisage.applyTranslation(REye, new Point3D(distance, 0, 0));
+	}
+
+	public void setPositionOreilles(float hauteur, float profondeur) {
+		pointsVisage
+				.applyTranslation(LEar, new Point3D(0, hauteur, profondeur));
+		pointsVisage
+				.applyTranslation(REar, new Point3D(0, hauteur, profondeur));
+	}
+
+	public void setPositionBouche(float hauteur) {
+		pointsVisage.applyTranslation(mouth, new Point3D(0, hauteur, 0));
+	}
+
+	public void setPositionNez(float hauteur) {
+		pointsVisage.applyTranslation(nose, new Point3D(0, hauteur, 0));
+	}
+
+	public void setPositionSourcils(float ecart) {
+		pointsVisage.applyTranslation(LSourcils, new Point3D(-ecart, 0, 0));
+		pointsVisage.applyTranslation(RSourcils, new Point3D(ecart, 0, 0));
 	}
 
 	public Hair getHair() {
@@ -136,8 +162,8 @@ public class Face {
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
 	}
-	
-	public Points getPointsVisage(){
+
+	public Points getPointsVisage() {
 		return pointsVisage;
 	}
 }

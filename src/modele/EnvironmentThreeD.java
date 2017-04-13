@@ -24,13 +24,11 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.Face;
-import modele.phenotype.Hair;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
 
 /*
- * TODO JAVADOC
  * Classe créant une scène movable 3D avec un OBJ dedans
  */
 public class EnvironmentThreeD {
@@ -107,9 +105,9 @@ public class EnvironmentThreeD {
 		blueMaterial.setDiffuseColor(Color.DARKBLUE);
 		blueMaterial.setSpecularColor(Color.BLUE);
 
-		final Box xAxis = new Box(8.0, 0.03, 0.03);
-		final Box yAxis = new Box(0.03, 8.0, 0.03);
-		final Box zAxis = new Box(0.03, 0.03, 8.0);
+		final Box xAxis = new Box(53.0, 0.2, 0.2);
+		final Box yAxis = new Box(0.2, 53.0, 0.2);
+		final Box zAxis = new Box(0.2, 0.2, 53.0);
 
 		xAxis.setMaterial(redMaterial);
 		yAxis.setMaterial(greenMaterial);
@@ -162,27 +160,21 @@ public class EnvironmentThreeD {
 
 	private PhongMaterial updateColor(String group) {
 		final PhongMaterial material = new PhongMaterial();
-		if (group.contains("Oeil")) {
+		if (group.contains("Couleur oeil")) {
 			material.setDiffuseColor(getFace().getLEye().getCouleurYeux().getColor());
+		} else if (group.contains("Blanc oeil")) {
+			material.setDiffuseColor(Color.WHITE);
+		} else if (group.contains("Noir oeil")) {
+			material.setDiffuseColor(Color.BLACK);
 		} else if (group.contains("Cheveux")) {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
+		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
+			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		material.setSpecularColor(Color.BLACK);
-		return material;
-	}
-
-	private PhongMaterial updateEye(ObservableFloatArray points, Hair eye, boolean firstBuild) {
-		/*
-		 * if (firstBuild) { eye.setIniPoints(createArrayCopy(points), points);
-		 * } points = eye.getPointsUpdater();
-		 */
-
-		final PhongMaterial material = new PhongMaterial();
-		material.setDiffuseColor(eye.getCouleurCheveux().getColor());
-		material.setSpecularColor(Color.BLACK);
+		material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 
@@ -219,6 +211,7 @@ public class EnvironmentThreeD {
 				mousePosY = me.getSceneY();
 				mouseDeltaX = (mousePosX - mouseOldX);
 				mouseDeltaY = (mousePosY - mouseOldY);
+				modifier = 1.0;
 
 				if (me.isControlDown()) {
 					modifier = CONTROL_MULTIPLIER;
@@ -244,7 +237,7 @@ public class EnvironmentThreeD {
 			}
 		});
 
-		// TODO contrôles du clavier
+		//TODO controles clavier
 		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent me) {
 				System.out.println("coq roti");

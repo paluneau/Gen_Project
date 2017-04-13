@@ -42,7 +42,7 @@ public class SNP {
 
 	/**
 	 * Trouve les caractères possible des allèles à partir de l'énum Allele
-	 * 
+	 *
 	 * @return La liste des caractères possibles d'allèles
 	 */
 	private List<Character> getAlleleChars() {
@@ -102,7 +102,7 @@ public class SNP {
 	/**
 	 * Permet de retourner le caractère qui remplace plusieurs allèles sur un
 	 * même SNP
-	 * 
+	 *
 	 * @param x
 	 *            Ancien allèle
 	 * @param y
@@ -110,11 +110,19 @@ public class SNP {
 	 * @return Le caractère qui convient
 	 */
 	private Allele getWildCard(Allele x, Allele y) {
+		Allele out = Allele.N;
 		SortedSet<Allele> set = new TreeSet<>();
 		set.add(x);
 		set.add(y);
-		Map<SortedSet<Allele>, Allele> wildcards = Mappable.valuesAsMap(Wildcard::values);
-		return wildcards.get(set);
+
+		if (set.size() == 1) {
+			out = x;
+		} else {
+			Map<SortedSet<Allele>, Allele> wildcards = Mappable.valuesAsMap(Wildcard::values);
+			out = wildcards.get(set);
+		}
+
+		return out;
 	}
 
 	@Override

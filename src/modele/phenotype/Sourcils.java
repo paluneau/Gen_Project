@@ -2,8 +2,17 @@ package modele.phenotype;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import modele.phenotype.data.HairColor;
 
-public class Sourcils {
+public class Sourcils extends BodyPart {
+
+	private HairColor color = null;
+
+	public Sourcils(HairColor color, String... groups){
+		super(groups);
+		setColor(color);
+		
+	}
 
 	public double hauteurSourcils;
 	public DoubleProperty hauteurSourcilsProp = new SimpleDoubleProperty();
@@ -41,6 +50,14 @@ public class Sourcils {
 
 	public void setDistanceSourcilsProp(DoubleProperty distanceSourcilsProp) {
 		this.distanceSourcilsProp = distanceSourcilsProp;
+	}
+	
+	public HairColor getColor(){
+		return this.color;
+	}
+	
+	public void setColor(HairColor color){
+		this.color = color;
 	}
 
 }
