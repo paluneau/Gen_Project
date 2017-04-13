@@ -52,6 +52,9 @@ public class GenomicApplication extends Application {
 						Pane pane = (Pane) loaderModeADN.load();
 						Stage stageModeADN = new Stage();
 						Scene sceneModeADN = new Scene(pane);
+						sceneModeADN.getStylesheets().add(
+								getClass().getResource(
+										"/styles/modeADNstyle.css").toString());
 						stageModeADN.setScene(sceneModeADN);
 						stageModeADN.initModality(Modality.APPLICATION_MODAL);
 						stageModeADN.setTitle("Mode ADN");

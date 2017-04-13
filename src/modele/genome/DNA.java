@@ -9,7 +9,6 @@ import java.util.Set;
 
 import exception.ConstructionException;
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import modele.genome.data.TargetSNPs;
 
 public class DNA {
