@@ -1,5 +1,8 @@
 package modele.phenotype;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Point3D;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
@@ -22,10 +25,8 @@ public class Face {
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new BodyPart("Oreille gauche");
 		REar = new BodyPart("Oreille droite");
-		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche",
-				"Noir oeil gauche", "Couleur oeil gauche");
-		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit",
-				"Noir oeil droit", "Couleur oeil droit");
+		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
+		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new BodyPart("Bouche");
 		nose = new BodyPart("Bord narine", "Narine", "Nez");
@@ -68,28 +69,42 @@ public class Face {
 	}
 
 	public void setEyeDistance(float distance) {
-		pointsVisage.applyTranslation(LEye, new Point3D(-distance, 0, 0));
-		pointsVisage.applyTranslation(REye, new Point3D(distance, 0, 0));
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Nez");
+		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(-distance, 0, 0));
+		pointsVisage.applyTranslation(REye, groupREM, new Point3D(distance, 0, 0));
 	}
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
-		pointsVisage
-				.applyTranslation(LEar, new Point3D(0, hauteur, profondeur));
-		pointsVisage
-				.applyTranslation(REar, new Point3D(0, hauteur, profondeur));
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Cheveux");
+		pointsVisage.applyTranslation(LEar, groupREM, new Point3D(0, hauteur, profondeur));
+		pointsVisage.applyTranslation(REar, groupREM, new Point3D(0, hauteur, profondeur));
 	}
 
 	public void setPositionBouche(float hauteur) {
-		pointsVisage.applyTranslation(mouth, new Point3D(0, hauteur, 0));
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Nez");
+		pointsVisage.applyTranslation(mouth, groupREM, new Point3D(0, hauteur, 0));
 	}
 
 	public void setPositionNez(float hauteur) {
-		pointsVisage.applyTranslation(nose, new Point3D(0, hauteur, 0));
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Oeil droit");
+		groupREM.add("Oeil gauche");
+		groupREM.add("Blanc oeil droit");
+		groupREM.add("Blanc oeil gauche");
+		groupREM.add("Sourcil droit");
+		groupREM.add("Sourcil gauche");
+		pointsVisage.applyTranslation(nose, groupREM, new Point3D(0, hauteur, 0));
 	}
 
 	public void setPositionSourcils(float ecart) {
-		pointsVisage.applyTranslation(LSourcils, new Point3D(-ecart, 0, 0));
-		pointsVisage.applyTranslation(RSourcils, new Point3D(ecart, 0, 0));
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Oeil droit");
+		groupREM.add("Oeil gauche");
+		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(-ecart, 0, 0));
+		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(ecart, 0, 0));
 	}
 
 	public Hair getHair() {

@@ -52,22 +52,21 @@ public class TransformationPoints {
 	 * @param transformation
 	 *            les paramètres de la transformation (x, y ,z)
 	 */
-	public void applyTranslation(BodyPart part, Point3D transformation) {
+	public void applyTranslation(BodyPart part, List<String> groupREM, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePointsTranslation(group, transformation);
+			updatePointsTranslation(group, groupREM, transformation);
 		}
 	}
-	
+
 	// TODO JCB la réfléchir, la faire pis pas mal toutte là
 	public void applyRotation(Point3D pointTourner, Point3D pointCentre, String axe, float degres) {
-		
+
 	}
 
 	/**
-	 * TODO shorten this function && put comments
-	 * TODO JCB quossé ça cette ligne-là? ^^^^
-	 * Trouve les différents points communs entre chaque groupe et les met dans
-	 * la map pointsSupp.
+	 * TODO shorten this function && put comments TODO JCB quossé ça cette
+	 * ligne-là? ^^^^ Trouve les différents points communs entre chaque groupe
+	 * et les met dans la map pointsSupp.
 	 */
 	public void findSiblings() {
 		for (int k = 0; k < points3DIni.values().size() - 1; k++) {
@@ -110,22 +109,24 @@ public class TransformationPoints {
 	 * 
 	 * Update le point d'un groupe selon un facteur dans chaque dimension.
 	 * 
-	 * @param group
+	 * @param groupADD
 	 *            le groupe à modifier
 	 * @param factors
 	 *            - un point 3D qui contient le facteur modificateur dans chaque
 	 *            dimension
 	 */
-	private void updatePointsTranslation(String group, Point3D factors) {
-		ObservableFloatArray points = points3DUpdater.get(group);
+	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
+		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		for (int i = 0; i < points.size() / 3; i++) {
-			points.set(2 + (3 * i), (float) (points3DIni.get(group).get(2 + (3 * i)) + factors.getX()));
-			points.set(0 + (3 * i), (float) (points3DIni.get(group).get(0 + (3 * i)) + factors.getY()));
-			points.set(1 + (3 * i), (float) (points3DIni.get(group).get(1 + (3 * i)) + factors.getZ()));
+			points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
+			points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
+			points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
 		}
-		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(group);
+		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
 		for (ObservableFloatArray e : pointsCommun) {
 			List<String> groups = pointsSupp.get(e);
+			for (String i : groupREM)
+				groups.remove(i);
 			for (String f : groups) {
 				List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
 				for (Integer h : g) {
