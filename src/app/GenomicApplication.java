@@ -22,7 +22,6 @@ public class GenomicApplication extends Application {
 	Media media;
 	MediaPlayer mediaPlayer;
 
-	//TODO PAL C'EST TU ASSEZ PROPRE???
 	public static void main(String[] args) {
 		launch(args);
 	}

@@ -58,6 +58,8 @@
                               <Slider fx:id="sliderHauteurOreilles" layoutX="11.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
                               <Label layoutX="170.0" layoutY="14.0" styleClass="controlLabel" text="Profondeur des oreilles" />
                               <Slider fx:id="sliderProfondeurOreilles" layoutX="176.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                              <Slider fx:id="sliderRotationOreilles" layoutX="11.0" layoutY="79.0" max="0.0" min="-60.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="5.0" layoutY="62.0" styleClass="controlLabel" text="Orientation des oreilles" />
                            </children>
                         </AnchorPane>
                     </content>
