@@ -9,6 +9,7 @@ import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
+import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
@@ -23,7 +24,9 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.Ear;
 import modele.phenotype.Face;
+import modele.phenotype.TransformationPoints;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
@@ -93,7 +96,7 @@ public class EnvironmentThreeD {
 	}
 
 	private void buildAxes() {
-		//TODO Dumper ça avant la remise de fin (méthode au complet)
+		// TODO Dumper ça avant la remise de fin (méthode au complet)
 		final PhongMaterial redMaterial = new PhongMaterial();
 		redMaterial.setDiffuseColor(Color.DARKRED);
 		redMaterial.setSpecularColor(Color.RED);
@@ -105,7 +108,7 @@ public class EnvironmentThreeD {
 		final PhongMaterial blueMaterial = new PhongMaterial();
 		blueMaterial.setDiffuseColor(Color.DARKBLUE);
 		blueMaterial.setSpecularColor(Color.BLUE);
-		
+
 		final Box xAxis = new Box(53.0, 0.2, 0.2);
 		final Box yAxis = new Box(0.2, 53.0, 0.2);
 		final Box zAxis = new Box(0.2, 0.2, 53.0);
@@ -142,6 +145,26 @@ public class EnvironmentThreeD {
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
 
+			// TODO JCB trouver coords centre oreille / centre yeux
+			// (essais/erreurs) too
+			if (face.getLEar().getSubParts().contains(s)) {
+				genomicPart.getTransforms()
+						.add(TransformationPoints.applyRotation(
+								new Point3D(0, (-2.5 + face.getLEar().getProfondeur()), -9.59), 'x',
+								-face.getLEar().getRotation()));
+			} else if (face.getREar().getSubParts().contains(s)) {
+				genomicPart.getTransforms()
+						.add(TransformationPoints.applyRotation(
+								new Point3D(0, (-2.5 + face.getREar().getProfondeur()), 9.59), 'x',
+								face.getREar().getRotation()));
+			} else if (face.getLEye().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(
+						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', -face.getLEye().getRotation()));
+			} else if (face.getREye().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(
+						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', face.getREye().getRotation()));
+			}
+			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
 			if (firstBuild)
@@ -175,7 +198,7 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		//material.setSpecularColor(Color.WHITE);
+		// material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 
@@ -238,7 +261,7 @@ public class EnvironmentThreeD {
 			}
 		});
 
-		//TODO contrôles clavier
+		// TODO contrôles clavier
 		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent me) {
 				System.out.println("coq roti parce que c'est sérieux en maudit");
