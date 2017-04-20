@@ -137,8 +137,8 @@ public class TransformationPoints {
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
 		for (ObservableFloatArray e : pointsCommun) {
 			List<String> groups = pointsSupp.get(e);
-			for (String i : groupREM)
-				groups.remove(i);
+			//for (String i : groupREM)
+				//groups.remove(i);
 			for (String f : groups) {
 				List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
 				for (Integer h : g) {
