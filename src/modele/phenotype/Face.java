@@ -17,6 +17,9 @@ public class Face {
 	private Hair hair = null;
 	private BodyPart mouth = null;
 	private BodyPart nose = null;
+	private BodyPart front = null;
+	private BodyPart menton = null;
+	private BodyPart cheveux = null;
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
@@ -30,6 +33,9 @@ public class Face {
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new BodyPart("Bouche");
 		nose = new BodyPart("Bord narine", "Narine", "Nez");
+		front = new BodyPart("Front");
+		menton = new BodyPart("Menton");
+		cheveux = new BodyPart("Cheveux");
 		LSourcils = new Sourcils(hairColor, "Sourcil gauche");
 		RSourcils = new Sourcils(hairColor, "Sourcil droit");
 		this.skinColor = skinColor;
@@ -153,6 +159,26 @@ public class Face {
 
 	public void setSkinColor(SkinColor skinColor) {
 		this.skinColor = skinColor;
+	}
+
+	public void setLongueurFace(float distance) {
+		List<String> groupREM = new ArrayList<String>();
+		pointsVisage.applyTranslation(front, groupREM, new Point3D(0, distance, 0));
+		pointsVisage.applyTranslation(cheveux, groupREM, new Point3D(0, distance, 0));
+		pointsVisage.applyTranslation(menton, groupREM, new Point3D(0, -distance, 0));
+
+	}
+	
+	public void setProeminenceSourcils(float distance){
+		List<String> groupREM = new ArrayList<String>();
+		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(0, 0, distance));
+		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(0, 0, distance));
+	}
+	
+	public void setProeminenceMenton(float distance){
+		List<String> groupREM = new ArrayList<String>();
+		pointsVisage.applyTranslation(menton, groupREM, new Point3D(0, -(distance*0.25), distance));
+		pointsVisage.applyTranslation(mouth, groupREM, new Point3D(0, -(distance*0.25), distance));
 	}
 
 	public TransformationPoints getPointsVisage() {
