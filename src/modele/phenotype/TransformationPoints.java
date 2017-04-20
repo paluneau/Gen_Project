@@ -54,8 +54,10 @@ public class TransformationPoints {
 	 */
 	public void applyTranslation(BodyPart part, List<String> groupREM, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePointsTranslation(group, groupREM, transformation);
+			// updatePointsTranslation(group, groupREM, transformation);
 		}
+		updatePointsTranslation(part.getSubParts().get(0), groupREM, transformation);
+
 	}
 
 	// TODO JCB la réfléchir, la faire pis pas mal toutte là
@@ -69,7 +71,7 @@ public class TransformationPoints {
 	 * et les met dans la map pointsSupp.
 	 */
 	public void findSiblings() {
-		for (int k = 0; k < points3DIni.values().size() - 1; k++) {
+		for (int k = 0; k < (points3DIni.values().size() - 1); k++) {
 			ObservableFloatArray G1Points = (ObservableFloatArray) points3DIni.values().toArray()[k];
 			for (int l = k + 1; l < points3DIni.values().size(); l++) {
 				ObservableFloatArray G2Points = (ObservableFloatArray) points3DIni.values().toArray()[l];
@@ -82,16 +84,16 @@ public class TransformationPoints {
 
 						for (int j = 0; j < G2Points.size() / 3; j++) {
 
-							ObservableFloatArray pointsG2 = FXCollections.observableFloatArray();
-							pointsG2.addAll(G2Points.get(3 * j), G2Points.get((3 * j) + 1), G2Points.get((3 * j) + 2));
-							if (findIfEquals(pointG1, pointsG2)) {
-
+							ObservableFloatArray pointG2 = FXCollections.observableFloatArray();
+							pointG2.addAll(G2Points.get(3 * j), G2Points.get((3 * j) + 1), G2Points.get((3 * j) + 2));
+							if (findIfEquals(pointG1, pointG2)) {
 								String t = findKeyFromValueMap(G1Points);
 								String s = findKeyFromValueMap(G2Points);
-								List<String> groups = new ArrayList<String>(2);
+
+								List<String> groups = new ArrayList<String>();
 								groups.add(t);
 								groups.add(s);
-								pointsSupp.put(pointsG2, groups);
+								pointsSupp.put(pointG2, groups);
 
 							}
 
@@ -116,29 +118,71 @@ public class TransformationPoints {
 	 *            dimension
 	 */
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
+		System.out.println("GROUP : " + groupADD);
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
-		for (int i = 0; i < points.size() / 3; i++) {
-			points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
-			points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
-			points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
-		}
+		List<Integer> dodge = new ArrayList<Integer>();
+		System.out.println(points.size());
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-		for (ObservableFloatArray e : pointsCommun) {
-			List<String> groups = pointsSupp.get(e);
-			for (String i : groupREM)
-				groups.remove(i);
-			for (String f : groups) {
-				List<Integer> g = findIndexOfValues(points3DIni.get(f), e);
-				for (Integer h : g) {
-					points3DUpdater.get(f).set((3 * h) + 2, (float) (e.get(2) + factors.getX()));
-					points3DUpdater.get(f).set((3 * h) + 0, (float) (e.get(0) + factors.getY()));
-					points3DUpdater.get(f).set((3 * h) + 1, (float) (e.get(1) + factors.getZ()));
+		for (ObservableFloatArray pointCommun : pointsCommun) {
+			List<String> groups = pointsSupp.get(pointCommun);
+			for (String rEM : groupREM) {
+				if (!groups.contains(rEM)) {
+					for (String g : groups) {
+						List<Integer> index = findIndexOfValues(points3DIni.get(g), pointCommun);
+						if (!g.equals(groupADD)) {
+							for (Integer i : index) {
+
+								// points3DUpdater.get(g).set((3 * i) + 2,
+								// (float) (pointCommun.get(2) +
+								// factors.getX()));
+								// points3DUpdater.get(g).set((3 * i) + 0,
+								// (float) (pointCommun.get(0) +
+								// factors.getY()));
+								// points3DUpdater.get(g).set((3 * i) + 1,
+								// (float) (pointCommun.get(1) +
+								// factors.getZ()));
+
+							}
+						}
+					}
+				} else {
+					List<Integer> index = findIndexOfValues(points3DIni.get(groupADD), pointCommun);
+					dodge.addAll(index);
+
+				}
+			}
+		}
+
+		for (int i = 0; i < points.size() / 3; i++) {
+
+			if (dodge != null)
+				for (Integer e : dodge) { /* if (i != e) { */
+
+					points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
+					points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
+					points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
+					System.out.println("NON");
+					// }
 				}
 
-			}
-
 		}
 
+	}
+
+	private ObservableFloatArray removeValue(ObservableFloatArray points, List<Integer> toBeRemoved) {
+		ObservableFloatArray out = FXCollections.observableFloatArray();
+		float[] tempPoints = points.toArray(null);
+		System.out.println(toBeRemoved.toString());
+		for (int i = 0; i < tempPoints.length / 3; i++) {
+			if (!toBeRemoved.contains(new Integer(i))) {
+				out.addAll(tempPoints[i]);
+				out.addAll(tempPoints[i + 1]);
+				out.addAll(tempPoints[i + 2]);
+			}
+		}
+
+		// System.out.println(newbie.toString());
+		return out;
 	}
 
 	/**
@@ -148,6 +192,7 @@ public class TransformationPoints {
 	 * @param q
 	 * @return vrai ou faux dépendamment si les array sont pareils.
 	 */
+
 	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
 		boolean out = true;
 		for (int i = 0; (i < p.size()) && (i < q.size()); i++) {
