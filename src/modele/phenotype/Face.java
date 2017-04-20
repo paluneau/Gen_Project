@@ -10,8 +10,8 @@ import modele.phenotype.data.SkinColor;
 
 public class Face {
 
-	private BodyPart LEar = null;
-	private BodyPart REar = null;
+	private Ear LEar = null;
+	private Ear REar = null;
 	private Eye LEye = null;
 	private Eye REye = null;
 	private Hair hair = null;
@@ -26,8 +26,8 @@ public class Face {
 	private TransformationPoints pointsVisage = null;
 
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
-		LEar = new BodyPart("Oreille gauche");
-		REar = new BodyPart("Oreille droite");
+		LEar = new Ear("Oreille gauche");
+		REar = new Ear("Oreille droite");
 		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
 		hair = new Hair(hairColor, "Cheveux");
@@ -42,19 +42,19 @@ public class Face {
 		pointsVisage = new TransformationPoints();
 	}
 
-	public BodyPart getLEar() {
+	public Ear getLEar() {
 		return LEar;
 	}
 
-	public void setLEar(BodyPart ear) {
+	public void setLEar(Ear ear) {
 		this.LEar = ear;
 	}
 
-	public BodyPart getREar() {
+	public Ear getREar() {
 		return REar;
 	}
 
-	public void setREar(BodyPart ear) {
+	public void setREar(Ear ear) {
 		this.REar = ear;
 	}
 
