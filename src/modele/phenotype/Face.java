@@ -18,7 +18,6 @@ public class Face {
 	private BodyPart mouth = null;
 	private BodyPart nose = null;
 	private BodyPart front = null;
-	private BodyPart menton = null;
 	private BodyPart cheveux = null;
 	private BodyPart LJoue = null;
 	private BodyPart RJoue = null;
@@ -227,8 +226,8 @@ public class Face {
 	}
 
 	private void instantiateOreilles() {
-		LEar = new BodyPart("Oreille gauche");
-		REar = new BodyPart("Oreille droite");
+		LEar = new Ear("Oreille gauche");
+		REar = new Ear("Oreille droite");
 
 	}
 
