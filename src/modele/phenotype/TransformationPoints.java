@@ -55,9 +55,10 @@ public class TransformationPoints {
 	 */
 	public void applyTranslation(BodyPart part, List<String> groupREM, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			// updatePointsTranslation(group, groupREM, transformation);
+			updatePointsTranslation(group, groupREM, transformation);
 		}
-		updatePointsTranslation(part.getSubParts().get(0), groupREM, transformation);
+		// updatePointsTranslation(part.getSubParts().get(0), groupREM,
+		// transformation);
 
 	}
 
@@ -130,10 +131,8 @@ public class TransformationPoints {
 	 *            dimension
 	 */
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
-		System.out.println("GROUP : " + groupADD);
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		List<Integer> dodge = new ArrayList<Integer>();
-		System.out.println(points.size());
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groups = pointsSupp.get(pointCommun);
@@ -144,21 +143,16 @@ public class TransformationPoints {
 						if (!g.equals(groupADD)) {
 							for (Integer i : index) {
 
-								// points3DUpdater.get(g).set((3 * i) + 2,
-								// (float) (pointCommun.get(2) +
-								// factors.getX()));
-								// points3DUpdater.get(g).set((3 * i) + 0,
-								// (float) (pointCommun.get(0) +
-								// factors.getY()));
-								// points3DUpdater.get(g).set((3 * i) + 1,
-								// (float) (pointCommun.get(1) +
-								// factors.getZ()));
-								
+								points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
+								points3DUpdater.get(g).set((3 * i) + 0, (float) (pointCommun.get(0) + factors.getY()));
+								points3DUpdater.get(g).set((3 * i) + 1, (float) (pointCommun.get(1) + factors.getZ()));
+
 							}
 						}
 					}
 				} else {
 					List<Integer> index = findIndexOfValues(points3DIni.get(groupADD), pointCommun);
+					dodge.clear();
 					dodge.addAll(index);
 
 				}
@@ -167,15 +161,16 @@ public class TransformationPoints {
 
 		for (int i = 0; i < points.size() / 3; i++) {
 
-			if (dodge != null)
-				for (Integer e : dodge) { /* if (i != e) { */
+			//TODO MARCHE PAS CACA
+			//if (dodge != null)
+				//for (Integer e : dodge) {
+					//if (i != e.intValue()) {
 
-					points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
-					points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
-					points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
-					System.out.println("NON");
-					// }
-				}
+						points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
+						points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
+						points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
+					//}
+				//}
 
 		}
 
