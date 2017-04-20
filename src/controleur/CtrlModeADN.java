@@ -1,5 +1,9 @@
 package controleur;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextFlow;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -45,6 +49,9 @@ public class CtrlModeADN {
 	@FXML
 	private ProgressBar readingProgress;
 
+	@FXML
+	private TextFlow flowYeux;
+
 	private DoubleProperty readingProgressProperty = null;
 	private DNACreator dNACreator = null;
 	private Face face = null;
@@ -85,13 +92,14 @@ public class CtrlModeADN {
 	 */
 	private void buildWindow() {
 		if (dNACreator != null) {
-			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
-			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
-			createLabel(scrollPeau, face.getSkinColor().getGenes());
+			flowYeux.getChildren().clear();
+			createLabel(flowYeux, face.getLEye().getCouleurYeux().getGenes());
+			// createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
+			// createLabel(scrollPeau, face.getSkinColor().getGenes());
 		} else {
-			createLabel(scrollCheveux);
-			createLabel(scrollYeux);
-			createLabel(scrollPeau);
+			// createLabel(scrollCheveux);
+			createLabel(flowYeux);
+			// createLabel(scrollPeau);
 		}
 	}
 
@@ -104,19 +112,52 @@ public class CtrlModeADN {
 	 *            la map qui contient des infos de snp
 	 */
 	// TODO snp en gras
-	private void createLabel(ScrollPane pane, Map<TargetSNPs, Allele[]> map) {
-		Label label = new Label();
+	private void createLabel(Pane pane, Map<TargetSNPs, Allele[]> map) {
+		// Label label = new Label();
+
 		map.forEach((k, v) -> {
-			label.setText(label.getText() + "Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/"
-					+ v[1] + "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence "
-					+ v[0] + " :"
-					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
-					+ "\nSéquence " + v[1] + " :"
+			Label targetSNP1 = new Label(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+					.get("rs" + k.getId()).getSeq().substring(
+							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
+									.getVarPos(),
+							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
+									.getVarPos()+1));
+			targetSNP1.setUnderline(true);
+			targetSNP1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+			
+			Label targetSNP2 = new Label(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+					.get("rs" + k.getId()).getSeq().substring(
+							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId())
+									.getVarPos(),
+							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId())
+									.getVarPos()+1));
+			targetSNP2.setUnderline(true);
+			targetSNP2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+			
+
+			String seq11 = new String(
+					dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
+							.substring(0, (dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+									.get("rs" + k.getId()).getVarPos() - 1)));
+
+			String seq12 = new String(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
+					.get("rs" + k.getId()).getSeq().substring((dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
+							.getSnips().get("rs" + k.getId()).getVarPos() - 1)));
+
+			Label label1 = new Label(
+					"Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/" + v[1] + "\n" + "Gène:  "
+							+ k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence " + v[0] + " :" + seq11);
+			Label label2 = new Label(seq12 + "\nSéquence " + v[1] + " :"
 					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
 					+ "\n" + "\n");
 
+			pane.getChildren().add(label1);
+			pane.getChildren().add(targetSNP1);
+			pane.getChildren().add(label2);
+		//	pane.getChildren().add(targetSNP2);
+			//pane.getChildren().add(label3);
 		});
-		pane.setContent(label);
+
 	}
 
 	/**
@@ -125,10 +166,10 @@ public class CtrlModeADN {
 	 * @param pane
 	 *            la pane qui contient le label
 	 */
-	private void createLabel(ScrollPane pane) {
+	private void createLabel(Pane pane) {
 		Label label = new Label();
 		label.setText("Erreur de lecture. Veuillez générer l'ADN avant qu'on l'affiche.");
-		pane.setContent(label);
+		pane.getChildren().add(label);
 
 	}
 

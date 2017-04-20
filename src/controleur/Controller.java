@@ -46,6 +46,15 @@ public class Controller {
 
 	@FXML
 	private Slider sliderEcartSourcils;
+	
+    @FXML
+    private Slider sliderLonguerVisage;
+    
+    @FXML
+    private Slider sliderAvancementSourcils;
+    
+    @FXML
+    private Slider sliderProeminenceMenton;
 
 	@FXML
 	private CheckMenuItem muteButton;
@@ -64,6 +73,9 @@ public class Controller {
 
 	@FXML
 	private Pane pane3D;
+	
+	@FXML
+	private Slider sliderRotationOreilles;
 
 	private EnvironmentThreeD envirnm = null;
 	private MusicPlayer player = null;
@@ -161,6 +173,8 @@ public class Controller {
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setEyeDistance(new_val.floatValue());
+				envirnm.getFace().getLEye().setRotation((new_val.doubleValue())*3);
+				envirnm.getFace().getREye().setRotation((new_val.doubleValue())*3);
 				envirnm.changementWorld();
 			}
 		});
@@ -176,6 +190,8 @@ public class Controller {
 		sliderProfondeurOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionOreilles((float) sliderHauteurOreilles.getValue(), new_val.floatValue());
+				envirnm.getFace().getLEar().setProfondeur(new_val.doubleValue());
+				envirnm.getFace().getREar().setProfondeur(new_val.doubleValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -234,6 +250,35 @@ public class Controller {
 				envirnm.getFace().getHair().setCouleurCheveux(new_val);
 				envirnm.getFace().getRSourcils().setColor(new_val);
 				envirnm.getFace().getLSourcils().setColor(new_val);
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setLongueurFace(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setProeminenceSourcils(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderProeminenceMenton.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setProeminenceMenton(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
+				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
+				envirnm.getFace().getREar().setRotation(new_val.doubleValue());
 				envirnm.changementWorld();
 			}
 		});

@@ -9,6 +9,7 @@ import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
+import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
@@ -23,7 +24,9 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.Ear;
 import modele.phenotype.Face;
+import modele.phenotype.TransformationPoints;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
@@ -142,6 +145,26 @@ public class EnvironmentThreeD {
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
 
+			// TODO JCB trouver coords centre oreille / centre yeux
+			// (essais/erreurs) too
+			if (face.getLEar().getSubParts().contains(s)) {
+				genomicPart.getTransforms()
+						.add(TransformationPoints.applyRotation(
+								new Point3D(0, (-2.5 + face.getLEar().getProfondeur()), -9.59), 'x',
+								-face.getLEar().getRotation()));
+			} else if (face.getREar().getSubParts().contains(s)) {
+				genomicPart.getTransforms()
+						.add(TransformationPoints.applyRotation(
+								new Point3D(0, (-2.5 + face.getREar().getProfondeur()), 9.59), 'x',
+								face.getREar().getRotation()));
+			} else if (face.getLEye().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(
+						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', -face.getLEye().getRotation()));
+			} else if (face.getREye().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(
+						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', face.getREye().getRotation()));
+			}
+			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
 			if (firstBuild)
