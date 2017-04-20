@@ -68,7 +68,7 @@ public class GenomicApplication extends Application {
 				stageModeADN.initModality(Modality.APPLICATION_MODAL);
 				stageModeADN.setTitle("Mode ADN");
 				stageModeADN.setScene(sceneModeADN);
-				stageModeADN.setResizable(false);
+				//stageModeADN.setResizable(false);
 				stageModeADN.show();
 
 				CtrlModeADN ctrl = ((CtrlModeADN) loaderModeADN.getController());
