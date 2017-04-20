@@ -78,6 +78,12 @@
                            <children>
                               <Label layoutX="23.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur du nez" />
                               <Slider fx:id="sliderHauteurNez" layoutX="9.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="154.0" layoutY="14.0" styleClass="controlLabel" text="Prohéminence de l'Arche" />
+                              <Slider fx:id="sliderArche" layoutX="165.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="13.0" layoutY="64.0" styleClass="controlLabel" text="Largeur des narines" />
+                              <Slider fx:id="sliderNarine" layoutX="10.0" layoutY="81.0" max="1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="181.0" layoutY="64.0" styleClass="controlLabel" text="Allonger le nez" />
+                              <Slider fx:id="sliderPointe" layoutX="166.0" layoutY="81.0" max="1.5" min="-0.5" prefHeight="14.0" prefWidth="111.0" value="0.5" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -88,6 +94,30 @@
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Écart entre les sourcils" />
                               <Slider fx:id="sliderEcartSourcils" layoutX="18.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
+                              <Label layoutX="154.0" layoutY="16.0" styleClass="controlLabel" text="Proéminance des sourcils" />
+                              <Slider fx:id="sliderAvancementSourcils" layoutX="158.0" layoutY="33.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Face :">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Longueur du visage" />
+                              <Slider fx:id="sliderLonguerVisage" layoutX="16.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
+                              <Label layoutX="143.0" layoutY="14.0" styleClass="controlLabel" text="Proéminance du menton" />
+                              <Slider fx:id="sliderProeminenceMenton" layoutX="153.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Joues :">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Slider fx:id="sliderJoue" layoutX="7.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="15.0" prefWidth="114.0" />
+                              <Label layoutX="14.0" layoutY="14.0" text="Grosseur des joues" />
                            </children>
                         </AnchorPane>
                     </content>

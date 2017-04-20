@@ -8,6 +8,7 @@ import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
+import javafx.scene.transform.Rotate;
 
 public class TransformationPoints {
 
@@ -61,14 +62,25 @@ public class TransformationPoints {
 	}
 
 	// TODO JCB la réfléchir, la faire pis pas mal toutte là
-	public void applyRotation(Point3D pointTourner, Point3D pointCentre, String axe, float degres) {
-
+	public static Rotate applyRotation(Point3D pointCentre, char axe, double degres) {
+		Rotate objet = null;
+		switch (axe) {
+		case 'x':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.X_AXIS);
+			break;
+		case 'y':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Y_AXIS);
+			break;
+		case 'z':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Z_AXIS);
+			break;
+		}
+		return objet;
 	}
 
 	/**
-	 * TODO shorten this function && put comments TODO JCB quossé ça cette
-	 * ligne-là? ^^^^ Trouve les différents points communs entre chaque groupe
-	 * et les met dans la map pointsSupp.
+	 * TODO shorten this function && put comments Trouve les différents points
+	 * communs entre chaque groupe et les met dans la map pointsSupp.
 	 */
 	public void findSiblings() {
 		for (int k = 0; k < (points3DIni.values().size() - 1); k++) {
@@ -141,7 +153,7 @@ public class TransformationPoints {
 								// points3DUpdater.get(g).set((3 * i) + 1,
 								// (float) (pointCommun.get(1) +
 								// factors.getZ()));
-
+								
 							}
 						}
 					}
