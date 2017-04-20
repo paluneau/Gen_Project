@@ -1,11 +1,9 @@
 package app;
 
 import java.io.IOException;
-
 import controleur.Controller;
 import controleur.CtrlModeADN;
 import javafx.application.Application;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;

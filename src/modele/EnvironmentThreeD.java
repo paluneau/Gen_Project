@@ -93,7 +93,7 @@ public class EnvironmentThreeD {
 	}
 
 	private void buildAxes() {
-		//TODO Dumper ça avant la remise de fin (méthode au complet)
+		// TODO Dumper ça avant la remise de fin (méthode au complet)
 		final PhongMaterial redMaterial = new PhongMaterial();
 		redMaterial.setDiffuseColor(Color.DARKRED);
 		redMaterial.setSpecularColor(Color.RED);
@@ -105,7 +105,7 @@ public class EnvironmentThreeD {
 		final PhongMaterial blueMaterial = new PhongMaterial();
 		blueMaterial.setDiffuseColor(Color.DARKBLUE);
 		blueMaterial.setSpecularColor(Color.BLUE);
-		
+
 		final Box xAxis = new Box(53.0, 0.2, 0.2);
 		final Box yAxis = new Box(0.2, 53.0, 0.2);
 		final Box zAxis = new Box(0.2, 0.2, 53.0);
@@ -175,7 +175,7 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		//material.setSpecularColor(Color.WHITE);
+		// material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 
@@ -235,13 +235,6 @@ public class EnvironmentThreeD {
 				double z = camera.getTranslateZ();
 				double newZ = z + me.getDeltaY() * MOUSE_WHEEL_SPEED * modifier;
 				camera.setTranslateZ(newZ);
-			}
-		});
-
-		//TODO contrôles clavier
-		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent me) {
-				System.out.println("coq roti parce que c'est sérieux en maudit");
 			}
 		});
 	}

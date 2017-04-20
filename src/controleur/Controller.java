@@ -51,6 +51,18 @@ public class Controller {
 	private CheckMenuItem muteButton;
 
 	@FXML
+	private Slider sliderJoue;
+	
+	@FXML
+	private Slider sliderArche;
+	
+	@FXML
+	private Slider sliderNarine;
+	
+	@FXML
+	private Slider sliderPointe;
+
+	@FXML
 	private Pane pane3D;
 
 	private EnvironmentThreeD envirnm = null;
@@ -65,7 +77,7 @@ public class Controller {
 		buildEyeColorBox();
 		buildSkinColorBox();
 		buildHairColorBox();
-		setSlidersValue();
+		setControlsValue();
 		ajouterEcouteurs();
 		envirnm = new EnvironmentThreeD(choiceBoxYeux.getValue(), choiceBoxSkin.getValue(),
 				choiceBoxCouleurCheveux.getValue());
@@ -75,7 +87,7 @@ public class Controller {
 	/**
 	 * Détermine les valeurs initiales des contrôles
 	 */
-	private void setSlidersValue() {
+	private void setControlsValue() {
 		choiceBoxYeux.setValue(EyeColor.BROWN);
 		choiceBoxSkin.setValue(SkinColor.MEDIUM);
 		choiceBoxCouleurCheveux.setValue(HairColor.BLOND);
@@ -185,6 +197,34 @@ public class Controller {
 		sliderEcartSourcils.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionSourcils(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderJoue.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setGrosseurJoues(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderArche.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionArche(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderNarine.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setEcartNarine(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderPointe.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setEtirerPointe(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
