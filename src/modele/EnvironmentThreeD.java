@@ -175,7 +175,7 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
-		material.setSpecularColor(Color.WHITE);
+		//material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 
