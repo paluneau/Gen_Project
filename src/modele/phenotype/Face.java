@@ -226,8 +226,8 @@ public class Face {
 	}
 
 	private void instantiateOreilles() {
-		LEar = new BodyPart("Oreille gauche");
-		REar = new BodyPart("Oreille droite");
+		LEar = new Ear("Oreille gauche");
+		REar = new Ear("Oreille droite");
 
 	}
 
