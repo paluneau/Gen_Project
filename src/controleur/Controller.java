@@ -46,6 +46,15 @@ public class Controller {
 
 	@FXML
 	private Slider sliderEcartSourcils;
+	
+    @FXML
+    private Slider sliderLonguerVisage;
+    
+    @FXML
+    private Slider sliderAvancementSourcils;
+    
+    @FXML
+    private Slider sliderProeminenceMenton;
 
 	@FXML
 	private CheckMenuItem muteButton;
@@ -197,7 +206,27 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-
+		
+		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setLongueurFace(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setProeminenceSourcils(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderProeminenceMenton.valueProperty().addListener(new ChangeListener<Number>(){
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setProeminenceMenton(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
 	}
 
 	public MusicPlayer getPlayer() {
