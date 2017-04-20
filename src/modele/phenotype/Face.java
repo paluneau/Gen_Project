@@ -18,7 +18,6 @@ public class Face {
 	private BodyPart mouth = null;
 	private BodyPart nose = null;
 	private BodyPart front = null;
-	private BodyPart menton = null;
 	private BodyPart cheveux = null;
 	private BodyPart LJoue = null;
 	private BodyPart RJoue = null;
