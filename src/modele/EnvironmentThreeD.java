@@ -260,12 +260,5 @@ public class EnvironmentThreeD {
 				camera.setTranslateZ(newZ);
 			}
 		});
-
-		// TODO contrôles clavier
-		pane.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent me) {
-				System.out.println("coq roti parce que c'est sérieux en maudit");
-			}
-		});
 	}
 }

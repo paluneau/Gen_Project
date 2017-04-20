@@ -20,6 +20,13 @@ public class Face {
 	private BodyPart front = null;
 	private BodyPart menton = null;
 	private BodyPart cheveux = null;
+	private BodyPart LJoue = null;
+	private BodyPart RJoue = null;
+	private BodyPart menton = null;
+	private BodyPart arche = null;
+	private BodyPart LBosse = null;
+	private BodyPart RBosse = null;
+	private BodyPart pointe = null;
 	private Sourcils LSourcils = null;
 	private Sourcils RSourcils = null;
 	private SkinColor skinColor = null;
@@ -38,6 +45,12 @@ public class Face {
 		cheveux = new BodyPart("Cheveux");
 		LSourcils = new Sourcils(hairColor, "Sourcil gauche");
 		RSourcils = new Sourcils(hairColor, "Sourcil droit");
+		mouth = new BodyPart("Bouche");
+		menton = new BodyPart("Menton");
+		instantiateOreilles();
+		instantiateNez();
+		instantiateJoue();
+
 		this.skinColor = skinColor;
 		pointsVisage = new TransformationPoints();
 	}
@@ -74,6 +87,7 @@ public class Face {
 		this.REye = eye;
 	}
 
+	// TODO ajouter les parties à ignorer dans les objets BodyPart
 	public void setEyeDistance(float distance) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Nez");
@@ -84,8 +98,8 @@ public class Face {
 	public void setPositionOreilles(float hauteur, float profondeur) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Cheveux");
-		pointsVisage.applyTranslation(LEar, groupREM, new Point3D(0, hauteur, profondeur));
-		pointsVisage.applyTranslation(REar, groupREM, new Point3D(0, hauteur, profondeur));
+		pointsVisage.applyTranslation(LEar, groupREM, new Point3D(0, hauteur, -profondeur));
+		pointsVisage.applyTranslation(REar, groupREM, new Point3D(0, hauteur, -profondeur));
 	}
 
 	public void setPositionBouche(float hauteur) {
@@ -109,8 +123,35 @@ public class Face {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Oeil droit");
 		groupREM.add("Oeil gauche");
-		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(-ecart, 0, 0));
-		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(ecart, 0, 0));
+		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(-ecart, 0, -ecart / 2));
+		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(ecart, 0, -ecart / 2));
+	}
+
+	public void setGrosseurJoues(float ecart) {
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Nez");
+		groupREM.add("Bouche");
+		pointsVisage.applyTranslation(LJoue, groupREM, new Point3D(-ecart, 0, ecart / 3));
+		pointsVisage.applyTranslation(RJoue, groupREM, new Point3D(ecart, 0, ecart / 3));
+	}
+
+	public void setPositionArche(float ecart) {
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Bouche");
+		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, ecart/2, ecart/2));
+	}
+	
+	public void setEcartNarine(float ecart) {
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Bouche");
+		pointsVisage.applyTranslation(LBosse, groupREM, new Point3D(-ecart, 0, 0));
+		pointsVisage.applyTranslation(RBosse, groupREM, new Point3D(ecart, 0, 0));
+	}
+	
+	public void setEtirerPointe(float ecart) {
+		List<String> groupREM = new ArrayList<String>();
+		groupREM.add("Bouche");
+		pointsVisage.applyTranslation(pointe, groupREM, new Point3D(0, 0, ecart));
 	}
 
 	public Hair getHair() {
@@ -184,4 +225,28 @@ public class Face {
 	public TransformationPoints getPointsVisage() {
 		return pointsVisage;
 	}
+
+	private void instantiateOreilles() {
+		LEar = new BodyPart("Oreille gauche");
+		REar = new BodyPart("Oreille droite");
+
+	}
+
+	private void instantiateNez() {
+		arche = new BodyPart("Arche");
+		LBosse = new BodyPart("Bosse gauche");
+		RBosse = new BodyPart("Bosse droite");
+		pointe = new BodyPart("Pointe");
+		nose = new BodyPart(arche, LBosse, RBosse, pointe);
+		nose.getSubParts().add("Nez");
+		nose.getSubParts().add("Narine");
+		nose.getSubParts().add("Bord narine");
+
+	}
+
+	private void instantiateJoue() {
+		LJoue = new BodyPart("Joue gauche");
+		RJoue = new BodyPart("Joue droite");
+	}
+
 }
