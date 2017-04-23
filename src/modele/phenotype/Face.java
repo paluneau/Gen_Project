@@ -36,6 +36,8 @@ public class Face {
 		REar = new Ear("Oreille droite");
 		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
+		//LEye = new Eye(eyeColor, "face1","face1n");
+		//REye = new Eye(eyeColor, "face2");
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new BodyPart("Bouche");
 		nose = new BodyPart("Bord narine", "Narine", "Nez");
@@ -90,6 +92,7 @@ public class Face {
 	public void setEyeDistance(float distance) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Nez");
+		// groupREM.add("face2");
 		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(-distance, 0, 0));
 		pointsVisage.applyTranslation(REye, groupREM, new Point3D(distance, 0, 0));
 	}
@@ -137,16 +140,16 @@ public class Face {
 	public void setPositionArche(float ecart) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
-		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, ecart/2, ecart/2));
+		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, ecart / 2, ecart / 2));
 	}
-	
+
 	public void setEcartNarine(float ecart) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
 		pointsVisage.applyTranslation(LBosse, groupREM, new Point3D(-ecart, 0, 0));
 		pointsVisage.applyTranslation(RBosse, groupREM, new Point3D(ecart, 0, 0));
 	}
-	
+
 	public void setEtirerPointe(float ecart) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
@@ -208,17 +211,17 @@ public class Face {
 		pointsVisage.applyTranslation(menton, groupREM, new Point3D(0, -distance, 0));
 
 	}
-	
-	public void setProeminenceSourcils(float distance){
+
+	public void setProeminenceSourcils(float distance) {
 		List<String> groupREM = new ArrayList<String>();
 		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(0, 0, distance));
 		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(0, 0, distance));
 	}
-	
-	public void setProeminenceMenton(float distance){
+
+	public void setProeminenceMenton(float distance) {
 		List<String> groupREM = new ArrayList<String>();
-		pointsVisage.applyTranslation(menton, groupREM, new Point3D(0, -(distance*0.25), distance));
-		pointsVisage.applyTranslation(mouth, groupREM, new Point3D(0, -(distance*0.25), distance));
+		pointsVisage.applyTranslation(menton, groupREM, new Point3D(0, -(distance * 0.25), distance));
+		pointsVisage.applyTranslation(mouth, groupREM, new Point3D(0, -(distance * 0.25), distance));
 	}
 
 	public TransformationPoints getPointsVisage() {

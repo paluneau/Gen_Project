@@ -13,7 +13,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -24,7 +23,6 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
-import modele.phenotype.Ear;
 import modele.phenotype.Face;
 import modele.phenotype.TransformationPoints;
 import modele.phenotype.data.EyeColor;
@@ -147,6 +145,7 @@ public class EnvironmentThreeD {
 
 			// TODO JCB trouver coords centre oreille / centre yeux
 			// (essais/erreurs) too
+
 			if (face.getLEar().getSubParts().contains(s)) {
 				genomicPart.getTransforms()
 						.add(TransformationPoints.applyRotation(
@@ -164,6 +163,7 @@ public class EnvironmentThreeD {
 				genomicPart.getTransforms().add(
 						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', face.getREye().getRotation()));
 			}
+
 			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
@@ -194,6 +194,10 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
+			/*
+			 * } else if (group.contains("face1n")) {
+			 * material.setDiffuseColor(Color.WHITE);
+			 */
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
