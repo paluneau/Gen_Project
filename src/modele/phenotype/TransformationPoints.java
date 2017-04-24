@@ -132,6 +132,7 @@ public class TransformationPoints {
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		// TODO MARCHE PAS CACA
+		//TODO dodge cest dla marde
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
