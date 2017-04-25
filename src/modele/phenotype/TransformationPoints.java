@@ -166,8 +166,8 @@ public class TransformationPoints {
 
 	private void updatePointGrossissement(String groupADD,
 			List<String> groupREM, double factor) {
-		// prendre point init pour lle vecteur directeur
-		ObservableFloatArray points = points3DUpdater.get(groupADD);
+		// prendre point init pour le vecteur directeur
+		ObservableFloatArray points = points3DIni.get(groupADD);
 
 		Point3D center = VecteurUtilitaires.findPointMilieu(points);
 
@@ -177,8 +177,9 @@ public class TransformationPoints {
 		Point3D vecteurPointFinal = VecteurUtilitaires.findVecteur(center,
 				new Point3D(0, 0, 0));
 		vecteurPointFinal.multiply(factor);
-		Point3D delta = VecteurUtilitaires.soustractionVecteur(
-				vecteurPointFinal, vecteurDirecteur);
+		Point3D delta = vecteurPointFinal.subtract(vecteurDirecteur.getX(),
+				vecteurDirecteur.getY(), vecteurDirecteur.getZ());
+		
 
 	}
 
@@ -228,16 +229,16 @@ public class TransformationPoints {
 		}
 	}
 
-	private void update2(ObservableFloatArray points, int i, String groupADD,
+	private void update2(ObservableFloatArray points, int index, String groupADD,
 			Point3D factors) {
-		points.set(2 + (3 * i),
-				(float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors
+		points.set(2 + (3 * index),
+				(float) (points3DIni.get(groupADD).get(2 + (3 * index)) + factors
 						.getX()));
-		points.set(0 + (3 * i),
-				(float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors
+		points.set(0 + (3 * index),
+				(float) (points3DIni.get(groupADD).get(0 + (3 * index)) + factors
 						.getY()));
-		points.set(1 + (3 * i),
-				(float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors
+		points.set(1 + (3 * index),
+				(float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors
 						.getZ()));
 	}
 
