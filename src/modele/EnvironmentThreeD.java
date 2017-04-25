@@ -143,9 +143,7 @@ public class EnvironmentThreeD {
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
 
-			// TODO JCB trouver coords centre oreille / centre yeux
-			// (essais/erreurs) too
-
+			// Rotations
 			if (face.getLEar().getSubParts().contains(s)) {
 				genomicPart.getTransforms()
 						.add(TransformationPoints.applyRotation(
@@ -162,6 +160,15 @@ public class EnvironmentThreeD {
 			} else if (face.getREye().getSubParts().contains(s)) {
 				genomicPart.getTransforms().add(
 						TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x', face.getREye().getRotation()));
+			}
+
+			// Scaling
+			// TODO Trouver coord du centre appropriée pis savoir c'est quel
+			// maudit axe qu'on veut influencer (j'suis crissement poche avec
+			// ça)
+			if (face.getMouth().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(999, 999, 999),
+						new Point3D(face.getMouth().getScale(), 0, 0)));
 			}
 
 			// (Face.getVisage())

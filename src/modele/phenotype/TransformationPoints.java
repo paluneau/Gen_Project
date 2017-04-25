@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import utils.MapTools;
 import utils.VecteurUtilitaires;
 
@@ -65,9 +66,25 @@ public class TransformationPoints {
 
 	}
 
-	// TODO JCB la réfléchir, la faire pis pas mal toutte là
-	public static Rotate applyRotation(Point3D pointCentre, char axe,
-			double degres) {
+
+	public static Scale applyScale(Point3D pointCentre, Point3D scale) {
+		return new Scale(scale.getX(), scale.getY(), scale.getZ(), pointCentre.getX(), pointCentre.getY(), pointCentre.getZ());
+	}
+
+	/**
+	 * Permet de faire tourner une partie du visage
+	 * 
+	 * @param pointCentre
+	 *            Le centre de rotation
+	 * @param axe
+	 *            L'axe autour duquel on tourne
+	 * @param degres
+	 *            Le nombre de degrés qu'on veut tourner
+	 * @return Un objet Rotate à appliquer sur les composantes voulues
+	 */
+
+  public static Rotate applyRotation(Point3D pointCentre, char axe, double degres) {
+
 		Rotate objet = null;
 		switch (axe) {
 		case 'x':
@@ -187,7 +204,7 @@ public class TransformationPoints {
 			List<String> groupREM, Point3D factors) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-
+		dodge.addAll(fuck(groupADD, pointsCommun));
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groups = pointsSupp.get(pointCommun);
 
@@ -210,8 +227,35 @@ public class TransformationPoints {
 		return dodge;
 	}
 
-	private void update1(String groupADD, List<String> groupsCommun,
-			ObservableFloatArray pointCommun, Point3D factors) {
+
+	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsCommun) {
+		List<Integer> dodge = new ArrayList<Integer>();
+		ObservableFloatArray points = points3DIni.get(groupADD);
+		for (int i = 0; i < points.size() / 3; i++) {
+			for (int j = 0; j < pointsCommun.size(); j++) {
+				for (int j2 = j + 1; j2 < pointsCommun.size() - 1; j2++) {
+					if (pointsCommun.get(j).size() == 3 && pointsCommun.get(j2).size() == 3) {
+						double distance = VecteurUtilitaires.findDistance(
+								new Point3D(pointsCommun.get(j).get(2), pointsCommun.get(j).get(0),
+										pointsCommun.get(j).get(1)),
+								new Point3D(pointsCommun.get(j2).get(2), pointsCommun.get(j2).get(0),
+										pointsCommun.get(j2).get(1)),
+								new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
+						if (distance <= 0.001) {
+							dodge.add(i);
+							System.out.println(distance);
+						}
+					} else {
+						System.out.println("FAILLINGG FAGGOOOTT");
+					}
+				}
+			}
+		}
+		return dodge;
+	}
+
+	private void update1(String groupADD, List<String> groupsCommun, ObservableFloatArray pointCommun,
+			Point3D factors) {
 		for (String g : groupsCommun) {
 			List<Integer> index = MapTools.findIndexOfValues(
 					points3DIni.get(g), pointCommun);
