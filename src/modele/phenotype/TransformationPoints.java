@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 import javafx.scene.transform.Rotate;
+import utils.MapTools;
 
 public class TransformationPoints {
 
@@ -37,7 +38,7 @@ public class TransformationPoints {
 	}
 
 	public void addIni3DPoints(String group, ObservableFloatArray points) {
-		points3DIni.put(group, createAndConvertArray(points));
+		points3DIni.put(group, MapTools.createAndConvertArray(points));
 		points3DUpdater.put(group, points);
 	}
 
@@ -57,7 +58,8 @@ public class TransformationPoints {
 		for (String group : part.getSubParts()) {
 			updatePointsTranslation(group, groupREM, transformation);
 		}
-		//updatePointsTranslation(part.getSubParts().get(0), groupREM, transformation);
+		// updatePointsTranslation(part.getSubParts().get(0), groupREM,
+		// transformation);
 
 	}
 
@@ -98,7 +100,7 @@ public class TransformationPoints {
 
 							ObservableFloatArray pointG2 = FXCollections.observableFloatArray();
 							pointG2.addAll(G2Points.get(3 * j), G2Points.get((3 * j) + 1), G2Points.get((3 * j) + 2));
-							if (findIfEquals(pointG1, pointG2)) {
+							if (MapTools.findIfEquals(pointG1, pointG2)) {
 								String t = findKeyFromValueMap(G1Points);
 								String s = findKeyFromValueMap(G2Points);
 
@@ -132,43 +134,51 @@ public class TransformationPoints {
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		// TODO MARCHE PAS CACA
-		//TODO dodge cest dla marde
-		List<Integer> dodge = new ArrayList<Integer>();
-		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-		for (ObservableFloatArray pointCommun : pointsCommun) {
-			List<String> groups = pointsSupp.get(pointCommun);
-			if ((groupREM != null) && (!groupREM.isEmpty())) {
-				for (String rEM : groupREM) {
-					if (!groups.contains(rEM)) {
-						fuck(groupADD, groups, pointCommun, factors);
-					} else {
-						List<Integer> index = findIndexOfValues(points3DIni.get(groupADD), pointCommun);
-						dodge.addAll(index);
-					}
-				}
-			} else {
-				fuck(groupADD, groups, pointCommun, factors);
-			}
 
-		}
+		List<Integer> dodge = updatePointCommun(groupADD, groupREM, factors);
+
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
+
 				if (!dodge.contains(i)) {
-					points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
-					points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
-					points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
+					update2(points, i, groupADD, factors);
 				}
 			} else {
-				points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
-				points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
-				points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
+				update2(points, i, groupADD, factors);
 			}
 		}
 	}
 
-	private void fuck(String groupADD, List<String> groupsCommun, ObservableFloatArray pointCommun, Point3D factors) {
+	private List<Integer> updatePointCommun(String groupADD, List<String> groupREM, Point3D factors) {
+		List<Integer> dodge = new ArrayList<Integer>();
+		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
+
+		for (ObservableFloatArray pointCommun : pointsCommun) {
+			List<String> groups = pointsSupp.get(pointCommun);
+
+			if ((groupREM != null) && (!groupREM.isEmpty())) {
+				for (String rEM : groupREM) {
+
+					if (!groups.contains(rEM)) {
+						update1(groupADD, groups, pointCommun, factors);
+					} else {
+						List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(groupADD), pointCommun);
+						dodge.addAll(index);
+					}
+				}
+			} else {
+				update1(groupADD, groups, pointCommun, factors);
+			}
+
+		}
+		return dodge;
+	}
+
+	private void update1(String groupADD, List<String> groupsCommun, ObservableFloatArray pointCommun,
+			Point3D factors) {
 		for (String g : groupsCommun) {
-			List<Integer> index = findIndexOfValues(points3DIni.get(g), pointCommun);
+			List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
+
 			if (!g.equals(groupADD)) {
 				for (Integer i : index) {
 					points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
@@ -179,38 +189,10 @@ public class TransformationPoints {
 		}
 	}
 
-	private ObservableFloatArray removeValue(ObservableFloatArray points, List<Integer> toBeRemoved) {
-		ObservableFloatArray out = FXCollections.observableFloatArray();
-		float[] tempPoints = points.toArray(null);
-		System.out.println(toBeRemoved.toString());
-		for (int i = 0; i < tempPoints.length / 3; i++) {
-			if (!toBeRemoved.contains(new Integer(i))) {
-				out.addAll(tempPoints[i]);
-				out.addAll(tempPoints[i + 1]);
-				out.addAll(tempPoints[i + 2]);
-			}
-		}
-
-		// System.out.println(newbie.toString());
-		return out;
-	}
-
-	/**
-	 * Détermine si les valeurs de deux array sont égales.
-	 * 
-	 * @param p
-	 * @param q
-	 * @return vrai ou faux dépendamment si les array sont pareils.
-	 */
-
-	private boolean findIfEquals(ObservableFloatArray p, ObservableFloatArray q) {
-		boolean out = true;
-		for (int i = 0; (i < p.size()) && (i < q.size()); i++) {
-			if (p.get(i) != q.get(i)) {
-				out = false;
-			}
-		}
-		return out;
+	private void update2(ObservableFloatArray points, int i, String groupADD, Point3D factors) {
+		points.set(2 + (3 * i), (float) (points3DIni.get(groupADD).get(2 + (3 * i)) + factors.getX()));
+		points.set(0 + (3 * i), (float) (points3DIni.get(groupADD).get(0 + (3 * i)) + factors.getY()));
+		points.set(1 + (3 * i), (float) (points3DIni.get(groupADD).get(1 + (3 * i)) + factors.getZ()));
 	}
 
 	/**
@@ -248,34 +230,4 @@ public class TransformationPoints {
 		}
 		return out;
 	}
-
-	/**
-	 * Trouve les index des points de l'array "targets" dans l'array "values",
-	 * si les points de l'array "targets" sont dans "values.
-	 * 
-	 * @param values
-	 *            - array recherché
-	 * @param targets
-	 *            - array des points à trouver
-	 * @return liste des index de values
-	 */
-	private List<Integer> findIndexOfValues(ObservableFloatArray values, ObservableFloatArray targets) {
-		List<Integer> out = new ArrayList<Integer>();
-		for (int i = 0; i < values.size() / 3; i++) {
-			for (int j = 0; j < targets.size() / 3; j++) {
-				if ((values.get(3 * i) == targets.get(3 * j)) && (values.get((3 * i) + 1) == targets.get((3 * j) + 1))
-						&& (values.get((3 * i) + 2) == targets.get((3 * j) + 2))) {
-					out.add(i);
-				}
-			}
-		}
-		return out;
-	}
-
-	private ObservableFloatArray createAndConvertArray(ObservableFloatArray original) {
-		ObservableFloatArray pTemp = FXCollections.observableFloatArray();
-		pTemp.addAll(original);
-		return pTemp;
-	}
-
 }
