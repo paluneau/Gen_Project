@@ -80,9 +80,9 @@ public class VecteurUtilitaires {
 		double moyY = 0;
 		double moyZ = 0;
 		for (int i = 0; i < pointsGroup.size() / 3; i++) {
-			moyX += pointsGroup.get(3 * i);
-			moyY += pointsGroup.get((3 * i) + 1);
-			moyZ += pointsGroup.get((3 * i) + 2);
+			moyX += pointsGroup.get((3 * i) + 2);
+			moyY += pointsGroup.get((3 * i) + 0);
+			moyZ += pointsGroup.get((3 * i) + 1);
 		}
 		moyX = moyX / (pointsGroup.size() / 3);
 		moyY = moyY / (pointsGroup.size() / 3);

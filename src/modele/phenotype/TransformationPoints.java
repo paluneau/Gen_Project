@@ -138,7 +138,7 @@ public class TransformationPoints {
 
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
-				
+
 				if (!dodge.contains(i)) {
 					update2(points, i, groupADD, factors);
 				}
@@ -151,13 +151,13 @@ public class TransformationPoints {
 	private List<Integer> updatePointCommun(String groupADD, List<String> groupREM, Point3D factors) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-		
+
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groups = pointsSupp.get(pointCommun);
-			
+
 			if ((groupREM != null) && (!groupREM.isEmpty())) {
 				for (String rEM : groupREM) {
-					
+
 					if (!groups.contains(rEM)) {
 						update1(groupADD, groups, pointCommun, factors);
 					} else {
@@ -177,7 +177,7 @@ public class TransformationPoints {
 			Point3D factors) {
 		for (String g : groupsCommun) {
 			List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
-			
+
 			if (!g.equals(groupADD)) {
 				for (Integer i : index) {
 					points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
