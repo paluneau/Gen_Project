@@ -70,6 +70,9 @@ public class Controller {
 	
 	@FXML
 	private Slider sliderPointe;
+	
+	@FXML
+	private Slider sliderFront;
 
 	@FXML
 	private Pane pane3D;
@@ -240,7 +243,14 @@ public class Controller {
 		
 		sliderPointe.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.getFace().setEtirerPointe(new_val.floatValue());
+				envirnm.getFace().setLongueurPointe(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+		
+		sliderFront.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
+				envirnm.getFace().setPositionFront(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});

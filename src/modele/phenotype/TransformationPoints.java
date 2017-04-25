@@ -135,6 +135,7 @@ public class TransformationPoints {
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		// TODO MARCHE PAS CACA
+
 		List<Integer> dodge = updatePointCommun(groupADD, groupREM, factors);
 
 		for (int i = 0; i < points.size() / 3; i++) {
