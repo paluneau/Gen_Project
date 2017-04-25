@@ -10,6 +10,7 @@ import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 import javafx.scene.transform.Rotate;
 import utils.MapTools;
+import utils.VecteurUtilitaires;
 
 public class TransformationPoints {
 
@@ -151,7 +152,7 @@ public class TransformationPoints {
 	private List<Integer> updatePointCommun(String groupADD, List<String> groupREM, Point3D factors) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-
+		dodge.addAll(fuck(groupADD, pointsCommun));
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groups = pointsSupp.get(pointCommun);
 
@@ -169,6 +170,32 @@ public class TransformationPoints {
 				update1(groupADD, groups, pointCommun, factors);
 			}
 
+		}
+		return dodge;
+	}
+
+	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsCommun) {
+		List<Integer> dodge = new ArrayList<Integer>();
+		ObservableFloatArray points = points3DIni.get(groupADD);
+		for (int i = 0; i < points.size() / 3; i++) {
+			for (int j = 0; j < pointsCommun.size(); j++) {
+				for (int j2 = j + 1; j2 < pointsCommun.size() - 1; j2++) {
+					if (pointsCommun.get(j).size() == 3 && pointsCommun.get(j2).size() == 3) {
+						double distance = VecteurUtilitaires.findDistance(
+								new Point3D(pointsCommun.get(j).get(2), pointsCommun.get(j).get(0),
+										pointsCommun.get(j).get(1)),
+								new Point3D(pointsCommun.get(j2).get(2), pointsCommun.get(j2).get(0),
+										pointsCommun.get(j2).get(1)),
+								new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
+						if (distance <= 0.001) {
+							dodge.add(i);
+							System.out.println(distance);
+						}
+					} else {
+						System.out.println("FAILLINGG FAGGOOOTT");
+					}
+				}
+			}
 		}
 		return dodge;
 	}
