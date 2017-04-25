@@ -4,6 +4,11 @@ import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 
 public class VecteurUtilitaires {
+
+	public static final Point3D I = new Point3D(1, 0, 0);
+	public static final Point3D J = new Point3D(0, 1, 0);
+	public static final Point3D K = new Point3D(0, 0, 1);
+
 	/**
 	 * Trouve la distance entre le segment de droite PR et le point Q.
 	 * 
@@ -88,5 +93,56 @@ public class VecteurUtilitaires {
 		moyY = moyY / (pointsGroup.size() / 3);
 		moyZ = moyZ / (pointsGroup.size() / 3);
 		return new Point3D(moyX, moyY, moyZ);
+	}
+
+	// TODO tests unitaires
+	/**
+	 * Effectue le produit scalaire entre 2 vecteurs
+	 * 
+	 * @param v1
+	 *            le premier vecteur
+	 * @param v2
+	 *            le deuxième vecteur
+	 * @return le produit scalaire des deux vecteurs
+	 */
+	public static double produitScalaire(Point3D v1, Point3D v2) {
+		return (v1.getX() * v2.getX()) + (v1.getY() + v2.getY())
+				+ (v1.getZ() + v2.getZ());
+	}
+
+	// TODO tests unitaires
+	/**
+	 * Permet de déterminer l'angle entre 2 vecteurs
+	 * 
+	 * @param v1
+	 *            le 1er vecteur
+	 * @param v2
+	 *            le 2e vecteur
+	 * @return l'orientation en degrés
+	 */
+	public static double findAngle(Point3D v1, Point3D v2) {
+		return Math.acos(produitScalaire(v1, v2)
+				/ (findNorme(v1) * findNorme(v2)));
+	}
+
+	// TODO tests unitaires
+	/**
+	 * Détermine les angles d'un vecteur en 3D par rapport à la base orthonormée
+	 * (i,j,k)
+	 * 
+	 * @param vector
+	 *            le vecteur dont on veut connaître les angles
+	 * @return les orientations par rapport aux différents plans
+	 */
+	public static Point3D findOrientation3D(Point3D vector) {
+		double angleX = findAngle(vector, I);
+		double angleY = findAngle(vector, J);
+		double angleZ = findAngle(vector, K);
+		return new Point3D(angleX, angleY, angleZ);
+	}
+
+	public static Point3D soustractionVecteur(Point3D v1, Point3D v2) {
+		return new Point3D(v1.getX() - v2.getX(), v1.getY() - v2.getY(),
+				v1.getZ() - v2.getZ());
 	}
 }
