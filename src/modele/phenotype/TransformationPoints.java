@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import utils.MapTools;
 import utils.VecteurUtilitaires;
 
@@ -64,7 +65,21 @@ public class TransformationPoints {
 
 	}
 
-	// TODO JCB la réfléchir, la faire pis pas mal toutte là
+	public static Scale applyScale(Point3D pointCentre, Point3D scale) {
+		return new Scale(scale.getX(), scale.getY(), scale.getZ(), pointCentre.getX(), pointCentre.getY(), pointCentre.getZ());
+	}
+
+	/**
+	 * Permet de faire tourner une partie du visage
+	 * 
+	 * @param pointCentre
+	 *            Le centre de rotation
+	 * @param axe
+	 *            L'axe autour duquel on tourne
+	 * @param degres
+	 *            Le nombre de degrés qu'on veut tourner
+	 * @return Un objet Rotate à appliquer sur les composantes voulues
+	 */
 	public static Rotate applyRotation(Point3D pointCentre, char axe, double degres) {
 		Rotate objet = null;
 		switch (axe) {
