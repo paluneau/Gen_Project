@@ -36,8 +36,8 @@ public class Face {
 		REar = new Ear("Oreille droite");
 		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
-		// LEye = new Eye(eyeColor, "face1","face1n");
-		// REye = new Eye(eyeColor, "face2");
+		//LEye = new Eye(eyeColor,"face1n");
+		//REye = new Eye(eyeColor, "face2");
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new Mouth("Bouche");
 		nose = new BodyPart("Bord narine", "Narine", "Nez");
@@ -94,7 +94,7 @@ public class Face {
 	public void setEyeDistance(float distance) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Nez");
-		// groupREM.add("face2");
+		//groupREM.add("face2");
 		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(-distance, 0, 0));
 		pointsVisage.applyTranslation(REye, groupREM, new Point3D(distance, 0, 0));
 	}
