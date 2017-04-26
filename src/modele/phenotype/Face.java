@@ -156,6 +156,7 @@ public class Face {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
 		pointsVisage.applyTranslation(pointe, groupREM, new Point3D(0, 0, ecart));
+		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, 0, ecart/2));
 	}
 
 	public void setPositionFront(float ecart) {
