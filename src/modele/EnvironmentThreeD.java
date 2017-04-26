@@ -1,4 +1,4 @@
-package modele;
+﻿package modele;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -166,6 +166,7 @@ public class EnvironmentThreeD {
 			// TODO Trouver coord du centre appropriée pis savoir c'est quel
 			// maudit axe qu'on veut influencer (j'suis crissement poche avec
 			// ça)
+
 			if (face.getMouth().getSubParts().contains(s)) {
 				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(999, 999, 999),
 						new Point3D(face.getMouth().getScale(), 0, 0)));
@@ -201,7 +202,10 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
-
+			/*
+			 * } else if (group.contains("face1n")) {
+			 * material.setDiffuseColor(Color.WHITE);
+			 */
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}

@@ -1,4 +1,4 @@
-package modele.phenotype;
+﻿package modele.phenotype;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,10 +168,11 @@ public class TransformationPoints {
 	 */
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
-		// TODO MARCHE PAS CACA
 
-		List<Integer> dodge = updatePointCommun(groupADD, groupREM, factors);
+		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
+		updatePointCommun(groupADD, pointsGroupREM, factors);
 
+		List<Integer> dodge = fuck(groupADD, pointsGroupREM);
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 
@@ -199,48 +200,59 @@ public class TransformationPoints {
 					vecteurDirecteur.getZ());
 
 			update2(points3DUpdater.get(groupADD), i, groupADD, delta);
-			updatePointCommun(groupADD, groupREM, delta);
+			updatePointCommun(groupADD, findPointsGroupREM(groupREM), delta);
 
 		}
 	}
 
-	private List<Integer> updatePointCommun(String groupADD, List<String> groupREM, Point3D factors) {
+	private List<Integer> updatePointCommun(String groupADD, List<ObservableFloatArray> pointsGroupREM,
+			Point3D factors) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-		dodge.addAll(fuck(groupADD, pointsCommun));
+
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groups = pointsSupp.get(pointCommun);
-
-			if ((groupREM != null) && (!groupREM.isEmpty())) {
-				for (String rEM : groupREM) {
-
-					if (!groups.contains(rEM)) {
-						update1(groupADD, groups, pointCommun, factors);
-					} else {
-						List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(groupADD), pointCommun);
-						dodge.addAll(index);
-					}
-				}
-			} else {
-				update1(groupADD, groups, pointCommun, factors);
+			for (ObservableFloatArray e : pointsGroupREM) {
+				// TODO updater les faces communes qui ont pas été touché par
+				// fuck
+				/*
+				 * if (!MapTools.findIfEquals(e, pointCommun)) {
+				 * update1(groupADD, groups, pointCommun, factors); } else {
+				 * System.out.println("AAA"); }
+				 */
 			}
-
 		}
 		return dodge;
 	}
 
-	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsCommun) {
+	private List<ObservableFloatArray> findPointsGroupREM(List<String> groupREM) {
+		List<ObservableFloatArray> pointsGroupREM = new ArrayList<ObservableFloatArray>();
+		for (String rEM : groupREM) {
+			ObservableFloatArray g = points3DIni.get(rEM);
+			for (int i = 0; i < g.size() / 3; i++) {
+				ObservableFloatArray f = FXCollections.observableFloatArray();
+				f.addAll(g.get(3 * i), g.get((3 * i) + 1), g.get((3 * i) + 2));
+				pointsGroupREM.add(f);
+			}
+
+		}
+		return pointsGroupREM;
+	}
+
+	// TODO
+	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsGroupREM) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		ObservableFloatArray points = points3DIni.get(groupADD);
+
 		for (int i = 0; i < points.size() / 3; i++) {
-			for (int j = 0; j < pointsCommun.size(); j++) {
-				for (int j2 = j + 1; j2 < pointsCommun.size() - 1; j2++) {
-					if (pointsCommun.get(j).size() == 3 && pointsCommun.get(j2).size() == 3) {
+			for (int j = 0; j < pointsGroupREM.size(); j++) {
+				for (int j2 = j + 1; j2 < pointsGroupREM.size() - 1; j2++) {
+					if (pointsGroupREM.get(j).size() == 3 && pointsGroupREM.get(j2).size() == 3) {
 						double distance = VecteurUtilitaires.findDistance(
-								new Point3D(pointsCommun.get(j).get(2), pointsCommun.get(j).get(0),
-										pointsCommun.get(j).get(1)),
-								new Point3D(pointsCommun.get(j2).get(2), pointsCommun.get(j2).get(0),
-										pointsCommun.get(j2).get(1)),
+								new Point3D(pointsGroupREM.get(j).get(2), pointsGroupREM.get(j).get(0),
+										pointsGroupREM.get(j).get(1)),
+								new Point3D(pointsGroupREM.get(j2).get(2), pointsGroupREM.get(j2).get(0),
+										pointsGroupREM.get(j2).get(1)),
 								new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
 						if (distance <= 0.001) {
 							dodge.add(i);
