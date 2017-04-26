@@ -8,7 +8,7 @@ public class Mouth extends BodyPart {
 
 	public Mouth(String... groups) {
 		super(groups);
-		scale = 0;
+		scale = 1;
 	}
 
 	public double getScale() {

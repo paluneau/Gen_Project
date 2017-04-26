@@ -46,37 +46,40 @@ public class Controller {
 
 	@FXML
 	private Slider sliderEcartSourcils;
-	
-    @FXML
-    private Slider sliderLonguerVisage;
-    
-    @FXML
-    private Slider sliderAvancementSourcils;
-    
-    @FXML
-    private Slider sliderProeminenceMenton;
+
+	@FXML
+	private Slider sliderLonguerVisage;
+
+	@FXML
+	private Slider sliderAvancementSourcils;
+
+	@FXML
+	private Slider sliderProeminenceMenton;
 
 	@FXML
 	private CheckMenuItem muteButton;
 
 	@FXML
 	private Slider sliderJoue;
-	
+
 	@FXML
 	private Slider sliderArche;
-	
+
 	@FXML
 	private Slider sliderNarine;
-	
+
 	@FXML
 	private Slider sliderPointe;
-	
+
 	@FXML
 	private Slider sliderFront;
 
 	@FXML
+	private Slider sliderCou;
+
+	@FXML
 	private Pane pane3D;
-	
+
 	@FXML
 	private Slider sliderRotationOreilles;
 
@@ -176,8 +179,8 @@ public class Controller {
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setEyeDistance(new_val.floatValue());
-				envirnm.getFace().getLEye().setRotation((new_val.doubleValue())*3);
-				envirnm.getFace().getREye().setRotation((new_val.doubleValue())*3);
+				envirnm.getFace().getLEye().setRotation((new_val.doubleValue()) * 3);
+				envirnm.getFace().getREye().setRotation((new_val.doubleValue()) * 3);
 				envirnm.changementWorld();
 			}
 		});
@@ -226,28 +229,28 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderArche.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionArche(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderNarine.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setEcartNarine(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderPointe.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setLongueurPointe(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
+
 		sliderFront.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionFront(new_val.floatValue());
@@ -263,22 +266,22 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-		
-		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>(){
+
+		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setLongueurFace(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
-		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>(){
+
+		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setProeminenceSourcils(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
-		
-		sliderProeminenceMenton.valueProperty().addListener(new ChangeListener<Number>(){
+
+		sliderProeminenceMenton.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setProeminenceMenton(new_val.floatValue());
 				envirnm.changementWorld();
@@ -289,6 +292,13 @@ public class Controller {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
 				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
 				envirnm.getFace().getREar().setRotation(new_val.doubleValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderCou.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
+				envirnm.getFace().setGrosseurCou(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});

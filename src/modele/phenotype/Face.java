@@ -156,6 +156,7 @@ public class Face {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
 		pointsVisage.applyTranslation(pointe, groupREM, new Point3D(0, 0, ecart));
+		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, 0, ecart/2));
 	}
 
 	public void setPositionFront(float ecart) {
@@ -166,6 +167,10 @@ public class Face {
 		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(0, 0, ecart));
 		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(0, 0, ecart));
 		pointsVisage.applyTranslation(REye, groupREM, new Point3D(0, 0, ecart));
+	}
+	
+	public void setGrosseurCou(float grosseur){
+		pointsVisage.applyGrossissement(new BodyPart("Cou"), null, grosseur);
 	}
 
 	public Hair getHair() {

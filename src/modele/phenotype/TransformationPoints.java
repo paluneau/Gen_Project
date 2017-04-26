@@ -1,4 +1,4 @@
-package modele.phenotype;
+﻿package modele.phenotype;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +63,22 @@ public class TransformationPoints {
 		// updatePointsTranslation(part.getSubParts().get(0), groupREM,
 		// transformation);
 
+	}
+
+	/**
+	 * Permet de grossir dans toutes les dimensions une partie du visage
+	 * 
+	 * @param part
+	 *            la partie du visage à grossir
+	 * @param groupREM
+	 *            les parties à ignorer
+	 * @param factor
+	 *            le facteur de grossissement
+	 */
+	public void applyGrossissement(BodyPart part, List<String> groupREM, double factor) {
+		for (String group : part.getSubParts()) {
+			updatePointGrossissement(group, groupREM, factor);
+		}
 	}
 
 	public static Scale applyScale(Point3D pointCentre, Point3D scale) {
@@ -180,23 +196,27 @@ public class TransformationPoints {
 	}
 
 	private void updatePointGrossissement(String groupADD, List<String> groupREM, double factor) {
-		// prendre point init pour le vecteur directeur
 		ObservableFloatArray points = points3DIni.get(groupADD);
-
 		Point3D center = VecteurUtilitaires.findPointMilieu(points);
 
-		// à faire pour chaque point du groupe
-		Point3D vecteurDirecteur = VecteurUtilitaires.findVecteur(center, new Point3D(0, 0, 0));
-		Point3D vecteurPointFinal = VecteurUtilitaires.findVecteur(center, new Point3D(0, 0, 0));
-		vecteurPointFinal.multiply(factor);
-		Point3D delta = vecteurPointFinal.subtract(vecteurDirecteur.getX(), vecteurDirecteur.getY(),
-				vecteurDirecteur.getZ());
+		for (int i = 0; i < (points.size() / 3); i++) {
 
+			Point3D vecteurDirecteur = VecteurUtilitaires.findVecteur(center,
+					new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
+
+			Point3D vecteurPointFinal = vecteurDirecteur.multiply(factor);
+
+			Point3D delta = vecteurPointFinal.subtract(vecteurDirecteur.getX(), vecteurDirecteur.getY(),
+					vecteurDirecteur.getZ());
+
+			update2(points3DUpdater.get(groupADD), i, groupADD, delta);
+			updatePointCommun(groupADD, groupREM, delta);
+
+		}
 	}
 
 	private List<Integer> updatePointCommun(String groupADD, List<ObservableFloatArray> pointsGroupREM,
 			Point3D factors) {
-
 		List<Integer> dodge = new ArrayList<Integer>();
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
 
