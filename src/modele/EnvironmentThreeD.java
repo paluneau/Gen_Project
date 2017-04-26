@@ -51,7 +51,7 @@ public class EnvironmentThreeD {
 	private static final double CAMERA_NEAR_CLIP = 0.1, CAMERA_FAR_CLIP = 10000.0;
 	private static final double CONTROL_MULTIPLIER = 0.1, SHIFT_MULTIPLIER = 10.0;
 	private static final double MOUSE_SPEED = 0.1, MOUSE_WHEEL_SPEED = 0.15, ROTATION_SPEED = 1.0, TRACK_SPEED = 0.3;
-	private static final String URL = "/obj/face.obj";
+	private static final String URL = "/obj/face1.obj";
 
 	/**
 	 * Variables pour le MouseEvent concernant les positions de la souris
@@ -202,17 +202,9 @@ public class EnvironmentThreeD {
 		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
 
-		} /*
-			 * else if (group.contains("Bosse gauche") ||
-			 * group.contains("Bosse droite")) {
-			 * material.setDiffuseColor(Color.INDIGO);
-			 * 
-			 * }
-			 */ else {
+		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
-
-		// material.setSpecularColor(Color.WHITE);
 		return material;
 	}
 
