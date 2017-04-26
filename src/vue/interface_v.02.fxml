@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.CheckMenuItem?>
@@ -19,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
       <SplitPane orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
@@ -74,8 +70,8 @@
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur de la bouche" />
                               <Slider fx:id="sliderHauteurBouche" layoutX="16.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
-                              <Slider fx:id="sliderGrosseurBouche" layoutX="154.0" layoutY="31.0" max="2.0" min="0.5" value="1.0" />
-                              <Label layoutX="165.0" layoutY="14.0" text="Grosseur de la bouche" />
+                              <Slider fx:id="sliderGrosseurBouche" layoutX="169.0" layoutY="31.0" max="1.25" min="0.75" prefHeight="14.0" prefWidth="111.0" value="1.0" />
+                              <Label layoutX="165.0" layoutY="14.0" styleClass="controlLabel" text="Grosseur de la bouche" />
                            </children>
                         </AnchorPane>
                     </content>

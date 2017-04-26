@@ -170,7 +170,9 @@ public class Face {
 	}
 	
 	public void setGrosseurCou(float grosseur){
-		pointsVisage.applyGrossissement(new BodyPart("Cou"), null, grosseur);
+		List<String> groupREM = new ArrayList<>();
+		groupREM.add("Cheveux");
+		pointsVisage.applyGrossissement(new BodyPart("Cou"), groupREM, grosseur);
 	}
 
 	public Hair getHair() {
@@ -248,7 +250,6 @@ public class Face {
 	private void instantiateOreilles() {
 		LEar = new Ear("Oreille gauche");
 		REar = new Ear("Oreille droite");
-
 	}
 
 	private void instantiateNez() {
