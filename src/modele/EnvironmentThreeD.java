@@ -201,11 +201,14 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
-			/*
-			 * } else if (group.contains("face1n")) {
-			 * material.setDiffuseColor(Color.WHITE);
-			 */
-		} else {
+
+		} /*
+			 * else if (group.contains("Bosse gauche") ||
+			 * group.contains("Bosse droite")) {
+			 * material.setDiffuseColor(Color.INDIGO);
+			 * 
+			 * }
+			 */ else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
 
