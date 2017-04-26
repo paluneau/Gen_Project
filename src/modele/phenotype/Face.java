@@ -167,6 +167,10 @@ public class Face {
 		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(0, 0, ecart));
 		pointsVisage.applyTranslation(REye, groupREM, new Point3D(0, 0, ecart));
 	}
+	
+	public void setGrosseurCou(float grosseur){
+		pointsVisage.applyGrossissement(new BodyPart("Cou"), null, grosseur);
+	}
 
 	public Hair getHair() {
 		return hair;
