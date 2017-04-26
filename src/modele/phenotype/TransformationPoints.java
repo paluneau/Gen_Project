@@ -168,18 +168,8 @@ public class TransformationPoints {
 	 */
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
-		// TODO MARCHE PAS CACA
 
-		List<ObservableFloatArray> pointsGroupREM = new ArrayList<ObservableFloatArray>();
-		for (String rEM : groupREM) {
-			ObservableFloatArray g = points3DIni.get(rEM);
-			for (int i = 0; i < g.size() / 3; i++) {
-				ObservableFloatArray f = FXCollections.observableFloatArray();
-				f.addAll(g.get(3 * i), g.get((3 * i) + 1), g.get((3 * i) + 2));
-				pointsGroupREM.add(f);
-			}
-
-		}
+		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
 		updatePointCommun(groupADD, pointsGroupREM, factors);
 
 		List<Integer> dodge = fuck(groupADD, pointsGroupREM);
@@ -210,7 +200,7 @@ public class TransformationPoints {
 					vecteurDirecteur.getZ());
 
 			update2(points3DUpdater.get(groupADD), i, groupADD, delta);
-			updatePointCommun(groupADD, groupREM, delta);
+			updatePointCommun(groupADD, findPointsGroupREM(groupREM), delta);
 
 		}
 	}
@@ -233,6 +223,20 @@ public class TransformationPoints {
 			}
 		}
 		return dodge;
+	}
+
+	private List<ObservableFloatArray> findPointsGroupREM(List<String> groupREM) {
+		List<ObservableFloatArray> pointsGroupREM = new ArrayList<ObservableFloatArray>();
+		for (String rEM : groupREM) {
+			ObservableFloatArray g = points3DIni.get(rEM);
+			for (int i = 0; i < g.size() / 3; i++) {
+				ObservableFloatArray f = FXCollections.observableFloatArray();
+				f.addAll(g.get(3 * i), g.get((3 * i) + 1), g.get((3 * i) + 2));
+				pointsGroupREM.add(f);
+			}
+
+		}
+		return pointsGroupREM;
 	}
 
 	// TODO
