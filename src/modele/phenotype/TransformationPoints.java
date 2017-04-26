@@ -156,6 +156,8 @@ public class TransformationPoints {
 
 	}
 
+	// TODO UPDATE SECTION POUR QUE LE TEMPS DEXEC DIMINUE + TYDIUP
+
 	/**
 	 * 
 	 * Update le point d'un groupe selon un facteur dans chaque dimension.
@@ -170,9 +172,10 @@ public class TransformationPoints {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
-		updatePointCommun(groupADD, pointsGroupREM, factors);
 
 		List<Integer> dodge = fuck(groupADD, pointsGroupREM);
+		updatePointCommun(groupADD, pointsGroupREM, factors);
+
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 
@@ -205,80 +208,67 @@ public class TransformationPoints {
 		}
 	}
 
-	private List<Integer> updatePointCommun(String groupADD, List<ObservableFloatArray> pointsGroupREM,
-			Point3D factors) {
-		List<Integer> dodge = new ArrayList<Integer>();
-		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD);
-
+	// TODO updater les faces communes aux points qui ont pas été touché par
+	// fuck
+	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Point3D factors) {
+		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
-			List<String> groups = pointsSupp.get(pointCommun);
-			for (ObservableFloatArray e : pointsGroupREM) {
-				// TODO updater les faces communes qui ont pas été touché par
-				// fuck
-				/*
-				 * if (!MapTools.findIfEquals(e, pointCommun)) {
-				 * update1(groupADD, groups, pointCommun, factors); } else {
-				 * System.out.println("AAA"); }
-				 */
+			List<String> groupsCommun = pointsSupp.get(pointCommun);
+			for (String g : groupsCommun) {
+				List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
+
+				if (!g.equals(groupADD)) {
+					for (Integer i : index) {
+						points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
+						points3DUpdater.get(g).set((3 * i) + 0, (float) (pointCommun.get(0) + factors.getY()));
+						points3DUpdater.get(g).set((3 * i) + 1, (float) (pointCommun.get(1) + factors.getZ()));
+					}
+				}
 			}
 		}
-		return dodge;
+
 	}
 
 	private List<ObservableFloatArray> findPointsGroupREM(List<String> groupREM) {
 		List<ObservableFloatArray> pointsGroupREM = new ArrayList<ObservableFloatArray>();
-		for (String rEM : groupREM) {
-			ObservableFloatArray g = points3DIni.get(rEM);
-			for (int i = 0; i < g.size() / 3; i++) {
-				ObservableFloatArray f = FXCollections.observableFloatArray();
-				f.addAll(g.get(3 * i), g.get((3 * i) + 1), g.get((3 * i) + 2));
-				pointsGroupREM.add(f);
+		if ((groupREM != null) && (!groupREM.isEmpty())) {
+			for (String rEM : groupREM) {
+				ObservableFloatArray g = points3DIni.get(rEM);
+				for (int i = 0; i < g.size() / 3; i++) {
+					ObservableFloatArray f = FXCollections.observableFloatArray();
+					f.addAll(g.get(3 * i), g.get((3 * i) + 1), g.get((3 * i) + 2));
+					pointsGroupREM.add(f);
+				}
 			}
-
 		}
 		return pointsGroupREM;
 	}
 
-	// TODO
 	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsGroupREM) {
 		List<Integer> dodge = new ArrayList<Integer>();
 		ObservableFloatArray points = points3DIni.get(groupADD);
-
-		for (int i = 0; i < points.size() / 3; i++) {
-			for (int j = 0; j < pointsGroupREM.size(); j++) {
-				for (int j2 = j + 1; j2 < pointsGroupREM.size() - 1; j2++) {
-					if (pointsGroupREM.get(j).size() == 3 && pointsGroupREM.get(j2).size() == 3) {
-						double distance = VecteurUtilitaires.findDistance(
-								new Point3D(pointsGroupREM.get(j).get(2), pointsGroupREM.get(j).get(0),
-										pointsGroupREM.get(j).get(1)),
-								new Point3D(pointsGroupREM.get(j2).get(2), pointsGroupREM.get(j2).get(0),
-										pointsGroupREM.get(j2).get(1)),
-								new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
-						if (distance <= 0.001) {
-							dodge.add(i);
+		if ((pointsGroupREM != null) && (!pointsGroupREM.isEmpty())) {
+			for (int i = 0; i < points.size() / 3; i++) {
+				for (int j = 0; j < pointsGroupREM.size(); j++) {
+					for (int j2 = j + 1; j2 < pointsGroupREM.size() - 1; j2++) {
+						if (pointsGroupREM.get(j).size() == 3 && pointsGroupREM.get(j2).size() == 3) {
+							double distance = VecteurUtilitaires.findDistance(
+									new Point3D(pointsGroupREM.get(j).get(2), pointsGroupREM.get(j).get(0),
+											pointsGroupREM.get(j).get(1)),
+									new Point3D(pointsGroupREM.get(j2).get(2), pointsGroupREM.get(j2).get(0),
+											pointsGroupREM.get(j2).get(1)),
+									new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
+							if (distance <= 0.001) {
+								dodge.add(i);
+							}
+						} else {
+							System.out.println("FAILLINGG FAGGOOOTT");
 						}
-					} else {
-						System.out.println("FAILLINGG FAGGOOOTT");
 					}
 				}
 			}
 		}
 		return dodge;
-	}
-
-	private void update1(String groupADD, List<String> groupsCommun, ObservableFloatArray pointCommun,
-			Point3D factors) {
-		for (String g : groupsCommun) {
-			List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
-
-			if (!g.equals(groupADD)) {
-				for (Integer i : index) {
-					points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
-					points3DUpdater.get(g).set((3 * i) + 0, (float) (pointCommun.get(0) + factors.getY()));
-					points3DUpdater.get(g).set((3 * i) + 1, (float) (pointCommun.get(1) + factors.getZ()));
-				}
-			}
-		}
 	}
 
 	private void update2(ObservableFloatArray points, int index, String groupADD, Point3D factors) {
@@ -305,6 +295,31 @@ public class TransformationPoints {
 			}
 		}
 		return group;
+	}
+
+	/**
+	 * Retourne les différents points communs avec d'autres groupes de ce
+	 * "group". Utilise la map pointsSupp.
+	 * 
+	 * @param group
+	 * @return une liste des différents points communs
+	 */
+	private List<ObservableFloatArray> findKeyFromValueMap(String group, List<ObservableFloatArray> pointsREM) {
+		List<ObservableFloatArray> out = new ArrayList<ObservableFloatArray>();
+		for (ObservableFloatArray e : pointsSupp.keySet()) {
+			if (pointsSupp.get(e).contains(group)) {
+				boolean notFound = true;
+				for (int i = 0; i < pointsREM.size(); i++) {
+					if (MapTools.findIfEquals(e, pointsREM.get(i))) {
+						notFound = false;
+					}
+				}
+				if (notFound) {
+					out.add(e);
+				}
+			}
+		}
+		return out;
 	}
 
 	/**

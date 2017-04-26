@@ -144,6 +144,7 @@ public class EnvironmentThreeD {
 			genomicPart.getTransforms().add(affineIni);
 
 			// Rotations
+			//TODO Faire rotater les points communs aux yeux aussi
 			if (face.getLEar().getSubParts().contains(s)) {
 				genomicPart.getTransforms()
 						.add(TransformationPoints.applyRotation(
