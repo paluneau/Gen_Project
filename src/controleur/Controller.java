@@ -83,6 +83,9 @@ public class Controller {
 	@FXML
 	private Slider sliderRotationOreilles;
 
+	@FXML
+	private Slider sliderGrosseurBouche;
+
 	private EnvironmentThreeD envirnm = null;
 	private MusicPlayer player = null;
 	private BooleanProperty modeADNProperty = null;
@@ -299,6 +302,13 @@ public class Controller {
 		sliderCou.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
 				envirnm.getFace().setGrosseurCou(new_val.floatValue());
+				envirnm.changementWorld();
+			}
+		});
+
+		sliderGrosseurBouche.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				envirnm.getFace().getMouth().setScale(newValue.doubleValue());
 				envirnm.changementWorld();
 			}
 		});

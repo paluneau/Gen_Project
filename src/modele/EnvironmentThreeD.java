@@ -168,8 +168,8 @@ public class EnvironmentThreeD {
 			// ça)
 
 			if (face.getMouth().getSubParts().contains(s)) {
-				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(999, 999, 999),
-						new Point3D(face.getMouth().getScale(), 0, 0)));
+				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(0, 0, 0),
+						new Point3D(1, 1, face.getMouth().getScale())));
 			}
 
 			// (Face.getVisage())
