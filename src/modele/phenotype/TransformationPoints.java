@@ -1,9 +1,11 @@
 ﻿package modele.phenotype;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
@@ -32,10 +34,13 @@ public class TransformationPoints {
 	 */
 	private Map<ObservableFloatArray, List<String>> pointsSupp = null;
 
+	private Map<String, Set<Integer>> pointsDodge = null;
+
 	public TransformationPoints() {
 		points3DIni = new HashMap<String, ObservableFloatArray>();
 		points3DUpdater = new HashMap<String, ObservableFloatArray>();
 		pointsSupp = new HashMap<ObservableFloatArray, List<String>>();
+		pointsDodge = new HashMap<String, Set<Integer>>();
 	}
 
 	public void addIni3DPoints(String group, ObservableFloatArray points) {
@@ -55,13 +60,10 @@ public class TransformationPoints {
 	 * @param transformation
 	 *            les paramètres de la transformation (x, y ,z)
 	 */
-	public void applyTranslation(BodyPart part, List<String> groupREM, Point3D transformation) {
+	public void applyTranslation(BodyPart part, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePointsTranslation(group, groupREM, transformation);
+			updatePointsTranslation(group, part.getIgnore(), transformation);
 		}
-		// updatePointsTranslation(part.getSubParts().get(0), groupREM,
-		// transformation);
-
 	}
 
 	/**
@@ -155,8 +157,6 @@ public class TransformationPoints {
 
 	}
 
-	// TODO UPDATE SECTION POUR QUE LE TEMPS DEXEC DIMINUE + TYDIUP
-
 	/**
 	 * 
 	 * Update le point d'un groupe selon un facteur dans chaque dimension.
@@ -169,20 +169,23 @@ public class TransformationPoints {
 	 */
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
-
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
 
-		List<Integer> dodge = fuck(groupADD, pointsGroupREM);
+		if (!pointsDodge.containsKey(groupADD)) {
+			findIndexToDodge(groupADD, pointsGroupREM);
+		}
+
+		Set<Integer> dodge = pointsDodge.get(groupADD);
+
 		updatePointCommun(groupADD, pointsGroupREM, factors);
 
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
-
 				if (!dodge.contains(i)) {
-					update2(points, i, groupADD, factors);
+					updateArrayWithFactors(points, i, groupADD, factors);
 				}
 			} else {
-				update2(points, i, groupADD, factors);
+				updateArrayWithFactors(points, i, groupADD, factors);
 			}
 		}
 	}
@@ -201,14 +204,28 @@ public class TransformationPoints {
 			Point3D delta = vecteurPointFinal.subtract(vecteurDirecteur.getX(), vecteurDirecteur.getY(),
 					vecteurDirecteur.getZ());
 
-			update2(points3DUpdater.get(groupADD), i, groupADD, delta);
+			updateArrayWithFactors(points3DUpdater.get(groupADD), i, groupADD, delta);
 			updatePointCommun(groupADD, findPointsGroupREM(groupREM), delta);
 
 		}
 	}
 
-	// TODO updater les faces communes aux points qui ont pas été touché par
-	// fuck
+	private void updateArrayWithFactors(ObservableFloatArray points, int index, String groupADD, Point3D factors) {
+		points.set(2 + (3 * index), (float) (points3DIni.get(groupADD).get(2 + (3 * index)) + factors.getX()));
+		points.set(0 + (3 * index), (float) (points3DIni.get(groupADD).get(0 + (3 * index)) + factors.getY()));
+		points.set(1 + (3 * index), (float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors.getZ()));
+	}
+
+	/**
+	 * Update les points communs au groupe que l'on bouge de la même façon, tout
+	 * en évitant de bouger les points dodge. (findPointsGroupREM)
+	 * 
+	 * @param groupADD
+	 *            - groupe que l'on bouge
+	 * @param dodge
+	 *            - points à ne pas bouger.
+	 * @param factors
+	 */
 	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Point3D factors) {
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
@@ -228,6 +245,13 @@ public class TransformationPoints {
 
 	}
 
+	/**
+	 * Trouve les points des groupes à ne pas bouger.
+	 * 
+	 * @param groupREM
+	 *            - les groupes à ne pas bouger
+	 * @return une liste des points à ne pas bouger
+	 */
 	private List<ObservableFloatArray> findPointsGroupREM(List<String> groupREM) {
 		List<ObservableFloatArray> pointsGroupREM = new ArrayList<ObservableFloatArray>();
 		if ((groupREM != null) && (!groupREM.isEmpty())) {
@@ -243,8 +267,18 @@ public class TransformationPoints {
 		return pointsGroupREM;
 	}
 
-	private List<Integer> fuck(String groupADD, List<ObservableFloatArray> pointsGroupREM) {
-		List<Integer> dodge = new ArrayList<Integer>();
+	/**
+	 * À l'aide des groupes que l'on veut pas bouger en bougeant notre groupADD,
+	 * on trouve les index des points de notre groupADD, qu'il ne faut pas
+	 * bouger et ainsi ne pas bouger les groupREM.
+	 * 
+	 * @param groupADD
+	 *            - le groupe que l'on veut bouger
+	 * @param groupREM
+	 *            - les groupes que l'on ne veut pas bouger
+	 */
+	private void findIndexToDodge(String groupADD, List<ObservableFloatArray> pointsGroupREM) {
+		Set<Integer> dodge = new HashSet<Integer>();
 		ObservableFloatArray points = points3DIni.get(groupADD);
 		if ((pointsGroupREM != null) && (!pointsGroupREM.isEmpty())) {
 			for (int i = 0; i < points.size() / 3; i++) {
@@ -261,22 +295,15 @@ public class TransformationPoints {
 								dodge.add(i);
 							}
 						} else {
-							System.out.println("FAILLINGG FAGGOOOTT");
+							throw new ArithmeticException();
 						}
 					}
 				}
 			}
 		}
-		return dodge;
+		pointsDodge.put(groupADD, dodge);
 	}
 
-	private void update2(ObservableFloatArray points, int index, String groupADD, Point3D factors) {
-		points.set(2 + (3 * index), (float) (points3DIni.get(groupADD).get(2 + (3 * index)) + factors.getX()));
-		points.set(0 + (3 * index), (float) (points3DIni.get(groupADD).get(0 + (3 * index)) + factors.getY()));
-		points.set(1 + (3 * index), (float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors.getZ()));
-	}
-
-	// TODO mettre les deux pareils dans une methode avec 1 param de + ?
 	/**
 	 * Trouve la valeur du groupe dans points3DIni à l'aide de points.
 	 * 
@@ -316,23 +343,6 @@ public class TransformationPoints {
 				if (notFound) {
 					out.add(e);
 				}
-			}
-		}
-		return out;
-	}
-
-	/**
-	 * Retourne les différents points communs avec d'autres groupes de ce
-	 * "group". Utilise la map pointsSupp.
-	 * 
-	 * @param group
-	 * @return une liste des différents points communs
-	 */
-	private List<ObservableFloatArray> findKeyFromValueMap(String group) {
-		List<ObservableFloatArray> out = new ArrayList<ObservableFloatArray>();
-		for (ObservableFloatArray e : pointsSupp.keySet()) {
-			if (pointsSupp.get(e).contains(group)) {
-				out.add(e);
 			}
 		}
 		return out;

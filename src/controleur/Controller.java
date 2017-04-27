@@ -1,4 +1,4 @@
-﻿package controleur;
+package controleur;
 
 import javafx.collections.ObservableList;
 import javafx.beans.property.BooleanProperty;

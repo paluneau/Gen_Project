@@ -1,12 +1,18 @@
 package modele.phenotype;
 
+import java.util.ArrayList;
+
 public class Ear extends BodyPart {
-	
+
 	private double rotation;
 	private double profondeur;
 
 	public Ear(String... groups) {
-		super(groups);
+		this(null, groups);
+	}
+
+	public Ear(ArrayList<String> ignore, String... groups) {
+		super(ignore, groups);
 		rotation = 0;
 	}
 
@@ -17,7 +23,7 @@ public class Ear extends BodyPart {
 	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
-	
+
 	public double getProfondeur() {
 		return profondeur;
 	}
@@ -25,6 +31,5 @@ public class Ear extends BodyPart {
 	public void setProfondeur(double profondeur) {
 		this.profondeur = profondeur;
 	}
-	
-	
+
 }

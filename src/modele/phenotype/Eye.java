@@ -1,5 +1,7 @@
 package modele.phenotype;
 
+import java.util.ArrayList;
+
 import modele.phenotype.data.EyeColor;
 
 public class Eye extends BodyPart {
@@ -8,7 +10,11 @@ public class Eye extends BodyPart {
 	private double rotation;
 
 	public Eye(EyeColor color, String... groups) {
-		super(groups);
+		this(color, null, groups);
+	}
+
+	public Eye(EyeColor color, ArrayList<String> ignore, String... groups) {
+		super(ignore, groups);
 		this.color = color;
 		rotation = 0;
 	}
@@ -21,12 +27,11 @@ public class Eye extends BodyPart {
 		this.color = eyeColor;
 	}
 
-	
 	public double getRotation() {
 		return rotation;
 	}
-	
-	public void setRotation(double rotation){
+
+	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
 
