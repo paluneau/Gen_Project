@@ -168,9 +168,11 @@ public class Face {
 		pointsVisage.applyTranslation(LJoue, groupREM, new Point3D(0, 0, ecart / 3));
 		pointsVisage.applyTranslation(RJoue, groupREM, new Point3D(0, 0, ecart / 3));
 	}
-
-	public void setGrosseurCou(float grosseur) {
-		pointsVisage.applyGrossissement(new BodyPart("Cou"), null, grosseur);
+	
+	public void setGrosseurCou(float grosseur){
+		List<String> groupREM = new ArrayList<>();
+		groupREM.add("Cheveux");
+		pointsVisage.applyGrossissement(new BodyPart("Cou"), groupREM, grosseur);
 	}
 
 	public Hair getHair() {
@@ -248,7 +250,6 @@ public class Face {
 	private void instantiateOreilles() {
 		LEar = new Ear("Oreille gauche");
 		REar = new Ear("Oreille droite");
-
 	}
 
 	private void instantiateNez() {

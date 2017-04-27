@@ -41,10 +41,6 @@ public class GenomicApplication extends Application {
 		ajoutEcouteurs(c);
 	}
 
-	public void stop() {
-
-	}
-
 	public void ajoutEcouteurs(Controller controller) {
 		controller.getModeADNProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
