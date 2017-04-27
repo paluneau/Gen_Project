@@ -34,10 +34,10 @@ public class Face {
 	public Face(EyeColor eyeColor, SkinColor skinColor, HairColor hairColor) {
 		LEar = new Ear("Oreille gauche");
 		REar = new Ear("Oreille droite");
-		LEye = new Eye(eyeColor, "Oeil gauche", "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
-		REye = new Eye(eyeColor, "Oeil droit", "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
-		//LEye = new Eye(eyeColor,"face1n");
-		//REye = new Eye(eyeColor, "face2");
+		LEye = new Eye(eyeColor, "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
+		REye = new Eye(eyeColor, "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
+		// LEye = new Eye(eyeColor,"face1n");
+		// REye = new Eye(eyeColor, "face2");
 		hair = new Hair(hairColor, "Cheveux");
 		mouth = new Mouth("Bouche");
 		nose = new BodyPart("Bord narine", "Narine", "Nez");
@@ -93,8 +93,7 @@ public class Face {
 	// déplace toujours? jsp
 	public void setEyeDistance(float distance) {
 		List<String> groupREM = new ArrayList<String>();
-		groupREM.add("Nez");
-		//groupREM.add("face2");
+		// groupREM.add("Nez");
 		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(-distance, 0, 0));
 		pointsVisage.applyTranslation(REye, groupREM, new Point3D(distance, 0, 0));
 	}
@@ -156,17 +155,18 @@ public class Face {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Bouche");
 		pointsVisage.applyTranslation(pointe, groupREM, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(arche, groupREM, new Point3D(0, 0, ecart/2));
 	}
 
 	public void setPositionFront(float ecart) {
 		List<String> groupREM = new ArrayList<String>();
 		groupREM.add("Cheveux");
 		pointsVisage.applyTranslation(front, groupREM, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(REye, groupREM, new Point3D(0, 0, ecart));
+		pointsVisage.applyTranslation(LSourcils, groupREM, new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(RSourcils, groupREM, new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(LEye, groupREM, new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(REye, groupREM, new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(LJoue, groupREM, new Point3D(0, 0, ecart / 3));
+		pointsVisage.applyTranslation(RJoue, groupREM, new Point3D(0, 0, ecart / 3));
 	}
 	
 	public void setGrosseurCou(float grosseur){
