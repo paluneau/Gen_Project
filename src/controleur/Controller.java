@@ -61,6 +61,9 @@ public class Controller {
 
 	@FXML
 	private Pane pane3D;
+	
+	@FXML
+	private Slider sliderRotationOreilles;
 
 	private EnvironmentThreeD envirnm = null;
 	private MusicPlayer player = null;
@@ -158,6 +161,8 @@ public class Controller {
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setEyeDistance(new_val.floatValue());
+				envirnm.getFace().getLEye().setRotation((new_val.doubleValue())*3);
+				envirnm.getFace().getREye().setRotation((new_val.doubleValue())*3);
 				envirnm.changementWorld();
 			}
 		});
@@ -173,6 +178,8 @@ public class Controller {
 		sliderProfondeurOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setPositionOreilles((float) sliderHauteurOreilles.getValue(), new_val.floatValue());
+				envirnm.getFace().getLEar().setProfondeur(new_val.doubleValue());
+				envirnm.getFace().getREar().setProfondeur(new_val.doubleValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -207,6 +214,7 @@ public class Controller {
 			}
 		});
 		
+<<<<<<< HEAD
 		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>(){
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setLongueurFace(new_val.floatValue());
@@ -227,6 +235,16 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
+=======
+		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
+				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
+				envirnm.getFace().getREar().setRotation(new_val.doubleValue());
+				envirnm.changementWorld();
+			}
+		});
+
+>>>>>>> refs/remotes/MisterDeenis/master
 	}
 
 	public MusicPlayer getPlayer() {
