@@ -1,13 +1,17 @@
 package modele.phenotype;
 
-import modele.phenotype.data.EyeColor;
+import java.util.ArrayList;
 
 public class Mouth extends BodyPart {
 
 	private double scale;
 
 	public Mouth(String... groups) {
-		super(groups);
+		this(null, groups);
+	}
+	
+	public Mouth(ArrayList<String> ignore, String... groups) {
+		super(ignore, groups);
 		scale = 1;
 	}
 

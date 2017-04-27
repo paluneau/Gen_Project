@@ -8,20 +8,31 @@ public class BodyPart {
 	private ArrayList<String> ignore = null;
 
 	public BodyPart(String... groups) {
+		this(null, groups);
+	}
+	
+	public BodyPart(BodyPart... groups) {
+		this(null, groups);
+	}
+
+	public BodyPart(ArrayList<String> ignore, String... groups) {
 		this.subParts = new ArrayList<>();
 		this.ignore = new ArrayList<>();
 		for (String gr : groups) {
 			this.subParts.add(gr);
 		}
+		this.ignore = ignore;
 	}
 
-	public BodyPart(BodyPart... groups) {
+	public BodyPart(ArrayList<String> ignore, BodyPart... groups) {
 		this.subParts = new ArrayList<>();
 		this.ignore = new ArrayList<>();
 		for (BodyPart gr : groups) {
 			for (String subgr : gr.getSubParts())
 				this.subParts.add(subgr);
+			this.ignore.addAll(gr.getIgnore());
 		}
+		this.ignore.addAll(ignore);
 	}
 
 	public ArrayList<String> getSubParts() {
