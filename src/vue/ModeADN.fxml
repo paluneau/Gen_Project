@@ -33,7 +33,7 @@
                   <content>
                         <ScrollPane fx:id="scrollYeux" prefHeight="245.0" prefWidth="382.0">
                            <content>
-                              <TextFlow fx:id="flowYeux" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefWidth="600.0" textAlignment="JUSTIFY" />
+                              <TextFlow fx:id="flowYeux" focusTraversable="true" nodeOrientation="LEFT_TO_RIGHT" prefWidth="600.0" textAlignment="JUSTIFY" />
                            </content></ScrollPane>
                   </content>
                 </TitledPane>
