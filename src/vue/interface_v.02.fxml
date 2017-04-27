@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="853.0" xmlns="http://javafx.com/javafx/8.0.91" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controller">
    <right>
       <SplitPane orientation="VERTICAL" prefHeight="566.0" prefWidth="317.0" BorderPane.alignment="CENTER">
         <items>
@@ -58,6 +58,8 @@
                               <Slider fx:id="sliderHauteurOreilles" layoutX="11.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
                               <Label layoutX="170.0" layoutY="14.0" styleClass="controlLabel" text="Profondeur des oreilles" />
                               <Slider fx:id="sliderProfondeurOreilles" layoutX="176.0" layoutY="38.0" max="2.0" min="-2.0" prefHeight="14.0" prefWidth="111.0" styleClass="controlLabel" />
+                              <Slider fx:id="sliderRotationOreilles" layoutX="11.0" layoutY="79.0" max="0.0" min="-60.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="5.0" layoutY="62.0" styleClass="controlLabel" text="Orientation des oreilles" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -68,6 +70,8 @@
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur de la bouche" />
                               <Slider fx:id="sliderHauteurBouche" layoutX="16.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Slider fx:id="sliderGrosseurBouche" layoutX="169.0" layoutY="31.0" max="1.25" min="0.75" prefHeight="14.0" prefWidth="111.0" value="1.0" />
+                              <Label layoutX="165.0" layoutY="14.0" styleClass="controlLabel" text="Grosseur de la bouche" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -78,6 +82,12 @@
                            <children>
                               <Label layoutX="23.0" layoutY="14.0" styleClass="controlLabel" text="Hauteur du nez" />
                               <Slider fx:id="sliderHauteurNez" layoutX="9.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="154.0" layoutY="14.0" styleClass="controlLabel" text="Prohéminence de l'Arche" />
+                              <Slider fx:id="sliderArche" layoutX="165.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="13.0" layoutY="64.0" styleClass="controlLabel" text="Largeur des narines" />
+                              <Slider fx:id="sliderNarine" layoutX="10.0" layoutY="81.0" max="1.0" prefHeight="14.0" prefWidth="111.0" />
+                              <Label layoutX="181.0" layoutY="64.0" styleClass="controlLabel" text="Allonger le nez" />
+                              <Slider fx:id="sliderPointe" layoutX="166.0" layoutY="81.0" max="1.5" min="-0.5" prefHeight="14.0" prefWidth="111.0" value="0.5" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -102,6 +112,12 @@
                               <Slider fx:id="sliderLonguerVisage" layoutX="16.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
                               <Label layoutX="143.0" layoutY="14.0" styleClass="controlLabel" text="Proéminance du menton" />
                               <Slider fx:id="sliderProeminenceMenton" layoutX="153.0" layoutY="31.0" max="1.0" min="-1.0" prefHeight="5.0" prefWidth="114.0" />
+                              <Slider fx:id="sliderJoue" layoutX="16.0" layoutY="72.0" max="1.0" min="-1.0" prefHeight="15.0" prefWidth="114.0" />
+                              <Label layoutX="23.0" layoutY="55.0" styleClass="controlLabel" text="Grosseur des joues" />
+                              <Label layoutX="153.0" layoutY="55.0" styleClass="controlLabel" text="Proéminance du front" />
+                              <Slider fx:id="sliderFront" layoutX="156.0" layoutY="73.0" max="1.5" prefHeight="14.0" prefWidth="111.0" value="0.75" />
+                              <Label layoutX="30.0" layoutY="99.0" styleClass="controlLabel" text="Grosseur du cou" />
+                              <Slider fx:id="sliderCou" layoutX="18.0" layoutY="116.0" max="1.2" min="1.0" prefHeight="14.0" prefWidth="111.0" value="1.0" />
                            </children>
                         </AnchorPane>
                     </content>

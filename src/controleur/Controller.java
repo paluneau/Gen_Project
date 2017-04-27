@@ -214,10 +214,7 @@ public class Controller {
 			}
 		});
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 43875ed333f9cd186e71db8035f72bcdb5adbe99
+
 		sliderLonguerVisage.valueProperty().addListener(new ChangeListener<Number>(){
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setLongueurFace(new_val.floatValue());
@@ -238,11 +235,7 @@ public class Controller {
 				envirnm.changementWorld();
 			}
 		});
-<<<<<<< HEAD
-=======
-=======
 
->>>>>>> 43875ed333f9cd186e71db8035f72bcdb5adbe99
 		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
 				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
@@ -251,10 +244,7 @@ public class Controller {
 			}
 		});
 
-<<<<<<< HEAD
->>>>>>> refs/remotes/MisterDeenis/master
-=======
->>>>>>> 43875ed333f9cd186e71db8035f72bcdb5adbe99
+
 	}
 
 	public MusicPlayer getPlayer() {
