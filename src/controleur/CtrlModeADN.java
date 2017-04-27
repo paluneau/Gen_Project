@@ -81,10 +81,23 @@ public class CtrlModeADN {
 		return arreterThread;
 	}
 
+	/**
+	 * Perrmet d'arrêter le thread
+	 * @param arreterThread 
+	 */
 	public void setArreterThread(Boolean arreterThread) {
 		this.arreterThread.set(arreterThread);
 		;
 	}
+
+	/**
+	 * Détermine si le thread roule
+	 * @return
+	 */
+	private boolean isReading() {
+		return (thread != null);
+	}
+
 
 	/**
 	 * Insère les labels au bon endroit et avec les bonnes données.
@@ -92,6 +105,7 @@ public class CtrlModeADN {
 	private void buildWindow() {
 		if (dNACreator != null) {
 			flowYeux.getChildren().clear();
+
 			createLabel(scrollYeux, face.getLEye().getCouleurYeux().getGenes());
 			createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
 			createLabel(scrollPeau, face.getSkinColor().getGenes());
@@ -122,6 +136,7 @@ public class CtrlModeADN {
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
 									.getVarPos() + 1));
 
+
 			String targetSNP2 = new String(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips()
 					.get("rs" + k.getId()).getSeq().substring(
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId())
@@ -137,6 +152,7 @@ public class CtrlModeADN {
 			String seq12 = new String(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
 					.get("rs" + k.getId()).getSeq().substring((dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
 							.getSnips().get("rs" + k.getId()).getVarPos() - 1)));
+
 
 			String seq21 = new String(
 					dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
@@ -205,8 +221,13 @@ public class CtrlModeADN {
 	 */
 	@FXML
 	public void modeDNA() {
-		this.thread = new ReaderThread();
-		thread.start();
+		if (!isReading()) {
+			System.out.println("Je passe je vais lire!!");
+			this.thread = new ReaderThread();
+			thread.start();
+		} else {
+			System.out.println("Je lit déjà je lirai pas encore!");
+		}
 	}
 
 	/**
@@ -263,12 +284,15 @@ public class CtrlModeADN {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadFileChooser(e.getMessage()));
+				thread = null;
 			} catch (ConstructionException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadMessage(e.getMessage()));
+				thread = null;
 			} catch (URISyntaxException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadMessage(e.getMessage()));
+				thread = null;
 			}
 		}
 
