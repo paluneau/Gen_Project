@@ -82,10 +82,23 @@ public class CtrlModeADN {
 		return arreterThread;
 	}
 
+	/**
+	 * Perrmet d'arrêter le thread
+	 * @param arreterThread 
+	 */
 	public void setArreterThread(Boolean arreterThread) {
 		this.arreterThread.set(arreterThread);
 		;
 	}
+
+	/**
+	 * Détermine si le thread roule
+	 * @return
+	 */
+	private boolean isReading() {
+		return (thread != null);
+	}
+
 
 	/**
 	 * Insère les labels au bon endroit et avec les bonnes données.
@@ -94,7 +107,8 @@ public class CtrlModeADN {
 		if (dNACreator != null) {
 			flowYeux.getChildren().clear();
 			createLabel(flowYeux, face.getLEye().getCouleurYeux().getGenes());
-			// createLabel(scrollCheveux, face.getHair().getCouleurCheveux().getGenes());
+			// createLabel(scrollCheveux,
+			// face.getHair().getCouleurCheveux().getGenes());
 			// createLabel(scrollPeau, face.getSkinColor().getGenes());
 		} else {
 			// createLabel(scrollCheveux);
@@ -121,19 +135,18 @@ public class CtrlModeADN {
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
 									.getVarPos(),
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId())
-									.getVarPos()+1));
+									.getVarPos() + 1));
 			targetSNP1.setUnderline(true);
 			targetSNP1.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-			
+
 			Label targetSNP2 = new Label(dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips()
 					.get("rs" + k.getId()).getSeq().substring(
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId())
 									.getVarPos(),
 							dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId())
-									.getVarPos()+1));
+									.getVarPos() + 1));
 			targetSNP2.setUnderline(true);
 			targetSNP2.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-			
 
 			String seq11 = new String(
 					dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0].getSnips().get("rs" + k.getId()).getSeq()
@@ -144,9 +157,9 @@ public class CtrlModeADN {
 					.get("rs" + k.getId()).getSeq().substring((dNACreator.getDna().getChrPair(k.getChromosomeNbr())[0]
 							.getSnips().get("rs" + k.getId()).getVarPos() - 1)));
 
-			Label label1 = new Label(
-					"Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/" + v[1] + "\n" + "Gène:  "
-							+ k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence " + v[0] + " :" + seq11);
+			Label label1 = new Label("Chromosome: " + k.getChromosomeNbr() + "\n" + "Allèle: " + v[0] + "/" + v[1]
+					+ "\n" + "Gène:  " + k.getGene() + "\n" + "RS: " + "rs" + k.getId() + "\n" + "Séquence " + v[0]
+					+ " :" + seq11);
 			Label label2 = new Label(seq12 + "\nSéquence " + v[1] + " :"
 					+ dNACreator.getDna().getChrPair(k.getChromosomeNbr())[1].getSnips().get("rs" + k.getId()).getSeq()
 					+ "\n" + "\n");
@@ -154,8 +167,8 @@ public class CtrlModeADN {
 			pane.getChildren().add(label1);
 			pane.getChildren().add(targetSNP1);
 			pane.getChildren().add(label2);
-		//	pane.getChildren().add(targetSNP2);
-			//pane.getChildren().add(label3);
+			// pane.getChildren().add(targetSNP2);
+			// pane.getChildren().add(label3);
 		});
 
 	}
@@ -206,8 +219,13 @@ public class CtrlModeADN {
 	 */
 	@FXML
 	public void modeDNA() {
-		this.thread = new ReaderThread();
-		thread.start();
+		if (!isReading()) {
+			System.out.println("Je passe je vais lire!!");
+			this.thread = new ReaderThread();
+			thread.start();
+		} else {
+			System.out.println("Je lit déjà je lirai pas encore!");
+		}
 	}
 
 	/**
@@ -264,12 +282,15 @@ public class CtrlModeADN {
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadFileChooser(e.getMessage()));
+				thread = null;
 			} catch (ConstructionException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadMessage(e.getMessage()));
+				thread = null;
 			} catch (URISyntaxException e) {
 				System.out.println(e.getMessage());
 				Platform.runLater(createThreadMessage(e.getMessage()));
+				thread = null;
 			}
 		}
 
