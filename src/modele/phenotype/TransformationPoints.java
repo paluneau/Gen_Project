@@ -36,16 +36,23 @@ public class TransformationPoints {
 
 	private Map<String, Set<Integer>> pointsDodge = null;
 
+	private Map<String, List<String>> groupsREM = null;
+
 	public TransformationPoints() {
 		points3DIni = new HashMap<String, ObservableFloatArray>();
 		points3DUpdater = new HashMap<String, ObservableFloatArray>();
 		pointsSupp = new HashMap<ObservableFloatArray, List<String>>();
 		pointsDodge = new HashMap<String, Set<Integer>>();
+		groupsREM = new HashMap<String, List<String>>();
 	}
 
 	public void addIni3DPoints(String group, ObservableFloatArray points) {
 		points3DIni.put(group, MapTools.createAndConvertArray(points));
 		points3DUpdater.put(group, points);
+	}
+
+	public void addGroupREM(String group, List<String> groupREM) {
+		groupsREM.put(group, groupREM);
 	}
 
 	public ObservableFloatArray getPointsUpdater(String group) {
@@ -100,7 +107,6 @@ public class TransformationPoints {
 	 */
 
 	public static Rotate applyRotation(Point3D pointCentre, char axe, double degres) {
-
 		Rotate objet = null;
 		switch (axe) {
 		case 'x':
@@ -155,6 +161,11 @@ public class TransformationPoints {
 			}
 		}
 
+		Set<String> keys = groupsREM.keySet();
+		for (String e : keys) {
+			findIndexToDodge(e, findPointsGroupREM(groupsREM.get(e)));
+		}
+
 	}
 
 	/**
@@ -170,10 +181,6 @@ public class TransformationPoints {
 	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
-
-		if (!pointsDodge.containsKey(groupADD)) {
-			findIndexToDodge(groupADD, pointsGroupREM);
-		}
 
 		Set<Integer> dodge = pointsDodge.get(groupADD);
 

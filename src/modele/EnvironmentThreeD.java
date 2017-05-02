@@ -23,6 +23,7 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
+import modele.phenotype.BodyPart;
 import modele.phenotype.Face;
 import modele.phenotype.TransformationPoints;
 import modele.phenotype.data.EyeColor;
@@ -144,7 +145,7 @@ public class EnvironmentThreeD {
 			genomicPart.getTransforms().add(affineIni);
 
 			// Rotations
-			//TODO Faire rotater les points communs aux yeux aussi
+			// TODO Faire rotater les points communs aux yeux aussi
 			if (face.getLEar().getSubParts().contains(s)) {
 				genomicPart.getTransforms()
 						.add(TransformationPoints.applyRotation(
@@ -176,9 +177,12 @@ public class EnvironmentThreeD {
 			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
-			if (firstBuild)
+			if (firstBuild) {
 				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
-
+				BodyPart e = face.findBodyPart(s);
+				if (e != null)
+					face.getPointsVisage().addGroupREM(s, e.getIgnore());
+			}
 			points3DGroup = face.getPointsVisage().getPointsUpdater(s);
 			genomicPart.setMaterial(updateColor(s));
 			groupMeshes.put(s, genomicPart);
@@ -203,13 +207,12 @@ public class EnvironmentThreeD {
 			material.setDiffuseColor(getFace().getHair().getCouleurCheveux().getColor());
 		} else if (group.contains("Sourcil droit") || group.contains("Sourcil gauche")) {
 			material.setDiffuseColor(getFace().getLSourcils().getColor().getColor());
-			/*
-			 * } else if (group.contains("face1n")) {
-			 * material.setDiffuseColor(Color.WHITE);
-			 */
 		} else {
 			material.setDiffuseColor(getFace().getSkinColor().getColor());
 		}
+		
+		material.setSpecularColor(Color.GRAY);
+		material.setSpecularPower(150);
 		return material;
 	}
 

@@ -1,6 +1,8 @@
 package modele.phenotype;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import javafx.geometry.Point3D;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
@@ -9,6 +11,7 @@ import utils.MapTools;
 
 public class Face {
 
+	private List<BodyPart> parts = new ArrayList<BodyPart>();
 	private Ear LEar = null;
 	private Ear REar = null;
 	private Eye LEye = null;
@@ -38,8 +41,6 @@ public class Face {
 		LEye = new Eye(eyeColor, groupREM, "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, groupREM, "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
 		front = new BodyPart(groupREM, "Front");
-		// LEye = new Eye(eyeColor,"face1n");
-		// REye = new Eye(eyeColor, "face2");
 		groupREM.add("Oeil droit");
 		groupREM.add("Oeil gauche");
 		LSourcils = new Sourcils(hairColor, groupREM, "Sourcil gauche");
@@ -56,9 +57,43 @@ public class Face {
 		instantiateOreilles();
 		instantiateNez();
 		instantiateJoue();
-
 		this.skinColor = skinColor;
 		pointsVisage = new TransformationPoints();
+		addToArray();
+	}
+
+	private void addToArray() {
+		parts.add(LEar);
+		parts.add(REar);
+		parts.add(LEye);
+		parts.add(REye);
+		parts.add(hair);
+		parts.add(mouth);
+		parts.add(nose);
+		parts.add(front);
+		parts.add(cheveux);
+		parts.add(LJoue);
+		parts.add(RJoue);
+		parts.add(menton);
+		parts.add(arche);
+		parts.add(LBosse);
+		parts.add(RBosse);
+		parts.add(pointe);
+		parts.add(LSourcils);
+		parts.add(RSourcils);
+	}
+
+	public BodyPart findBodyPart(String part) {
+		BodyPart out = null;
+		for (BodyPart e : parts) {
+			for (String f : e.getSubParts()) {
+				if (f.equals(part)) {
+					out = e;
+				}
+			}
+		}
+		return out;
+
 	}
 
 	public Ear getLEar() {
@@ -93,7 +128,6 @@ public class Face {
 		this.REye = eye;
 	}
 
-	// TODO ajouter les parties à ignorer dans les objets BodyPart
 	// TODO mettre un attribut position sur la body part? pour éviter qu'il se
 	// déplace toujours? jsp
 	public void setEyeDistance(float distance) {
@@ -111,9 +145,10 @@ public class Face {
 	}
 
 	public void setPositionNez(float hauteur) {
-		/*for (String e : nose.getSubParts()) {
-			pointsVisage.addIni3DPoints(e, MapTools.createAndConvertArray(pointsVisage.getPointsUpdater(e)));
-		}*/
+		/*
+		 * for (String e : nose.getSubParts()) { pointsVisage.addIni3DPoints(e,
+		 * MapTools.createAndConvertArray(pointsVisage.getPointsUpdater(e))); }
+		 */
 		pointsVisage.applyTranslation(nose, new Point3D(0, hauteur, 0));
 	}
 
