@@ -146,40 +146,37 @@ public class EnvironmentThreeD {
 
 			// Rotations
 			// TODO Faire rotater les points communs aux yeux aussi
+			/*
+			 * if (face.getLEar().getSubParts().contains(s)) {
+			 * genomicPart.getTransforms()
+			 * .add(face.getPointsVisage().applyRotation(s, new Point3D(0, (-2.5
+			 * - face.getLEar().getProfondeur()), -9.59), 'x',
+			 * -face.getLEar().getRotation())); } else if
+			 * (face.getREar().getSubParts().contains(s)) {
+			 * genomicPart.getTransforms()
+			 * .add(face.getPointsVisage().applyRotation(s, new Point3D(0, (-2.5
+			 * - face.getREar().getProfondeur()), 9.59), 'x',
+			 * face.getREar().getRotation())); } else if
+			 * (face.getLEye().getSubParts().contains(s)) {
+			 * genomicPart.getTransforms().add(face.getPointsVisage().
+			 * applyRotation(s, new Point3D(0, 5, 0), 'x',
+			 * -face.getLEye().getRotation()));
+			 * face.getPointsVisage().applyTranslation(face.getLEye(), new
+			 * Point3D(-face.eyeDistance, 0, 0)); } else if
+			 * (face.getREye().getSubParts().contains(s)) {
+			 * genomicPart.getTransforms().add(face.getPointsVisage().
+			 * applyRotation(s, new Point3D(0, 5, 0), 'x',
+			 * face.getREye().getRotation())); }
+			 */
 
-			if (!firstBuild) {
-				if (face.getLEar().getSubParts().contains(s)) {
-					//genomicPart.setMesh(face.getPointsVisage().findPointsCommun(s));
-					genomicPart.getTransforms()
-							.add(TransformationPoints.applyRotation(
-									new Point3D(0, (-2.5 - face.getLEar().getProfondeur()), -9.59), 'x',
-									-face.getLEar().getRotation()));
-				} else if (face.getREar().getSubParts().contains(s)) {
-					//genomicPart.setMesh(face.getPointsVisage().findPointsCommun(s));
-					genomicPart.getTransforms()
-							.add(TransformationPoints.applyRotation(
-									new Point3D(0, (-2.5 - face.getREar().getProfondeur()), 9.59), 'x',
-									face.getREar().getRotation()));
-				} else if (face.getLEye().getSubParts().contains(s)) {
-					//genomicPart.setMesh(face.getPointsVisage().findPointsCommun(s));
-					genomicPart.getTransforms().add(TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x',
-							-face.getLEye().getRotation()));
-				} else if (face.getREye().getSubParts().contains(s)) {
-					//genomicPart.setMesh(face.getPointsVisage().findPointsCommun(s));
-					genomicPart.getTransforms().add(TransformationPoints.applyRotation(new Point3D(0, 5, 0), 'x',
-							face.getREye().getRotation()));
-				}
-
-				// Scaling
-				// TODO Trouver coord du centre appropriée pis savoir c'est quel
-				// maudit axe qu'on veut influencer (j'suis crissement poche
-				// avec
-				// ça)
-
-				if (face.getMouth().getSubParts().contains(s)) {
-					genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(0, 0, 0),
-							new Point3D(1, 1, face.getMouth().getScale())));
-				}
+			// Scaling
+			// TODO Trouver coord du centre appropriée pis savoir c'est quel
+			// maudit axe qu'on veut influencer (j'suis crissement poche
+			// avec
+			// ça)
+			if (face.getMouth().getSubParts().contains(s)) {
+				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(0, 0, 0),
+						new Point3D(1, 1, face.getMouth().getScale())));
 			}
 
 			// (Face.getVisage())

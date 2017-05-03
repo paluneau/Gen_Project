@@ -38,22 +38,25 @@ public class Face {
 		groupREM.add("Cheveux");
 		LEar = new Ear(groupREM, "Oreille gauche");
 		REar = new Ear(groupREM, "Oreille droite");
+		front = new BodyPart(groupREM, "Front");
 		LEye = new Eye(eyeColor, groupREM, "Blanc oeil gauche", "Noir oeil gauche", "Couleur oeil gauche");
 		REye = new Eye(eyeColor, groupREM, "Blanc oeil droit", "Noir oeil droit", "Couleur oeil droit");
-		front = new BodyPart(groupREM, "Front");
+		groupREM = new ArrayList<String>();
+		groupREM.add("Cheveux");
 		groupREM.add("Oeil droit");
 		groupREM.add("Oeil gauche");
 		LSourcils = new Sourcils(hairColor, groupREM, "Sourcil gauche");
 		RSourcils = new Sourcils(hairColor, groupREM, "Sourcil droit");
-		groupREM.clear();
+		groupREM = new ArrayList<String>();
+		groupREM.add("Nez");
+		mouth = new Mouth(groupREM, "Bouche");
+		groupREM = new ArrayList<String>();
 		hair = new Hair(hairColor, groupREM, "Cheveux");
 		mouth = new Mouth(groupREM, "Bouche");
 		nose = new BodyPart(groupREM, "Bord narine", "Narine", "Nez");
 		menton = new BodyPart(groupREM, "Menton");
 		cheveux = new BodyPart(groupREM, "Cheveux");
 		menton = new BodyPart(groupREM, "Menton");
-		groupREM.add("Nez");
-		mouth = new Mouth(groupREM, "Bouche");
 		instantiateOreilles();
 		instantiateNez();
 		instantiateJoue();
@@ -128,11 +131,11 @@ public class Face {
 		this.REye = eye;
 	}
 
-	// TODO mettre un attribut position sur la body part? pour éviter qu'il se
-	// déplace toujours? jsp
 	public void setEyeDistance(float distance) {
-		pointsVisage.applyTranslation(LEye, new Point3D(-distance, 0, 0));
-		pointsVisage.applyTranslation(REye, new Point3D(distance, 0, 0));
+		pointsVisage.applyRotation(LEye, new Point3D(0, 5, 0), 'x', -getLEye().getRotation(),
+				new Point3D(-distance, 0, 0));;
+		pointsVisage.applyRotation(REye, new Point3D(0, 5, 0), 'x', getREye().getRotation(),
+				new Point3D(distance, 0, 0));
 	}
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
@@ -272,7 +275,7 @@ public class Face {
 		LBosse = new BodyPart(groupREM, "Bosse gauche");
 		RBosse = new BodyPart(groupREM, "Bosse droite");
 		pointe = new BodyPart(groupREM, "Pointe");
-		groupREM.clear();
+		groupREM = new ArrayList<String>();
 		nose = new BodyPart(groupREM, arche, LBosse, RBosse, pointe);
 		nose.getSubParts().add("Nez");
 		nose.getSubParts().add("Narine");

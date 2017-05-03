@@ -10,6 +10,7 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
+import javafx.scene.Node;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.Mesh;
 import javafx.scene.shape.MeshView;
@@ -78,6 +79,12 @@ public class TransformationPoints {
 		}
 	}
 
+	public void applyRotation(BodyPart part, Point3D pointCentre, char axe, double degres, Point3D translation) {
+		for (String group : part.getSubParts()) {
+			updatePointsRotation(group, part.getIgnore(), pointCentre, axe, degres, translation);
+		}
+	}
+
 	/**
 	 * Permet de grossir dans toutes les dimensions une partie du visage
 	 * 
@@ -100,36 +107,8 @@ public class TransformationPoints {
 	}
 
 	/**
-	 * Permet de faire tourner une partie du visage
-	 * 
-	 * @param pointCentre
-	 *            Le centre de rotation
-	 * @param axe
-	 *            L'axe autour duquel on tourne
-	 * @param degres
-	 *            Le nombre de degrés qu'on veut tourner
-	 * @return Un objet Rotate à appliquer sur les composantes voulues
-	 */
-
-	public static Rotate applyRotation(Point3D pointCentre, char axe, double degres) {
-		Rotate objet = null;
-		switch (axe) {
-		case 'x':
-			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.X_AXIS);
-			break;
-		case 'y':
-			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Y_AXIS);
-			break;
-		case 'z':
-			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Z_AXIS);
-			break;
-		}
-		return objet;
-	}
-
-	/**
-	 * TODO shorten this function && put comments Trouve les différents points
-	 * communs entre chaque groupe et les met dans la map pointsSupp.
+	 * Trouve les différents points communs entre chaque groupe et les met dans
+	 * la map pointsSupp.
 	 */
 	public void findSiblings() {
 		for (int k = 0; k < (points3DIni.values().size() - 1); k++) {
@@ -205,6 +184,53 @@ public class TransformationPoints {
 		}
 	}
 
+	/**
+	 * Permet de faire tourner une partie du visage
+	 * 
+	 * @param pointCentre
+	 *            Le centre de rotation
+	 * @param axe
+	 *            L'axe autour duquel on tourne
+	 * @param degres
+	 *            Le nombre de degrés qu'on veut tourner
+	 * @return Un objet Rotate à appliquer sur les composantes voulues
+	 */
+
+	private void updatePointsRotation(String group, List<String> groupREM, Point3D pointCentre, char axe, double degres,
+			Point3D translation) {
+		Rotate objet = null;
+		switch (axe) {
+		case 'x':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.X_AXIS);
+			break;
+		case 'y':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Y_AXIS);
+			break;
+		case 'z':
+			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Z_AXIS);
+			break;
+		}
+
+		ObservableFloatArray points = points3DUpdater.get(group);
+		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
+
+		Set<Integer> dodge = pointsDodge.get(group);
+
+		updatePointCommun(group, pointsGroupREM, objet, translation);
+
+		for (int i = 0; i < points.size() / 3; i++) {
+			if ((dodge != null) && (!dodge.isEmpty())) {
+				if (!dodge.contains(i)) {
+					updateArrayWithFactors(points, i, group, translation);
+					updateArrayWithFactors(points, i, group, objet);
+				}
+			} else {
+				updateArrayWithFactors(points, i, group, translation);
+				updateArrayWithFactors(points, i, group, objet);
+			}
+		}
+	}
+
 	private void updatePointGrossissement(String groupADD, List<String> groupREM, double factor) {
 		ObservableFloatArray points = points3DIni.get(groupADD);
 		Point3D center = VecteurUtilitaires.findPointMilieu(points);
@@ -231,6 +257,14 @@ public class TransformationPoints {
 		points.set(1 + (3 * index), (float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors.getZ()));
 	}
 
+	private void updateArrayWithFactors(ObservableFloatArray points, int index, String groupADD, Rotate factors) {
+		ObservableFloatArray oui = points3DUpdater.get(groupADD);
+		Point3D out = factors.transform(oui.get(0 + (3 * index)), oui.get(1 + (3 * index)), oui.get(2 + (3 * index)));
+		points.set(2 + (3 * index), (float) (out.getZ()));
+		points.set(0 + (3 * index), (float) (out.getX()));
+		points.set(1 + (3 * index), (float) (out.getY()));
+	}
+
 	/**
 	 * Update les points communs au groupe que l'on bouge de la même façon, tout
 	 * en évitant de bouger les points dodge. (findPointsGroupREM)
@@ -247,12 +281,41 @@ public class TransformationPoints {
 			List<String> groupsCommun = pointsSupp.get(pointCommun);
 			for (String g : groupsCommun) {
 				List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
-
 				if (!g.equals(groupADD)) {
 					for (Integer i : index) {
 						points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
 						points3DUpdater.get(g).set((3 * i) + 0, (float) (pointCommun.get(0) + factors.getY()));
 						points3DUpdater.get(g).set((3 * i) + 1, (float) (pointCommun.get(1) + factors.getZ()));
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Update les points communs au groupe que l'on bouge de la même façon, tout
+	 * en évitant de bouger les points dodge. (findPointsGroupREM)
+	 * 
+	 * @param groupADD
+	 *            - groupe que l'on bouge
+	 * @param dodge
+	 *            - points à ne pas bouger.
+	 * @param factors
+	 */
+	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Rotate factors,
+			Point3D translation) {
+		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
+		for (ObservableFloatArray pointCommun : pointsCommun) {
+			Point3D pointNew = factors.transform(pointCommun.get(0), pointCommun.get(1), pointCommun.get(2));
+			List<String> groupsCommun = pointsSupp.get(pointCommun);
+			for (String g : groupsCommun) {
+				List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
+				if (!g.equals(groupADD)) {
+					for (Integer i : index) {
+						points3DUpdater.get(g).set((3 * i) + 2, (float) (pointNew.getZ() + translation.getX()));
+						points3DUpdater.get(g).set((3 * i) + 0, (float) (pointNew.getX() + translation.getY()));
+						points3DUpdater.get(g).set((3 * i) + 1, (float) (pointNew.getY() + translation.getZ()));
 					}
 				}
 			}
@@ -365,16 +428,6 @@ public class TransformationPoints {
 				}
 			}
 		}
-		return out;
-	}
-
-	public Mesh findPointsCommun(String group) {
-		TriangleMesh out = new TriangleMesh();
-		List<ObservableFloatArray> commun = findKeyFromValueMap(group, null);
-		for (ObservableFloatArray e : commun) {
-			out.getPoints().addAll(e);
-		}
-		out.getPoints().addAll(points3DIni.get(group));
 		return out;
 	}
 }

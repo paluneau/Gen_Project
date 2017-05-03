@@ -181,9 +181,9 @@ public class Controller {
 
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.getFace().setEyeDistance(new_val.floatValue());
 				envirnm.getFace().getLEye().setRotation((new_val.doubleValue()) * 3);
 				envirnm.getFace().getREye().setRotation((new_val.doubleValue()) * 3);
+				envirnm.getFace().setEyeDistance(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -277,6 +277,7 @@ public class Controller {
 			}
 		});
 
+		//TODO PROBLEM avancement+prohéminance
 		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setProeminenceSourcils(new_val.floatValue());
@@ -291,6 +292,7 @@ public class Controller {
 			}
 		});
 
+		//TODO
 		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
 				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
@@ -306,6 +308,7 @@ public class Controller {
 			}
 		});
 
+		//TODO communs
 		sliderGrosseurBouche.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				envirnm.getFace().getMouth().setScale(newValue.doubleValue());
