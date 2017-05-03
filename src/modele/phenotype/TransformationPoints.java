@@ -1,6 +1,7 @@
 ﻿package modele.phenotype;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
+import javafx.scene.shape.CullFace;
+import javafx.scene.shape.Mesh;
+import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import utils.MapTools;
@@ -135,21 +140,24 @@ public class TransformationPoints {
 				if (!G1Points.equals(G2Points)) {
 					for (int i = 0; i < G1Points.size() / 3; i++) {
 
-						ObservableFloatArray pointG1 = FXCollections.observableFloatArray();
-						pointG1.addAll(G1Points.get(3 * i), G1Points.get((3 * i) + 1), G1Points.get((3 * i) + 2));
+						Point3D pointG1 = new Point3D(G1Points.get(3 * i), G1Points.get((3 * i) + 1),
+								G1Points.get((3 * i) + 2));
 
 						for (int j = 0; j < G2Points.size() / 3; j++) {
 
-							ObservableFloatArray pointG2 = FXCollections.observableFloatArray();
-							pointG2.addAll(G2Points.get(3 * j), G2Points.get((3 * j) + 1), G2Points.get((3 * j) + 2));
-							if (MapTools.findIfEquals(pointG1, pointG2)) {
+							Point3D pointG2 = new Point3D(G2Points.get(3 * j), G2Points.get((3 * j) + 1),
+									G2Points.get((3 * j) + 2));
+
+							if (pointG1.equals(pointG2)) {
 								String t = findKeyFromValueMap(G1Points);
 								String s = findKeyFromValueMap(G2Points);
 
 								List<String> groups = new ArrayList<String>();
 								groups.add(t);
 								groups.add(s);
-								pointsSupp.put(pointG2, groups);
+								ObservableFloatArray point = FXCollections.observableFloatArray();
+								point.addAll((float) pointG2.getX(), (float) pointG2.getY(), (float) pointG2.getZ());
+								pointsSupp.put(point, groups);
 
 							}
 
@@ -300,6 +308,7 @@ public class TransformationPoints {
 									new Point3D(points.get((3 * i) + 2), points.get((3 * i)), points.get((3 * i) + 1)));
 							if (distance <= 0.001) {
 								dodge.add(i);
+
 							}
 						} else {
 							throw new ArithmeticException();
@@ -342,16 +351,30 @@ public class TransformationPoints {
 		for (ObservableFloatArray e : pointsSupp.keySet()) {
 			if (pointsSupp.get(e).contains(group)) {
 				boolean notFound = true;
-				for (int i = 0; i < pointsREM.size(); i++) {
-					if (MapTools.findIfEquals(e, pointsREM.get(i))) {
-						notFound = false;
+				if ((pointsREM != null) && (!pointsREM.isEmpty())) {
+					for (int i = 0; i < pointsREM.size(); i++) {
+						if (MapTools.findIfEquals(e, pointsREM.get(i))) {
+							notFound = false;
+						}
 					}
-				}
-				if (notFound) {
+					if (notFound) {
+						out.add(e);
+					}
+				} else {
 					out.add(e);
 				}
 			}
 		}
+		return out;
+	}
+
+	public Mesh findPointsCommun(String group) {
+		TriangleMesh out = new TriangleMesh();
+		List<ObservableFloatArray> commun = findKeyFromValueMap(group, null);
+		for (ObservableFloatArray e : commun) {
+			out.getPoints().addAll(e);
+		}
+		out.getPoints().addAll(points3DIni.get(group));
 		return out;
 	}
 }
