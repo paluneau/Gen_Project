@@ -243,11 +243,11 @@ public class TransformationPoints {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
 					updateArrayWithFactors(points, i, group, translation);
-					updateArrayWithFactors(points, points, i, objet);
+					updateArrayWithFactors(points, points, i, group);
 				}
 			} else {
 				updateArrayWithFactors(points, i, group, translation);
-				updateArrayWithFactors(points, points, i, objet);
+				updateArrayWithFactors(points, points, i, group);
 			}
 		}
 	}
@@ -302,10 +302,10 @@ public class TransformationPoints {
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
-					updateArrayWithFactors(points, points3DIni.get(group), i, objet);
+					updateArrayWithFactors(points, points3DIni.get(group), i, group);
 				}
 			} else {
-				updateArrayWithFactors(points, points3DIni.get(group), i, objet);
+				updateArrayWithFactors(points, points3DIni.get(group), i, group);
 			}
 		}
 	}
@@ -317,9 +317,12 @@ public class TransformationPoints {
 	}
 
 	private void updateArrayWithFactors(ObservableFloatArray pointsUpdater, ObservableFloatArray pointsToBeTransformed,
-			int index, Transform factors) {
-		Point3D trans = factors.transform(pointsToBeTransformed.get(0 + (3 * index)),
+			int index, String group) {
+		Point3D trans = new Point3D(pointsToBeTransformed.get(0 + (3 * index)),
 				pointsToBeTransformed.get(1 + (3 * index)), pointsToBeTransformed.get(2 + (3 * index)));
+		for (Transform factors : groupFactors.get(group).values()) {
+			trans = factors.transform(trans);
+		}
 		pointsUpdater.set(2 + (3 * index), (float) (trans.getZ()));
 		pointsUpdater.set(0 + (3 * index), (float) (trans.getX()));
 		pointsUpdater.set(1 + (3 * index), (float) (trans.getY()));
