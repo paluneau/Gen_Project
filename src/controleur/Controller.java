@@ -277,7 +277,6 @@ public class Controller {
 			}
 		});
 
-		//TODO PROBLEM avancement+prohéminance
 		sliderAvancementSourcils.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 				envirnm.getFace().setProeminenceSourcils(new_val.floatValue());

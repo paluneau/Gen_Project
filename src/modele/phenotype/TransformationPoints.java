@@ -18,6 +18,7 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import utils.MapTools;
 import utils.VecteurUtilitaires;
 
@@ -45,12 +46,15 @@ public class TransformationPoints {
 
 	private Map<String, List<String>> groupsREM = null;
 
+	private Map<String, Map<String, Transform>> groupFactors = null;
+
 	public TransformationPoints() {
 		points3DIni = new HashMap<String, ObservableFloatArray>();
 		points3DUpdater = new HashMap<String, ObservableFloatArray>();
 		pointsSupp = new HashMap<ObservableFloatArray, List<String>>();
 		pointsDodge = new HashMap<String, Set<Integer>>();
 		groupsREM = new HashMap<String, List<String>>();
+		groupFactors = new HashMap<String, Map<String, Transform>>();
 	}
 
 	public void addIni3DPoints(String group, ObservableFloatArray points) {
@@ -74,15 +78,16 @@ public class TransformationPoints {
 	 * @param transformation
 	 *            les paramètres de la transformation (x, y ,z)
 	 */
-	public void applyTranslation(BodyPart part, Point3D transformation) {
+	public void applyTranslation(BodyPart part, String ancestor, Point3D transformation) {
 		for (String group : part.getSubParts()) {
-			updatePointsTranslation(group, part.getIgnore(), transformation);
+			updatePointsTranslation(group, ancestor, part.getIgnore(), transformation);
 		}
 	}
 
-	public void applyRotation(BodyPart part, Point3D pointCentre, char axe, double degres, Point3D translation) {
+	public void applyRotation(BodyPart part, String ancestor, Point3D pointCentre, char axe, double degres,
+			Point3D translation) {
 		for (String group : part.getSubParts()) {
-			updatePointsRotation(group, part.getIgnore(), pointCentre, axe, degres, translation);
+			updatePointsRotation(group, ancestor, part.getIgnore(), pointCentre, axe, degres, translation);
 		}
 	}
 
@@ -96,15 +101,15 @@ public class TransformationPoints {
 	 * @param factor
 	 *            le facteur de grossissement
 	 */
-	public void applyGrossissement(BodyPart part, double factor) {
+	public void applyGrossissement(BodyPart part, String ancestor, double factor) {
 		for (String group : part.getSubParts()) {
-			updatePointGrossissement(group, part.getIgnore(), factor);
+			updatePointGrossissement(group, ancestor, part.getIgnore(), factor);
 		}
 	}
 
-	public void applyStretch(BodyPart part, Point3D pointCentre, Point3D scale) {
+	public void applyStretch(BodyPart part, String ancestor, Point3D pointCentre, Point3D scale) {
 		for (String group : part.getSubParts()) {
-			updatePointStretch(group, part.getIgnore(), pointCentre, scale);
+			updatePointStretch(group, ancestor, part.getIgnore(), pointCentre, scale);
 		}
 	}
 
@@ -167,13 +172,21 @@ public class TransformationPoints {
 	 *            - un point 3D qui contient le facteur modificateur dans chaque
 	 *            dimension
 	 */
-	private void updatePointsTranslation(String groupADD, List<String> groupREM, Point3D factors) {
+	private void updatePointsTranslation(String groupADD, String ancestor, List<String> groupREM, Point3D factors) {
+		if (!groupFactors.containsKey(groupADD)) {
+			Map<String, Transform> map = new HashMap<String, Transform>();
+			map.put(ancestor, new Translate(factors.getY(), factors.getZ(), factors.getX()));
+			groupFactors.put(groupADD, map);
+		} else {
+			groupFactors.get(groupADD).put(ancestor, new Translate(factors.getY(), factors.getZ(), factors.getX()));
+		}
+
 		ObservableFloatArray points = points3DUpdater.get(groupADD);
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
 
 		Set<Integer> dodge = pointsDodge.get(groupADD);
 
-		updatePointCommun(groupADD, pointsGroupREM, factors);
+		updatePointCommun(groupADD, ancestor, pointsGroupREM);
 
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
@@ -197,9 +210,9 @@ public class TransformationPoints {
 	 *            Le nombre de degrés qu'on veut tourner
 	 * @return Un objet Rotate à appliquer sur les composantes voulues
 	 */
-
-	private void updatePointsRotation(String group, List<String> groupREM, Point3D pointCentre, char axe, double degres,
-			Point3D translation) {
+	// TODO les points translation vs rotation de l'oreille sont pas alignés
+	private void updatePointsRotation(String group, String ancestor, List<String> groupREM, Point3D pointCentre,
+			char axe, double degres, Point3D translation) {
 		Rotate objet = null;
 		switch (axe) {
 		case 'x':
@@ -212,13 +225,19 @@ public class TransformationPoints {
 			objet = new Rotate(degres, pointCentre.getX(), pointCentre.getY(), pointCentre.getZ(), Rotate.Z_AXIS);
 			break;
 		}
-
+		if (!groupFactors.containsKey(group)) {
+			Map<String, Transform> map = new HashMap<String, Transform>();
+			map.put(ancestor, objet);
+			groupFactors.put(group, map);
+		} else {
+			groupFactors.get(group).put(ancestor, objet);
+		}
 		ObservableFloatArray points = points3DUpdater.get(group);
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
 
 		Set<Integer> dodge = pointsDodge.get(group);
 
-		updatePointCommun(group, pointsGroupREM, objet, translation);
+		updatePointCommun(group, ancestor, pointsGroupREM);
 
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
@@ -233,7 +252,7 @@ public class TransformationPoints {
 		}
 	}
 
-	private void updatePointGrossissement(String groupADD, List<String> groupREM, double factor) {
+	private void updatePointGrossissement(String groupADD, String ancestor, List<String> groupREM, double factor) {
 		ObservableFloatArray points = points3DIni.get(groupADD);
 		Point3D center = VecteurUtilitaires.findPointMilieu(points);
 
@@ -248,20 +267,37 @@ public class TransformationPoints {
 					vecteurDirecteur.getZ());
 
 			updateArrayWithFactors(points3DUpdater.get(groupADD), i, groupADD, delta);
-			updatePointCommun(groupADD, findPointsGroupREM(groupREM), delta);
+
+			if (!groupFactors.containsKey(groupADD)) {
+				Map<String, Transform> map = new HashMap<String, Transform>();
+				map.put(ancestor, new Translate(delta.getX(), delta.getY(), delta.getZ()));
+				groupFactors.put(groupADD, map);
+			} else {
+				groupFactors.get(groupADD).put(ancestor, new Translate(delta.getX(), delta.getY(), delta.getZ()));
+			}
+			updatePointCommun(groupADD, ancestor, findPointsGroupREM(groupREM));
 
 		}
 	}
 
-	private void updatePointStretch(String group, List<String> groupREM, Point3D pointCentre, Point3D scale) {
+	// TODO problème de stretch (deuxième bouche apparait)
+	private void updatePointStretch(String group, String ancestor, List<String> groupREM, Point3D pointCentre,
+			Point3D scale) {
 		Scale objet = new Scale(scale.getX(), scale.getY(), scale.getZ(), pointCentre.getX(), pointCentre.getY(),
 				pointCentre.getZ());
+		if (!groupFactors.containsKey(group)) {
+			Map<String, Transform> map = new HashMap<String, Transform>();
+			map.put(ancestor, objet);
+			groupFactors.put(group, map);
+		} else {
+			groupFactors.get(group).put(ancestor, objet);
+		}
 		ObservableFloatArray points = points3DUpdater.get(group);
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
 
 		Set<Integer> dodge = pointsDodge.get(group);
 
-		updatePointCommun(group, pointsGroupREM, objet, new Point3D(0, 0, 0));
+		updatePointCommun(group, ancestor, pointsGroupREM);
 
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
@@ -299,7 +335,7 @@ public class TransformationPoints {
 	 *            - points à ne pas bouger.
 	 * @param factors
 	 */
-	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Point3D factors) {
+	private void updatePointCommun(String groupADD, String ancestor, List<ObservableFloatArray> dodge) {
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
 			List<String> groupsCommun = pointsSupp.get(pointCommun);
@@ -307,39 +343,15 @@ public class TransformationPoints {
 				List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
 				if (!g.equals(groupADD)) {
 					for (Integer i : index) {
-						points3DUpdater.get(g).set((3 * i) + 2, (float) (pointCommun.get(2) + factors.getX()));
-						points3DUpdater.get(g).set((3 * i) + 0, (float) (pointCommun.get(0) + factors.getY()));
-						points3DUpdater.get(g).set((3 * i) + 1, (float) (pointCommun.get(1) + factors.getZ()));
-					}
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Update les points communs au groupe que l'on bouge de la même façon, tout
-	 * en évitant de bouger les points dodge. (findPointsGroupREM)
-	 * 
-	 * @param groupADD
-	 *            - groupe que l'on bouge
-	 * @param dodge
-	 *            - points à ne pas bouger.
-	 * @param factors
-	 */
-	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Transform factors,
-			Point3D translation) {
-		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
-		for (ObservableFloatArray pointCommun : pointsCommun) {
-			Point3D pointNew = factors.transform(pointCommun.get(0), pointCommun.get(1), pointCommun.get(2));
-			List<String> groupsCommun = pointsSupp.get(pointCommun);
-			for (String g : groupsCommun) {
-				List<Integer> index = MapTools.findIndexOfValues(points3DIni.get(g), pointCommun);
-				if (!g.equals(groupADD)) {
-					for (Integer i : index) {
-						points3DUpdater.get(g).set((3 * i) + 2, (float) (pointNew.getZ() + translation.getX()));
-						points3DUpdater.get(g).set((3 * i) + 0, (float) (pointNew.getX() + translation.getY()));
-						points3DUpdater.get(g).set((3 * i) + 1, (float) (pointNew.getY() + translation.getZ()));
+						if (!ancestor.equals("")) {
+							Point3D updated = new Point3D(pointCommun.get(0), pointCommun.get(1), pointCommun.get(2));
+							for (Transform factors : groupFactors.get(groupADD).values()) {
+								updated = factors.transform(updated);
+							}
+							points3DUpdater.get(g).set((3 * i) + 2, (float) (updated.getZ()));
+							points3DUpdater.get(g).set((3 * i) + 0, (float) (updated.getX()));
+							points3DUpdater.get(g).set((3 * i) + 1, (float) (updated.getY()));
+						}
 					}
 				}
 			}

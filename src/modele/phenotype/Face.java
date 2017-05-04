@@ -132,81 +132,77 @@ public class Face {
 	}
 
 	public void setEyeDistance(float distance) {
-		pointsVisage.applyRotation(LEye, new Point3D(0, 5, 0), 'x', -getLEye().getRotation(),
+		pointsVisage.applyRotation(LEye, "eyeDistance", new Point3D(0, 5, 0), 'x', -getLEye().getRotation(),
 				new Point3D(-distance, 0, 0));
 		;
-		pointsVisage.applyRotation(REye, new Point3D(0, 5, 0), 'x', getREye().getRotation(),
+		pointsVisage.applyRotation(REye, "eyeDistance", new Point3D(0, 5, 0), 'x', getREye().getRotation(),
 				new Point3D(distance, 0, 0));
 	}
 
 	public void setPositionOreilles(float hauteur, float profondeur) {
-		pointsVisage.applyTranslation(LEar, new Point3D(0, hauteur, -profondeur));
-		pointsVisage.applyTranslation(REar, new Point3D(0, hauteur, -profondeur));
+		pointsVisage.applyTranslation(LEar, "posOreille", new Point3D(0, hauteur, -profondeur));
+		pointsVisage.applyTranslation(REar, "posOreille", new Point3D(0, hauteur, -profondeur));
 	}
 
 	public void setPositionBouche(float hauteur) {
-		pointsVisage.applyTranslation(mouth, new Point3D(0, hauteur, 0));
+		pointsVisage.applyTranslation(mouth, "posBouche", new Point3D(0, hauteur, 0));
 	}
 
 	public void setGrosseurBouche(double grosseur) {
 		mouth.setScale(grosseur);
-		pointsVisage.applyStretch(mouth, new Point3D(0, 0, 0), new Point3D(1, 1, mouth.getScale()));
+		pointsVisage.applyStretch(mouth, "grosseurBouche", new Point3D(0, 0, 0), new Point3D(1, 1, mouth.getScale()));
 	}
 
 	public void setRotationOreille(double rotation) {
 		LEar.setRotation(rotation);
 		REar.setRotation(rotation);
-		pointsVisage.applyRotation(LEar, new Point3D(0, (-2.5 - LEar.getProfondeur()), -9.59), 'x', -LEar.getRotation(),
-				new Point3D(0, 0, 0));
-		pointsVisage.applyRotation(REar, new Point3D(0, (-2.5 - REar.getProfondeur()), 9.59), 'x', REar.getRotation(),
-				new Point3D(0, 0, 0));
+		pointsVisage.applyRotation(LEar, "rotateOreille", new Point3D(0, (-2.5 - LEar.getProfondeur()), -9.59), 'x',
+				-LEar.getRotation(), new Point3D(0, 0, 0));
+		pointsVisage.applyRotation(REar, "rotateOreille", new Point3D(0, (-2.5 - REar.getProfondeur()), 9.59), 'x',
+				REar.getRotation(), new Point3D(0, 0, 0));
 	}
 
 	public void setPositionNez(float hauteur) {
-		/*
-		 * for (String e : nose.getSubParts()) { pointsVisage.addIni3DPoints(e,
-		 * MapTools.createAndConvertArray(pointsVisage.getPointsUpdater(e))); }
-		 */
-		pointsVisage.applyTranslation(nose, new Point3D(0, hauteur, 0));
+		pointsVisage.applyTranslation(nose, "posNez", new Point3D(0, hauteur, 0));
 	}
 
 	public void setPositionSourcils(float ecart) {
-		pointsVisage.applyTranslation(LSourcils, new Point3D(-ecart, 0, -ecart / 2));
-		pointsVisage.applyTranslation(RSourcils, new Point3D(ecart, 0, -ecart / 2));
+		pointsVisage.applyTranslation(LSourcils, "posSourcils", new Point3D(-ecart, 0, -ecart / 2));
+		pointsVisage.applyTranslation(RSourcils, "posSourcils", new Point3D(ecart, 0, -ecart / 2));
 	}
 
 	public void setGrosseurJoues(float ecart) {
-		pointsVisage.applyTranslation(LJoue, new Point3D(-ecart, 0, ecart / 3));
-		pointsVisage.applyTranslation(RJoue, new Point3D(ecart, 0, ecart / 3));
+		pointsVisage.applyTranslation(LJoue, "grosseurJoue", new Point3D(-ecart, 0, ecart / 3));
+		pointsVisage.applyTranslation(RJoue, "grosseurJoue", new Point3D(ecart, 0, ecart / 3));
 	}
 
 	public void setPositionArche(float ecart) {
-		pointsVisage.applyTranslation(arche, new Point3D(0, ecart / 2, ecart / 2));
+		pointsVisage.applyTranslation(arche, "posArche", new Point3D(0, ecart / 2, ecart / 2));
 	}
 
 	public void setEcartNarine(float ecart) {
-		pointsVisage.applyTranslation(LBosse, new Point3D(-ecart, 0, 0));
-		pointsVisage.applyTranslation(RBosse, new Point3D(ecart, 0, 0));
+		pointsVisage.applyTranslation(LBosse, "ecartNarine", new Point3D(-ecart, 0, 0));
+		pointsVisage.applyTranslation(RBosse, "ecartNarine", new Point3D(ecart, 0, 0));
 	}
 
 	public void setLongueurPointe(float ecart) {
-		pointsVisage.applyTranslation(pointe, new Point3D(0, 0, ecart));
+		pointsVisage.applyTranslation(pointe, "longueurPointe", new Point3D(0, 0, ecart));
 	}
 
 	public void setPositionFront(float ecart) {
-		pointsVisage.applyTranslation(front, new Point3D(0, 0, ecart));
-		pointsVisage.applyTranslation(LSourcils, new Point3D(0, 0, ecart / 2));
-		pointsVisage.applyTranslation(RSourcils, new Point3D(0, 0, ecart / 2));
-		pointsVisage.applyTranslation(LEye, new Point3D(0, 0, ecart / 2));
-		pointsVisage.applyTranslation(REye, new Point3D(0, 0, ecart / 2));
-		pointsVisage.applyTranslation(LJoue, new Point3D(0, 0, ecart / 3));
-		pointsVisage.applyTranslation(RJoue, new Point3D(0, 0, ecart / 3));
+		pointsVisage.applyTranslation(front, "front", new Point3D(0, 0, ecart));
+		pointsVisage.applyTranslation(LSourcils, "front", new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(RSourcils, "front", new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(LEye, "front", new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(REye, "front", new Point3D(0, 0, ecart / 2));
+		pointsVisage.applyTranslation(LJoue, "front", new Point3D(0, 0, ecart / 3));
+		pointsVisage.applyTranslation(RJoue, "front", new Point3D(0, 0, ecart / 3));
 	}
 
 	public void setGrosseurCou(float grosseur) {
 		ArrayList<String> groupREM = new ArrayList<>();
 		groupREM.add("Cheveux");
-		pointsVisage.applyGrossissement(new BodyPart(groupREM, "Cou"), grosseur);
+		pointsVisage.applyGrossissement(new BodyPart(groupREM, "Cou"), "cou", grosseur);
 	}
 
 	public Hair getHair() {
@@ -258,20 +254,20 @@ public class Face {
 	}
 
 	public void setLongueurFace(float distance) {
-		pointsVisage.applyTranslation(front, new Point3D(0, distance, 0));
-		pointsVisage.applyTranslation(cheveux, new Point3D(0, distance, 0));
-		pointsVisage.applyTranslation(menton, new Point3D(0, -distance, 0));
+		pointsVisage.applyTranslation(front, "longueurFace", new Point3D(0, distance, 0));
+		pointsVisage.applyTranslation(cheveux, "longueurFace", new Point3D(0, distance, 0));
+		pointsVisage.applyTranslation(menton, "longueurFace", new Point3D(0, -distance, 0));
 
 	}
 
 	public void setProeminenceSourcils(float distance) {
-		pointsVisage.applyTranslation(LSourcils, new Point3D(0, 0, distance));
-		pointsVisage.applyTranslation(RSourcils, new Point3D(0, 0, distance));
+		pointsVisage.applyTranslation(LSourcils, "proeminSourcils", new Point3D(0, 0, distance));
+		pointsVisage.applyTranslation(RSourcils, "proeminSourcils", new Point3D(0, 0, distance));
 	}
 
 	public void setProeminenceMenton(float distance) {
-		pointsVisage.applyTranslation(menton, new Point3D(0, -(distance * 0.25), distance));
-		pointsVisage.applyTranslation(mouth, new Point3D(0, -(distance * 0.25), distance));
+		pointsVisage.applyTranslation(menton, "proeminMenton", new Point3D(0, -(distance * 0.25), distance));
+		pointsVisage.applyTranslation(mouth, "proeminMenton", new Point3D(0, -(distance * 0.25), distance));
 	}
 
 	public TransformationPoints getPointsVisage() {
@@ -285,12 +281,11 @@ public class Face {
 
 	private void instantiateNez() {
 		ArrayList<String> groupREM = new ArrayList<String>();
-		groupREM.add("Bouche");
+		// groupREM.add("Bouche");
 		arche = new BodyPart(groupREM, "Arche");
 		LBosse = new BodyPart(groupREM, "Bosse gauche");
 		RBosse = new BodyPart(groupREM, "Bosse droite");
 		pointe = new BodyPart(groupREM, "Pointe");
-		groupREM = new ArrayList<String>();
 		nose = new BodyPart(groupREM, arche, LBosse, RBosse, pointe);
 		nose.getSubParts().add("Nez");
 		nose.getSubParts().add("Narine");
