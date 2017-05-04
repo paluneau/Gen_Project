@@ -1,6 +1,5 @@
 package controleur;
 
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.io.File;

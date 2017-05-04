@@ -7,7 +7,6 @@ import javafx.geometry.Point3D;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
-import utils.MapTools;
 
 public class Face {
 
