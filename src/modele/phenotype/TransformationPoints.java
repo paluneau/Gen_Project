@@ -17,6 +17,7 @@ import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import utils.MapTools;
 import utils.VecteurUtilitaires;
 
@@ -95,15 +96,16 @@ public class TransformationPoints {
 	 * @param factor
 	 *            le facteur de grossissement
 	 */
-	public void applyGrossissement(BodyPart part, List<String> groupREM, double factor) {
+	public void applyGrossissement(BodyPart part, double factor) {
 		for (String group : part.getSubParts()) {
-			updatePointGrossissement(group, groupREM, factor);
+			updatePointGrossissement(group, part.getIgnore(), factor);
 		}
 	}
 
-	public static Scale applyScale(Point3D pointCentre, Point3D scale) {
-		return new Scale(scale.getX(), scale.getY(), scale.getZ(), pointCentre.getX(), pointCentre.getY(),
-				pointCentre.getZ());
+	public void applyStretch(BodyPart part, Point3D pointCentre, Point3D scale) {
+		for (String group : part.getSubParts()) {
+			updatePointStretch(group, part.getIgnore(), pointCentre, scale);
+		}
 	}
 
 	/**
@@ -222,11 +224,11 @@ public class TransformationPoints {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
 					updateArrayWithFactors(points, i, group, translation);
-					updateArrayWithFactors(points, i, group, objet);
+					updateArrayWithFactors(points, points, i, objet);
 				}
 			} else {
 				updateArrayWithFactors(points, i, group, translation);
-				updateArrayWithFactors(points, i, group, objet);
+				updateArrayWithFactors(points, points, i, objet);
 			}
 		}
 	}
@@ -251,18 +253,40 @@ public class TransformationPoints {
 		}
 	}
 
+	private void updatePointStretch(String group, List<String> groupREM, Point3D pointCentre, Point3D scale) {
+		Scale objet = new Scale(scale.getX(), scale.getY(), scale.getZ(), pointCentre.getX(), pointCentre.getY(),
+				pointCentre.getZ());
+		ObservableFloatArray points = points3DUpdater.get(group);
+		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
+
+		Set<Integer> dodge = pointsDodge.get(group);
+
+		updatePointCommun(group, pointsGroupREM, objet, new Point3D(0, 0, 0));
+
+		for (int i = 0; i < points.size() / 3; i++) {
+			if ((dodge != null) && (!dodge.isEmpty())) {
+				if (!dodge.contains(i)) {
+					updateArrayWithFactors(points, points3DIni.get(group), i, objet);
+				}
+			} else {
+				updateArrayWithFactors(points, points3DIni.get(group), i, objet);
+			}
+		}
+	}
+
 	private void updateArrayWithFactors(ObservableFloatArray points, int index, String groupADD, Point3D factors) {
 		points.set(2 + (3 * index), (float) (points3DIni.get(groupADD).get(2 + (3 * index)) + factors.getX()));
 		points.set(0 + (3 * index), (float) (points3DIni.get(groupADD).get(0 + (3 * index)) + factors.getY()));
 		points.set(1 + (3 * index), (float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors.getZ()));
 	}
 
-	private void updateArrayWithFactors(ObservableFloatArray points, int index, String groupADD, Rotate factors) {
-		ObservableFloatArray oui = points3DUpdater.get(groupADD);
-		Point3D out = factors.transform(oui.get(0 + (3 * index)), oui.get(1 + (3 * index)), oui.get(2 + (3 * index)));
-		points.set(2 + (3 * index), (float) (out.getZ()));
-		points.set(0 + (3 * index), (float) (out.getX()));
-		points.set(1 + (3 * index), (float) (out.getY()));
+	private void updateArrayWithFactors(ObservableFloatArray pointsUpdater, ObservableFloatArray pointsToBeTransformed,
+			int index, Transform factors) {
+		Point3D trans = factors.transform(pointsToBeTransformed.get(0 + (3 * index)),
+				pointsToBeTransformed.get(1 + (3 * index)), pointsToBeTransformed.get(2 + (3 * index)));
+		pointsUpdater.set(2 + (3 * index), (float) (trans.getZ()));
+		pointsUpdater.set(0 + (3 * index), (float) (trans.getX()));
+		pointsUpdater.set(1 + (3 * index), (float) (trans.getY()));
 	}
 
 	/**
@@ -303,7 +327,7 @@ public class TransformationPoints {
 	 *            - points à ne pas bouger.
 	 * @param factors
 	 */
-	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Rotate factors,
+	private void updatePointCommun(String groupADD, List<ObservableFloatArray> dodge, Transform factors,
 			Point3D translation) {
 		List<ObservableFloatArray> pointsCommun = findKeyFromValueMap(groupADD, dodge);
 		for (ObservableFloatArray pointCommun : pointsCommun) {
@@ -320,7 +344,6 @@ public class TransformationPoints {
 				}
 			}
 		}
-
 	}
 
 	/**

@@ -292,11 +292,9 @@ public class Controller {
 			}
 		});
 
-		//TODO
 		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
-				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
-				envirnm.getFace().getREar().setRotation(new_val.doubleValue());
+				envirnm.getFace().setRotationOreille(new_val.doubleValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -308,10 +306,9 @@ public class Controller {
 			}
 		});
 
-		//TODO communs
 		sliderGrosseurBouche.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				envirnm.getFace().getMouth().setScale(newValue.doubleValue());
+				envirnm.getFace().setGrosseurBouche(newValue.doubleValue());
 				envirnm.changementWorld();
 			}
 		});

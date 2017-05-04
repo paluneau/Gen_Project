@@ -133,7 +133,8 @@ public class Face {
 
 	public void setEyeDistance(float distance) {
 		pointsVisage.applyRotation(LEye, new Point3D(0, 5, 0), 'x', -getLEye().getRotation(),
-				new Point3D(-distance, 0, 0));;
+				new Point3D(-distance, 0, 0));
+		;
 		pointsVisage.applyRotation(REye, new Point3D(0, 5, 0), 'x', getREye().getRotation(),
 				new Point3D(distance, 0, 0));
 	}
@@ -145,6 +146,20 @@ public class Face {
 
 	public void setPositionBouche(float hauteur) {
 		pointsVisage.applyTranslation(mouth, new Point3D(0, hauteur, 0));
+	}
+
+	public void setGrosseurBouche(double grosseur) {
+		mouth.setScale(grosseur);
+		pointsVisage.applyStretch(mouth, new Point3D(0, 0, 0), new Point3D(1, 1, mouth.getScale()));
+	}
+
+	public void setRotationOreille(double rotation) {
+		LEar.setRotation(rotation);
+		REar.setRotation(rotation);
+		pointsVisage.applyRotation(LEar, new Point3D(0, (-2.5 - LEar.getProfondeur()), -9.59), 'x', -LEar.getRotation(),
+				new Point3D(0, 0, 0));
+		pointsVisage.applyRotation(REar, new Point3D(0, (-2.5 - REar.getProfondeur()), 9.59), 'x', REar.getRotation(),
+				new Point3D(0, 0, 0));
 	}
 
 	public void setPositionNez(float hauteur) {
@@ -191,7 +206,7 @@ public class Face {
 	public void setGrosseurCou(float grosseur) {
 		ArrayList<String> groupREM = new ArrayList<>();
 		groupREM.add("Cheveux");
-		pointsVisage.applyGrossissement(new BodyPart(groupREM, "Cou"), groupREM, grosseur);
+		pointsVisage.applyGrossissement(new BodyPart(groupREM, "Cou"), grosseur);
 	}
 
 	public Hair getHair() {

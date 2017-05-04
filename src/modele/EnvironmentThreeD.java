@@ -78,7 +78,6 @@ public class EnvironmentThreeD {
 		scene.setCamera(camera);
 		buildImporter();
 		buildCamera();
-		buildAxes();
 		buildObj(true);
 		return scene;
 
@@ -92,32 +91,6 @@ public class EnvironmentThreeD {
 
 	public Face getFace() {
 		return this.face;
-	}
-
-	private void buildAxes() {
-		// TODO Dumper ça avant la remise de fin (méthode au complet)
-		final PhongMaterial redMaterial = new PhongMaterial();
-		redMaterial.setDiffuseColor(Color.DARKRED);
-		redMaterial.setSpecularColor(Color.RED);
-
-		final PhongMaterial greenMaterial = new PhongMaterial();
-		greenMaterial.setDiffuseColor(Color.DARKGREEN);
-		greenMaterial.setSpecularColor(Color.GREEN);
-
-		final PhongMaterial blueMaterial = new PhongMaterial();
-		blueMaterial.setDiffuseColor(Color.DARKBLUE);
-		blueMaterial.setSpecularColor(Color.BLUE);
-
-		final Box xAxis = new Box(53.0, 0.2, 0.2);
-		final Box yAxis = new Box(0.2, 53.0, 0.2);
-		final Box zAxis = new Box(0.2, 0.2, 53.0);
-
-		xAxis.setMaterial(redMaterial);
-		yAxis.setMaterial(greenMaterial);
-		zAxis.setMaterial(blueMaterial);
-
-		axisGroup.getChildren().addAll(xAxis, yAxis, zAxis);
-		world.getChildren().addAll(axisGroup);
 	}
 
 	private void buildImporter() {
@@ -143,42 +116,6 @@ public class EnvironmentThreeD {
 			MeshView genomicPart = reader.buildMeshView(s);
 			// every part of the obj is transformed with both rotations:
 			genomicPart.getTransforms().add(affineIni);
-
-			// Rotations
-			// TODO Faire rotater les points communs aux yeux aussi
-			/*
-			 * if (face.getLEar().getSubParts().contains(s)) {
-			 * genomicPart.getTransforms()
-			 * .add(face.getPointsVisage().applyRotation(s, new Point3D(0, (-2.5
-			 * - face.getLEar().getProfondeur()), -9.59), 'x',
-			 * -face.getLEar().getRotation())); } else if
-			 * (face.getREar().getSubParts().contains(s)) {
-			 * genomicPart.getTransforms()
-			 * .add(face.getPointsVisage().applyRotation(s, new Point3D(0, (-2.5
-			 * - face.getREar().getProfondeur()), 9.59), 'x',
-			 * face.getREar().getRotation())); } else if
-			 * (face.getLEye().getSubParts().contains(s)) {
-			 * genomicPart.getTransforms().add(face.getPointsVisage().
-			 * applyRotation(s, new Point3D(0, 5, 0), 'x',
-			 * -face.getLEye().getRotation()));
-			 * face.getPointsVisage().applyTranslation(face.getLEye(), new
-			 * Point3D(-face.eyeDistance, 0, 0)); } else if
-			 * (face.getREye().getSubParts().contains(s)) {
-			 * genomicPart.getTransforms().add(face.getPointsVisage().
-			 * applyRotation(s, new Point3D(0, 5, 0), 'x',
-			 * face.getREye().getRotation())); }
-			 */
-
-			// Scaling
-			// TODO Trouver coord du centre appropriée pis savoir c'est quel
-			// maudit axe qu'on veut influencer (j'suis crissement poche
-			// avec
-			// ça)
-			if (face.getMouth().getSubParts().contains(s)) {
-				genomicPart.getTransforms().add(TransformationPoints.applyScale(new Point3D(0, 0, 0),
-						new Point3D(1, 1, face.getMouth().getScale())));
-			}
-
 			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
