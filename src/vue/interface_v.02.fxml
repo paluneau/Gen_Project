@@ -27,7 +27,7 @@
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" styleClass="controlLabel" text="Couleur des Yeux" />
                               <ChoiceBox fx:id="choiceBoxYeux" layoutX="9.0" layoutY="32.0" prefHeight="25.0" prefWidth="102.0" />
-                              <Slider fx:id="sliderEcartYeux" layoutX="170.0" layoutY="37.0" max="2.0" min="-1.0" prefHeight="14.0" prefWidth="111.0" value="0.5" />
+                              <Slider fx:id="sliderEcartYeux" layoutX="170.0" layoutY="37.0" max="1.0" min="-0.5" prefHeight="14.0" prefWidth="111.0" value="0.5" />
                               <Label layoutX="171.0" layoutY="14.0" styleClass="controlLabel" text="Écart entre les yeux" />
                            </children></AnchorPane>
                   </content>

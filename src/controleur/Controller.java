@@ -181,9 +181,9 @@ public class Controller {
 
 		sliderEcartYeux.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-				envirnm.getFace().setEyeDistance(new_val.floatValue());
 				envirnm.getFace().getLEye().setRotation((new_val.doubleValue()) * 3);
 				envirnm.getFace().getREye().setRotation((new_val.doubleValue()) * 3);
+				envirnm.getFace().setEyeDistance(new_val.floatValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -293,8 +293,7 @@ public class Controller {
 
 		sliderRotationOreilles.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number old_val, Number new_val) {
-				envirnm.getFace().getLEar().setRotation(new_val.doubleValue());
-				envirnm.getFace().getREar().setRotation(new_val.doubleValue());
+				envirnm.getFace().setRotationOreille(new_val.doubleValue());
 				envirnm.changementWorld();
 			}
 		});
@@ -308,7 +307,7 @@ public class Controller {
 
 		sliderGrosseurBouche.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				envirnm.getFace().getMouth().setScale(newValue.doubleValue());
+				envirnm.getFace().setGrosseurBouche(newValue.doubleValue());
 				envirnm.changementWorld();
 			}
 		});
