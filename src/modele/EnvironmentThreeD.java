@@ -9,7 +9,6 @@ import utils.importerLib.importers.obj.ObjImporter;
 import vue.MessageAlert;
 import javafx.collections.ObservableFloatArray;
 import javafx.event.EventHandler;
-import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
@@ -18,14 +17,13 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
+import javafx.scene.shape.CullFace;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Affine;
 import javafx.scene.transform.Rotate;
 import modele.phenotype.BodyPart;
 import modele.phenotype.Face;
-import modele.phenotype.TransformationPoints;
 import modele.phenotype.data.EyeColor;
 import modele.phenotype.data.HairColor;
 import modele.phenotype.data.SkinColor;
@@ -44,8 +42,7 @@ public class EnvironmentThreeD {
 	 * Caméra et ses 3 dimensions de vue permettant de regarder dans l'espace
 	 */
 	private final PerspectiveCamera camera = new PerspectiveCamera(true);
-	private final ToolsThreeD cameraX = new ToolsThreeD(), cameraY = new ToolsThreeD(), cameraZ = new ToolsThreeD(),
-			axisGroup = new ToolsThreeD();
+	private final ToolsThreeD cameraX = new ToolsThreeD(), cameraY = new ToolsThreeD(), cameraZ = new ToolsThreeD();
 
 	private static final double CAMERA_INITIAL_DISTANCE = -100, CAMERA_INITIAL_X_ANGLE = 70.0,
 			CAMERA_INITIAL_Y_ANGLE = 320.0;
@@ -119,6 +116,16 @@ public class EnvironmentThreeD {
 			// (Face.getVisage())
 			ObservableFloatArray points3DGroup = ((TriangleMesh) genomicPart.getMesh()).getPoints();
 
+			if(s.contains("Bouche")){
+				genomicPart.setCullFace(CullFace.BACK);
+			}
+			
+
+			if(s.contains("oeil droit")){
+				genomicPart.setCullFace(CullFace.BACK);
+			}
+			
+			
 			if (firstBuild) {
 				face.getPointsVisage().addIni3DPoints(s, points3DGroup);
 				BodyPart e = face.findBodyPart(s);

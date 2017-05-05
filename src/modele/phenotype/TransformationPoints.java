@@ -1,7 +1,6 @@
 ﻿package modele.phenotype;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,11 +9,6 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.geometry.Point3D;
-import javafx.scene.Node;
-import javafx.scene.shape.CullFace;
-import javafx.scene.shape.Mesh;
-import javafx.scene.shape.MeshView;
-import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
@@ -191,10 +185,10 @@ public class TransformationPoints {
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
-					updateArrayWithFactors(points, i, groupADD, factors);
+					updateArrayWithFactors(points, groupADD, i);
 				}
 			} else {
-				updateArrayWithFactors(points, i, groupADD, factors);
+				updateArrayWithFactors(points, groupADD, i);
 			}
 		}
 	}
@@ -228,9 +222,12 @@ public class TransformationPoints {
 		if (!groupFactors.containsKey(group)) {
 			Map<String, Transform> map = new HashMap<String, Transform>();
 			map.put(ancestor, objet);
+			map.put(ancestor + "Translate", new Translate(translation.getY(), translation.getZ(), translation.getX()));
 			groupFactors.put(group, map);
 		} else {
 			groupFactors.get(group).put(ancestor, objet);
+			groupFactors.get(group).put(ancestor + "Translate",
+					new Translate(translation.getY(), translation.getZ(), translation.getX()));
 		}
 		ObservableFloatArray points = points3DUpdater.get(group);
 		List<ObservableFloatArray> pointsGroupREM = findPointsGroupREM(groupREM);
@@ -242,12 +239,10 @@ public class TransformationPoints {
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
-					updateArrayWithFactors(points, i, group, translation);
-					updateArrayWithFactors(points, points, i, group);
+					updateArrayWithFactors(points, group, i);
 				}
 			} else {
-				updateArrayWithFactors(points, i, group, translation);
-				updateArrayWithFactors(points, points, i, group);
+				updateArrayWithFactors(points, group, i);
 			}
 		}
 	}
@@ -266,7 +261,7 @@ public class TransformationPoints {
 			Point3D delta = vecteurPointFinal.subtract(vecteurDirecteur.getX(), vecteurDirecteur.getY(),
 					vecteurDirecteur.getZ());
 
-			updateArrayWithFactors(points3DUpdater.get(groupADD), i, groupADD, delta);
+			updateArrayWithFactors(points3DUpdater.get(groupADD), groupADD, i);
 
 			if (!groupFactors.containsKey(groupADD)) {
 				Map<String, Transform> map = new HashMap<String, Transform>();
@@ -302,27 +297,22 @@ public class TransformationPoints {
 		for (int i = 0; i < points.size() / 3; i++) {
 			if ((dodge != null) && (!dodge.isEmpty())) {
 				if (!dodge.contains(i)) {
-					updateArrayWithFactors(points, points3DIni.get(group), i, group);
+					updateArrayWithFactors(points, group, i);
 				}
 			} else {
-				updateArrayWithFactors(points, points3DIni.get(group), i, group);
+				updateArrayWithFactors(points, group, i);
 			}
 		}
 	}
 
-	private void updateArrayWithFactors(ObservableFloatArray points, int index, String groupADD, Point3D factors) {
-		points.set(2 + (3 * index), (float) (points3DIni.get(groupADD).get(2 + (3 * index)) + factors.getX()));
-		points.set(0 + (3 * index), (float) (points3DIni.get(groupADD).get(0 + (3 * index)) + factors.getY()));
-		points.set(1 + (3 * index), (float) (points3DIni.get(groupADD).get(1 + (3 * index)) + factors.getZ()));
-	}
-
-	private void updateArrayWithFactors(ObservableFloatArray pointsUpdater, ObservableFloatArray pointsToBeTransformed,
-			int index, String group) {
-		Point3D trans = new Point3D(pointsToBeTransformed.get(0 + (3 * index)),
-				pointsToBeTransformed.get(1 + (3 * index)), pointsToBeTransformed.get(2 + (3 * index)));
+	private void updateArrayWithFactors(ObservableFloatArray pointsUpdater, String group, int index) {
+		ObservableFloatArray po = points3DIni.get(group);
+		Point3D trans = new Point3D(po.get(0 + (3 * index)), po.get(1 + (3 * index)), po.get(2 + (3 * index)));
 		for (Transform factors : groupFactors.get(group).values()) {
+			System.out.println("JE passe");
 			trans = factors.transform(trans);
 		}
+		System.out.println("JE sors");
 		pointsUpdater.set(2 + (3 * index), (float) (trans.getZ()));
 		pointsUpdater.set(0 + (3 * index), (float) (trans.getX()));
 		pointsUpdater.set(1 + (3 * index), (float) (trans.getY()));
