@@ -41,13 +41,15 @@ public interface Mappable<T, U> {
 	 * 
 	 * @return la clé à utiliser dans la création de la map
 	 */
-	abstract T getKey();
+	abstract T getKey(){
+	};
 
 	/**
 	 * Retourne la valeur de l'objet mapable
 	 * 
 	 * @return la valeur à utiliser dans la création de la map
 	 */
-	abstract U getValue();
+	abstract U getValue(){
+	};
 
 }
